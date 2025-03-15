@@ -1,13 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   abenzaho.c                                         :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/15 14:05:43 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/15 14:06:00 by abenzaho         ###   ########.fr       */
+/*   Created: 2025/03/15 14:15:37 by abenzaho          #+#    #+#             */
+/*   Updated: 2025/03/15 14:18:04 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-nigga nigga nigga nigga
+#include "../includes/minishell.h"
+
+int main()
+{
+	printf("hello nigga");
+	return (0);
+}
