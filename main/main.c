@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/15 14:15:37 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/15 14:18:04 by abenzaho         ###   ########.fr       */
+/*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
+/*   Updated: 2025/03/15 16:50:31 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int main()
+int main(void)
 {
-	printf("hello nigga");
-	return (0);
+    // lol
 }
