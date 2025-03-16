@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/16 19:45:28 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/16 21:08:46 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	e_env = init_env(env);
 	check_args(ac);
+	//signal_setup();
+	//shell_loop(e_env);
 	ft_lstclear(&g_gbc, free);
-	g_gbc = NULL;
 }
