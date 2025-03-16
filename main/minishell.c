@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/16 17:30:55 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/16 19:42:47 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,25 @@ static t_list	*g_gbc;
 	to free all the memory thats allocated use this 	ft_lstclear(t_list &gbc, free)
     */
 
+t_env	*init_env(char **envp)
+{
+	t_env	*env;
+
+	env = malloc(sizeof(t_env));
+	if (!env)
+		return (NULL);
+	ft_lstadd_back(&g_gbc, ft_lstnew(env));
+	env->envp = envp;
+	return (env);
+}
+
 int	main(int ac, char **av, char **env)
 {
+	t_env	*env;
+
 	(void)av;
-	(void)env;
+	env = init_env(env);
 	check_args(ac);
+	ft_lstclear(&g_gbc, free);
 	g_gbc = NULL;
 }

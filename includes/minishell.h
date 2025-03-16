@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/16 17:29:17 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/16 19:39:44 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ typedef struct s_list
 	void			*ptr;
 	struct s_list	*next;
 }	t_list;
+
+typedef struct s_env
+{
+	char	**envp;
+}	t_env;
 
 ////////////////////helper_function////////////////////
 
