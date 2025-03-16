@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_function_1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:30:54 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/15 16:42:34 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/16 12:41:42 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	temp->next = new;
 }
 
-static void	ft_lstdelone(t_list *lst, void (*del)(void*))
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
 	if (!lst || !del)
 		return ;
