@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/17 16:09:44 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:13:36 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void shell_loop(t_mp *pg)
 			if (check_syntax_error(tokens))
 				allocation_fails();
 
-			// Step 3: Expand Variables
+			// Step 3: Expand Variables ($VAR and $?)
 			expand_variables(tokens, pg->env);
 
-			// Step 4: Handle Quotes
+			// Step 4: Handle Quotes Double and single
 			handle_quotes(tokens);
 
 			// Step 5: Convert Tokens to Commands
