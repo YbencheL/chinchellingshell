@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/17 13:53:54 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:37:32 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	check_args(int ac, char **av);
 
 ////////////////////-----tools-----////////////////////
 
+void 	print_banner(void);
+void	print_exit(void);
 char	**init_env(char **envp);
 void	allocation_fails(void);
 void    sig_handler(int sig);

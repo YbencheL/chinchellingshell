@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/17 14:08:25 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:49:29 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,22 @@ t_list *g_gbc;
 	to free all the memory thats allocated use this 	ft_lstclear(t_list &gbc, free)
     */
 
-void    shell_loop(char **env)
+void    shell_loop(t_mp *pg)
 {
     char    *rl;
 
-	(void)env;
+	(void)pg;
 	while (1)
     {
         rl = readline("Minishell> ");
         if (!rl)
             return ;
-		if (rl)
-            add_history(rl);
-			
-		//parsing and excution;
-			
+		if (ft_strlen(rl))
+        {
+			add_history(rl);
+			//pars
+			//exec
+		}	
 	}
 	clear_history();
 }
@@ -44,7 +45,9 @@ int	main(int ac, char **av, char **env)
 	g_gbc = NULL;
 	check_args(ac, av);
 	pg.envp = init_env(env);
+	print_banner();
 	signal_setup();
-	shell_loop(pg.envp);
+	shell_loop(&pg);
+	print_exit();
 	ft_lstclear(&g_gbc, free);
 }

@@ -6,11 +6,30 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:32:03 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/17 13:53:37 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:52:45 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	print_banner(void)
+{
+	printf("\033[2K\r");
+	printf("\033[1;32m");
+	printf("███╗   ███╗██╗███╗   ██╗██╗███████╗"
+		"██╗  ██╗███████╗██╗     ██╗     \n");
+	printf("████╗ ████║██║████╗  ██║██║██╔════╝"
+		"██║  ██║██╔════╝██║     ██║     \n");
+	printf("██╔████╔██║██║██╔██╗ ██║██║███████╗"
+		"███████║█████╗  ██║     ██║     \n");
+	printf("██║╚██╔╝██║██║██║╚██╗██║██║╚════██"
+		"║██╔══██║██╔══╝  ██║     ██║     \n");
+	printf("██║ ╚═╝ ██║██║██║ ╚████║██║███████║"
+		"██║  ██║███████╗███████╗███████╗\n");
+	printf("╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝"
+		"╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝\n");
+	printf("\033[0m");
+}
 
 char	**init_env(char **envp)
 {
@@ -33,6 +52,7 @@ char	**init_env(char **envp)
 	env[i] = NULL;
 	return (env);
 }
+
 void	allocation_fails(void)
 {
 	ft_putstr_fd("Error : Allocation fails 😞\n", 2);
@@ -40,29 +60,27 @@ void	allocation_fails(void)
 	exit(1);
 }
 
-void    sig_handler(int sig)
+void	sig_handler(int sig)
 {
-    if (sig == SIGINT)
-    {
-        write(1, "\n", 1);
-        rl_replace_line("", 0);
-        rl_on_new_line();
-        rl_redisplay();
-    }
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
-void    signal_setup(void)
+void	signal_setup(void)
 {
-    struct sigaction    sa;
+	struct sigaction	sa;
 
 	ft_memset(&sa, 0, sizeof(struct sigaction));
 	sigemptyset(&sa.sa_mask);
-    sa.sa_handler = sig_handler;
-    sa.sa_flags = SA_RESTART;
-    sigaction(SIGINT, &sa, NULL);
-    sigaction(SIGQUIT, &sa, NULL);
-    rl_catch_signals = 0;
+	sa.sa_handler = sig_handler;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+	rl_catch_signals = 0;
 }
-
-
-
+/* still need to understand each part of signals */
