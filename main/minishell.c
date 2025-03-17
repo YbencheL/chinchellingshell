@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/17 15:49:29 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:09:44 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,47 @@ t_list *g_gbc;
 	to free all the memory thats allocated use this 	ft_lstclear(t_list &gbc, free)
     */
 
-void    shell_loop(t_mp *pg)
+void shell_loop(t_mp *pg)
 {
-    char    *rl;
+	char    *rl;
+	t_token *tokens;
+	t_cmd   *cmds;
 
-	(void)pg;
+		(void)pg;
 	while (1)
-    {
-        rl = readline("Minishell> ");
-        if (!rl)
-            return ;
+	{
+			rl = readline("Minishell> ");
+		if (!rl)
+			return ;
 		if (ft_strlen(rl))
-        {
+		{
 			add_history(rl);
-			//pars
-			//exec
-		}	
+
+			// Step 1: Tokenization
+			tokens = tokenize(rl);
+			if (!tokens)
+				allocation_fails();
+
+			// Step 2: Syntax Checking
+			if (check_syntax_error(tokens))
+				allocation_fails();
+
+			// Step 3: Expand Variables
+			expand_variables(tokens, pg->env);
+
+			// Step 4: Handle Quotes
+			handle_quotes(tokens);
+
+			// Step 5: Convert Tokens to Commands
+			cmds = parse_tokens(tokens);
+			
+			// Step 6: Execute Commands
+			execute_commands(cmds, pg);
+		}
 	}
 	clear_history();
 }
+	
 
 int	main(int ac, char **av, char **env)
 {
