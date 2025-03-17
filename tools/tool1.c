@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tool1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:32:03 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/17 13:25:37 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:53:37 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ char	**init_env(char **envp)
 		allocation_fails();
 	ft_lstadd_back(&g_gbc, ft_lstnew(env));
 	i = 0;
-	while (envp[i])
+	while (envp[i] != NULL)
 	{
 		env[i] = ft_strdup(envp[i]);
-		if (env[i])
+		if (!env[i])
 			allocation_fails();
-		ft_lstadd_back(&g_gbc, ft_lstnew(env));
+		ft_lstadd_back(&g_gbc, ft_lstnew(env[i]));
 		i++;
 	}
 	env[i] = NULL;
@@ -55,6 +55,8 @@ void    signal_setup(void)
 {
     struct sigaction    sa;
 
+	ft_memset(&sa, 0, sizeof(struct sigaction));
+	sigemptyset(&sa.sa_mask);
     sa.sa_handler = sig_handler;
     sa.sa_flags = SA_RESTART;
     sigaction(SIGINT, &sa, NULL);

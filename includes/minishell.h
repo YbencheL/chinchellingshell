@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/17 13:27:05 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:53:54 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int		ft_pcounter(char **s);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *c);
 void	ft_putstr_fd(char *s, int fd);
+void	*ft_memset(void *s, int c, size_t n);
 
 ////////////////////----parsing----////////////////////
 
