@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/17 11:22:05 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:27:05 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <unistd.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -30,10 +32,12 @@ typedef struct s_index
 	int	j;
 }	t_index;
 
-typedef struct s_env
+typedef struct s_mp
 {
 	char	**envp;
-}	t_env;
+}	t_mp;
+
+extern t_list *g_gbc;
 
 ////////////////////helper_function////////////////////
 
@@ -41,9 +45,20 @@ t_list	*ft_lstnew(void *ptr);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
+int		ft_pcounter(char **s);
+char	*ft_strdup(const char *s1);
+size_t	ft_strlen(const char *c);
+void	ft_putstr_fd(char *s, int fd);
 
 ////////////////////----parsing----////////////////////
 
-void	check_args(int ac);
+void	check_args(int ac, char **av);
+
+////////////////////-----tools-----////////////////////
+
+char	**init_env(char **envp);
+void	allocation_fails(void);
+void    sig_handler(int sig);
+void    signal_setup(void);
 
 #endif

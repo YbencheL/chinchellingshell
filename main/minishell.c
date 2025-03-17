@@ -3,41 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/16 21:21:17 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:26:38 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static t_list	*g_gbc;
 /*  need to inisialize this garbage collector and first use ft_lstnew to get the first node
-    use this to add another adresse 					ft_lstadd_back(&gbc, *ft_lstnew(ptr))
+    use this to add another adresse 					ft_lstadd_back(&g_gbc, *ft_lstnew(ptr))
 	to free all the memory thats allocated use this 	ft_lstclear(t_list &gbc, free)
     */
 
-t_env	*init_env(char **envp)
+void    shell_loop(char **env)
 {
-	t_env	*env;
+    char    *rl;
 
-	env = malloc(sizeof(t_env));
-	if (!env)
-		return (NULL);
-	ft_lstadd_back(&g_gbc, ft_lstnew(env));
-	env->envp = envp;
-	return (env);
+    (void)env;
+    while (1)
+    {
+        rl = readline("Minishell> ");
+        if (!rl)
+            return ;
+        ft_lstadd_back(&g_gbc, ft_lstnew(rl));
+        if (rl)
+            add_history(rl);
+        
+        //parsing and excution;
+        
+    }
 }
 
 int	main(int ac, char **av, char **env)
 {
-	t_env	*e_env;
+	t_mp	*pg;
 
-	(void)av;
-	e_env = init_env(env);
-	check_args(ac);
-	//signal_setup();
-	//shell_loop(e_env);
+	g_gbc = NULL;
+	pg = NULL;
+	check_args(ac, av);
+	pg->envp = init_env(env);
+	signal_setup();
+    shell_loop(pg->envp);
 	ft_lstclear(&g_gbc, free);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_function_1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:30:54 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/16 17:29:41 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:02:53 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,15 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 		*lst = temp;
 	}
 	*lst = NULL;
+}
+int	ft_pcounter(char **s)
+{
+	int	i;
+
+	if (!s)
+		return (0);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
