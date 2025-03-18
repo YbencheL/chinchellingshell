@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/17 19:15:49 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:25:24 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,19 @@ t_list *g_gbc;
 void shell_loop(t_mp *pg)
 {
 	char    *rl;
-	t_token *tokens;
-	t_cmd   *cmds;
+	/*t_token *tokens;
+	t_cmd   *cmds;*/
 
-		(void)pg;
+	(void)pg;
 	while (1)
 	{
-			rl = readline("Minishell> ");
+			rl = readline("Minishell$ ");
 		if (!rl)
 			return ;
 		if (ft_strlen(rl))
 		{
 			add_history(rl);
-
-			// Step 1: Tokenization
+			/*// Step 1: Tokenization
 			tokens = tokenize(rl);
 			if (!tokens)
 				allocation_fails();
@@ -53,7 +52,7 @@ void shell_loop(t_mp *pg)
 			cmds = parse_tokens(tokens);
 			
 			// Step 6: Execute Commands
-			execute_commands(cmds, pg);
+			execute_commands(cmds, pg);*/
 		}
 	}
 	clear_history();
