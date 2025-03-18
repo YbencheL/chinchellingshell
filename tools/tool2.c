@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:00:00 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/18 20:35:52 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:44:34 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char **free_split(char **split, size_t i)
     return (NULL);
 }
 
-static int handle_special_chars(char const **s, char **split, size_t *i)
+static int  handle_special_chars(char const **s, char **split, size_t *i)
 {
     int advance = 1;
     
