@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:44:05 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/18 19:46:58 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:33:42 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ size_t get_word_len(const char *s)
 
 int is_delimiter(char c)
 {
-    return (c == ' ' || c == '\t');
+	return (c == ' ' || c == '\t');
 }
 
 int is_special_char(char c)
 {
-    return (c == '|' || c == '<' || c == '>');
+	return (c == '|' || c == '<' || c == '>');
 }
 
 size_t count_splits(char const *s)

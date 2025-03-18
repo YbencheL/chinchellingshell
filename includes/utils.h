@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:38:13 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/18 19:47:35 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:36:40 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	ft_putstr_fd(char *s, int fd);
 void	*ft_memset(void *s, int c, size_t n);
 char	**ft_split(char const *s);
 char	*ft_substr(const char *s, unsigned int start, size_t len);
-size_t count_splits(char const *s);
-size_t get_word_len(const char *s);
-int is_delimiter(char c);
-int is_special_char(char c);
+size_t 	count_splits(char const *s);
+size_t 	get_word_len(const char *s);
+int 	is_delimiter(char c);
+int 	is_special_char(char c);
 
 #endif

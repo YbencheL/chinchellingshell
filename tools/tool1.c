@@ -6,12 +6,11 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:32:03 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/18 19:48:55 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/18 19:50:43 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 char	**init_env(char **envp)
 {
