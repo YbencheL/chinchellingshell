@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/18 12:25:24 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:51:26 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void shell_loop(t_mp *pg)
 	char    *rl;
 	/*t_token *tokens;
 	t_cmd   *cmds;*/
-
+	char	**str;
+	
 	(void)pg;
 	while (1)
 	{
@@ -33,6 +34,13 @@ void shell_loop(t_mp *pg)
 		if (ft_strlen(rl))
 		{
 			add_history(rl);
+			str = ft_split(rl);
+			int i = 0;
+			while (str[i])
+			{
+				printf("%s\n",str[i]);
+				i++;
+			}
 			/*// Step 1: Tokenization
 			tokens = tokenize(rl);
 			if (!tokens)
@@ -41,7 +49,7 @@ void shell_loop(t_mp *pg)
 			// Step 2: Syntax Checking
 			if (check_syntax_error(tokens))
 				allocation_fails();
-
+				
 			// Step 3: Expand Variables (Replacing $VAR with it's value and handling $?)
 			expand_variables(tokens, pg->env);
 
@@ -57,7 +65,6 @@ void shell_loop(t_mp *pg)
 	}
 	clear_history();
 }
-	
 
 int	main(int ac, char **av, char **env)
 {
