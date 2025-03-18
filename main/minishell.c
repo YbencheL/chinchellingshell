@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/18 16:51:26 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/18 19:35:40 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void shell_loop(t_mp *pg)
 	(void)pg;
 	while (1)
 	{
-			rl = readline("Minishell$ ");
+		rl = readline("Minishell$ ");
+		// hadi hiya li katkhdm ctr + d ila haydtiha ctr + d maghatkhdmsh
 		if (!rl)
 			return ;
 		if (ft_strlen(rl))
