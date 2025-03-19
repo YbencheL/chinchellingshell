@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 17:25:20 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/19 17:55:00 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:56:23 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 t_token_type	token_type(char *str)
 {
-	t_token_type 	type;
-
 	if(ft_strcmp(str, "|") == 0)
 		return PIPE;
 	else if(ft_strcmp(str, "<") == 0)
@@ -27,5 +25,5 @@ t_token_type	token_type(char *str)
 	else if(ft_strcmp(str, "<<") == 0)
 		return HEREDOC;
 	else
-		return type = WORD;
+		return WORD;
 }
