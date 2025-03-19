@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_function_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:12:22 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/17 13:52:55 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:41:10 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,25 @@ void	*ft_memset(void *s, int c, size_t n)
 		i++;
 	}
 	return (s);
+}
+
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	unsigned char		*t1;
+	unsigned const char	*t2;
+
+	if (!dst && !src)
+		return (NULL);
+	if (src == dst)
+		return (dst);
+	t2 = (unsigned const char *)src;
+	t1 = (unsigned char *)dst;
+	while (n > 0)
+	{
+		*t1 = *t2;
+		t1++;
+		t2++;
+		n--;
+	}
+	return (dst);
 }

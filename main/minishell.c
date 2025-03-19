@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/18 19:35:40 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:11:57 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ void shell_loop(t_mp *pg)
 	char    *rl;
 	/*t_token *tokens;
 	t_cmd   *cmds;*/
-	char	**str;
+	//t_list *f;
+	//char	**str;
 	
 	(void)pg;
+	//t_list *current;
 	while (1)
 	{
 		rl = readline("Minishell$ ");
@@ -35,13 +37,24 @@ void shell_loop(t_mp *pg)
 		if (ft_strlen(rl))
 		{
 			add_history(rl);
-			str = ft_split(rl);
-			int i = 0;
-			while (str[i])
-			{
-				printf("%s\n",str[i]);
-				i++;
-			}
+			split_phrase(rl);
+			//current = f;
+			// if(f)
+			// {			
+			// 	while (current != NULL)
+			// 	{
+			// 		if (current->ptr != NULL)
+			// 			printf("%s\n", (char *)current->ptr);
+			// 		current = current->next;
+			// 	}
+			// }
+			//str = ft_split(rl);
+			//int i = 0;
+			//while (str[i])
+			//{
+			//	printf("%s\n",str[i]);
+			//	i++;
+			//}
 			/*// Step 1: Tokenization
 			tokens = tokenize(rl);
 			if (!tokens)

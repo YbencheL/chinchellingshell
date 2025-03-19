@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/18 16:50:46 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:41:11 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ typedef struct s_arg
 
 typedef struct s_token
 {
-    t_arg          **args;
-    t_type         type;
-    char          *heredoc;
+    t_arg   **args;
+    t_type  type;
+    int     heredoc;
 }   t_token;
 
 
@@ -59,15 +59,9 @@ extern t_list *g_gbc;
 ////////////////////----parsing----////////////////////
 
 void	check_args(int ac, char **av);
+t_list	*split_phrase(char *s);
 
-////////////////////-----tools-----////////////////////
 
-void 	print_banner(void);
-void	print_exit(void);
-char	**init_env(char **envp);
-void	allocation_fails(void);
-void    sig_handler(int sig);
-void    signal_setup(void);
 
 
 #endif
