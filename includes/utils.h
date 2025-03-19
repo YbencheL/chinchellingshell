@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:38:13 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/19 13:41:30 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:45:09 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,7 @@ size_t 	get_word_len(const char *s);
 int 	is_delimiter(char c);
 int 	is_special_char(char c);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
+int		ft_strcmp(const char *s1, const char *s2);
+
 
 #endif
