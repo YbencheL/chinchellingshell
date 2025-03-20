@@ -17,32 +17,44 @@ void	herdock_detected(void)
 	printf("herdock_detect\n");
 }
 
-char	*extract_phrase(char *s, int *start, char c)
+char	*extract_word(char *s, int *start)
 {
 	int	i;
+	char	*str;
+
+	i = *start;
+	while (s[i])
+	{
+		if (s[i] == '\'' || s[i] == '"')
+			break;
+		i++;	
+	}
+	str = ft_substr(s, *start, i - *start);
+	*start = i;
+	return (str);
+}
+
+char	*extract_phrase(char *s, int *start, char c)
+{
 	int	j;
 	char *str = NULL;
 
-	i = -1;
 	j = *start;
 	while (s[j])
 	{
-		if (s[j] == c)
-			i++;
-		if (s[j] == c && i == 1)
-			break ;
+		if ((s[j] == '\\' && s[j + 1] == c) || (j == *start))
+			j++;
+		else if (s[j] == c)
+			break;
 		j++;
 	}
-	printf("i%i *start%i j%i\n", i, *start, j);
-	if (i == 1)
-	{
-		str = (char *)malloc(sizeof(char) * ((j - *start) + 2));
-		ft_memcpy(str, s + *start, j - *start + 1);
-		*start = j;
-		printf("i%i *start%i\n", i, *start);
+	if (s[j] == c)
+{		str = ft_substr(s, *start, j - *start + 1);
+		*start = j + 1;
 		//printf("%s\n", str);
 		return (str);
-	}
+}
+*start = j + 1;
 	return (NULL);
 }
 
@@ -65,7 +77,7 @@ t_list	*split_phrase(char *s)
 			//	ft_lstadd_back(&phrase, ft_lstnew(str));
 			printf("%s\n", str);
 		}
-		if (s[i] == '\'')
+		else if (s[i] == '\'')
 		{
 			str = extract_phrase(s, &i, '\'');
 			if (!str)
@@ -74,7 +86,11 @@ t_list	*split_phrase(char *s)
 			//	ft_lstadd_back(&phrase, ft_lstnew(str));
 			printf("%s\n", str);
 		}
-		i++;
+		else
+		{
+			str = extract_word(s, &i);
+			printf("%s\n", str);
+		}
 	}
 	return (phrase);
 }
