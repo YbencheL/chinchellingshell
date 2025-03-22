@@ -42,9 +42,9 @@ char	*extract_phrase(char *s, int *start, char c)
 	j = *start + 1;
 	while (s[j])
 	{
-		if (((s[j] == '\\' || s[j] == ';') && s[j + 1] == c) || (j == *start))
+		if (((s[j] == '\\' || s[j] == ';') && s[j + 1] == c))
 			j += 2;
-		else if (s[j] == c)
+		if (s[j] == c)
 			break;
 		j++;
 	}
