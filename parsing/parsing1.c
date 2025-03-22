@@ -15,7 +15,6 @@
 void	syntaxe_error(void)
 {
 	printf("syntaxe_error\n");
-	exit(1);
 }
 
 char	*extract_word(char *s, int *start)
@@ -72,7 +71,10 @@ t_list	*split_phrase(char *s)
 		{
 			str = extract_phrase(s, &i, '"');
 			if (!str)
+			{
 				syntaxe_error();
+				return (NULL);
+			}
 			else
 				ft_lstadd_back(&phrase, ft_lstnew(str));
 		}
@@ -80,7 +82,10 @@ t_list	*split_phrase(char *s)
 		{
 			str = extract_phrase(s, &i, '\'');
 			if (!str)
+			{
 				syntaxe_error();
+				return (NULL);
+			}
 			else
 				ft_lstadd_back(&phrase, ft_lstnew(str));
 		}
@@ -94,5 +99,24 @@ t_list	*split_phrase(char *s)
 	}
 	return (phrase);
 }
+
+// void	split_tokens(t_list *s)
+// {
+
+
+// 	while (s)
+// 	{
+// 		if (s->ptr[0] != '\'' || s->ptr[0] != '"')
+// 		{
+// 			ft_split((char *)s->ptr);
+			
+// 		}
+// 		else
+// 		{
+
+// 		}
+// 		s = s->next;
+// 	}
+// }
 /*we still need to hundle word outside the quotes 
 get the linked list we creat splited and take it inside the token list while identifyinh it type*/

@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/22 12:42:24 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/22 13:28:34 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,8 @@ void shell_loop(t_mp *pg)
 		rl = readline("Minishell$ ");
 		// hadi hiya li katkhdm ctr + d ila haydtiha ctr + d maghatkhdmsh
 		if (!rl)
-		{
-			free(rl);
 		 	return ;
-		}
-			if (ft_strlen(rl))
+		if (ft_strlen(rl))
 		{
 			add_history(rl);
 			f = split_phrase(rl);
