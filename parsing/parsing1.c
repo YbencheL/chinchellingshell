@@ -12,9 +12,9 @@
 
 #include "../includes/minishell.h"
 
-void	syntaxe_error(void)
+void	unclosed_q_error(void)
 {
-	printf("syntaxe_error\n");
+	ft_putstr_fd("minishell: unclosed quotes\n", 2);
 }
 
 char	*extract_word(char *s, int *start)
@@ -42,7 +42,7 @@ char	*extract_phrase(char *s, int *start, char c)
 	j = *start;
 	while (s[j])
 	{
-		if ((s[j] == '\\' && s[j + 1] == c) || (j == *start))
+		if (((s[j] == '\\' || s[j] == ';') && s[j + 1] == c) || (j == *start))
 			j++;
 		else if (s[j] == c)
 			break;
@@ -67,7 +67,7 @@ t_list	*handle_quotes(char *s, int *i, t_list **phrase)
 	str = extract_phrase(s, i, quote_type);
 	if (!str)
 	{
-		syntaxe_error();
+		unclosed_q_error();
 		return (NULL);
 	}
 	ft_lstadd_back(phrase, ft_lstnew(str));

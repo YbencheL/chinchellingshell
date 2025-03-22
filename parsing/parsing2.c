@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/22 16:15:11 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:34:54 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ int	error_slayer(t_arg *arg)
 		else if (ft_strcmp(tmp->arg, "|") == 0 && !tmp->next)
 		{
 			ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+			return 0;
+		}
+		else if (tmp->type <= 4 && tmp->type >= 2 && !tmp->next)
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token `redirection`\n", 2);
 			return 0;
 		}
 		tmp = tmp->next;
