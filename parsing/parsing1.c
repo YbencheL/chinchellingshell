@@ -39,11 +39,11 @@ char	*extract_phrase(char *s, int *start, char c)
 	int	j;
 	char *str = NULL;
 
-	j = *start;
+	j = *start + 1;
 	while (s[j])
 	{
 		if (((s[j] == '\\' || s[j] == ';') && s[j + 1] == c) || (j == *start))
-			j++;
+			j += 2;
 		else if (s[j] == c)
 			break;
 		j++;
@@ -54,7 +54,6 @@ char	*extract_phrase(char *s, int *start, char c)
 		*start = j + 1;
 		return (str);
 	}
-	*start = j + 1;
 	return (NULL);
 }
 
