@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tool1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:32:03 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/18 19:50:43 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/22 12:11:27 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,15 @@ char	**init_env(char **envp)
 	char	**env;
 	int		i;
 
-	env = (char **)malloc(sizeof(char *) * (ft_pcounter(envp) + 1));
+	env = (char **)ft_malloc(sizeof(char *) * (ft_pcounter(envp) + 1));
 	if (!env)
 		allocation_fails();
-	ft_lstadd_back(&g_gbc, ft_lstnew(env));
 	i = 0;
 	while (envp[i] != NULL)
 	{
 		env[i] = ft_strdup(envp[i]);
 		if (!env[i])
 			allocation_fails();
-		ft_lstadd_back(&g_gbc, ft_lstnew(env[i]));
 		i++;
 	}
 	env[i] = NULL;
@@ -36,7 +34,6 @@ char	**init_env(char **envp)
 
 void	allocation_fails(void)
 {
-	ft_putstr_fd("Error : Allocation fails 😞\n", 2);
 	ft_lstclear(&g_gbc, free);
 	exit(1);
 }

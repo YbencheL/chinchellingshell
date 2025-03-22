@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:12:22 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/19 13:41:10 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/22 12:11:05 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_strdup(const char *s1)
 	int		i;
 
 	i = 0;
-	str = (char *)malloc(ft_strlen(s1) + 1);
+	str = (char *)ft_malloc(ft_strlen(s1) + 1);
 	if (!str)
 		return (NULL);
 	while (s1[i])

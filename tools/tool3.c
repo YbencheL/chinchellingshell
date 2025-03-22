@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tool3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:44:05 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/18 20:54:07 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/22 12:16:58 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 		return (ft_strdup(""));
 	if (s_len < len + start)
 		len = s_len - start;
-	str = (char *)malloc(sizeof(char) * (len + 1));
+	str = (char *)ft_malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (NULL);
 	i = 0;

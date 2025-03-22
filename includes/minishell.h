@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/19 13:41:11 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/22 12:12:23 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ extern t_list *g_gbc;
 
 void	check_args(int ac, char **av);
 t_list	*split_phrase(char *s);
+
 
 
 

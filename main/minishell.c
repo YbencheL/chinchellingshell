@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/20 16:25:28 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/22 12:42:24 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void shell_loop(t_mp *pg)
 	char    *rl;
 	/*t_token *tokens;
 	t_cmd   *cmds;*/
-	//t_list *f;
+	t_list *f;
 	//char	**str;
 	
 	(void)pg;
@@ -33,20 +33,26 @@ void shell_loop(t_mp *pg)
 		rl = readline("Minishell$ ");
 		// hadi hiya li katkhdm ctr + d ila haydtiha ctr + d maghatkhdmsh
 		if (!rl)
+		{
+			free(rl);
 		 	return ;
-		if (ft_strlen(rl))
+		}
+			if (ft_strlen(rl))
 		{
 			add_history(rl);
-			split_phrase(rl);
-			//current = f;
-			// if(f)
-			// {			
-			// 	while (current != NULL)
-			// 	{
-			// 		if (current->ptr != NULL)
-			// 			printf("%s\n", (char *)current->ptr);
-			// 		current = current->next;
-			// 	}
+			f = split_phrase(rl);
+			// while (f != NULL)
+			// {
+			// 	printf("%s\n", (char *)f->ptr);
+			// 	f = f->next;
+			// }
+			// f = NULL;
+			// t_list *current = f;			
+			// while (current != NULL)
+			// {
+			// 	if (current->ptr != NULL)
+			// 		printf("%s\n", (char *)current->ptr);
+			// 	current = current->next;
 			// }
 			//str = ft_split(rl);
 			//int i = 0;
@@ -76,6 +82,7 @@ void shell_loop(t_mp *pg)
 			// Step 6: Execute Commands
 			execute_commands(cmds, pg);*/
 		}
+		free(rl);
 	}
 	clear_history();
 }
@@ -84,7 +91,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_mp	pg;
 
-	g_gbc = NULL;
+	g_gbc = ft_lstnew_custom(NULL);
 	check_args(ac, av);
 	pg.envp = init_env(env);
 	print_banner();

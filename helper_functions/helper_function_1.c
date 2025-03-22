@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_function_1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:30:54 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/17 15:57:45 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/22 12:15:06 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list	*ft_lstnew(void *ptr)
 {
 	t_list	*new_node;
 
-	new_node = (t_list *)malloc(sizeof(t_list));
+	new_node = (t_list *)ft_malloc(sizeof(t_list));
 	if (!new_node)
 		return (NULL);
 	new_node->ptr = ptr;

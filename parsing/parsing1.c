@@ -12,9 +12,10 @@
 
 #include "../includes/minishell.h"
 
-void	herdock_detected(void)
+void	syntaxe_error(void)
 {
-	printf("herdock_detect\n");
+	printf("syntaxe_error\n");
+	exit(1);
 }
 
 char	*extract_word(char *s, int *start)
@@ -51,7 +52,6 @@ char	*extract_phrase(char *s, int *start, char c)
 	if (s[j] == c)
 {		str = ft_substr(s, *start, j - *start + 1);
 		*start = j + 1;
-		//printf("%s\n", str);
 		return (str);
 }
 *start = j + 1;
@@ -64,33 +64,33 @@ t_list	*split_phrase(char *s)
 	t_list	*phrase;
 	char *str;
 
+	phrase = NULL;
 	i = 0;
-	phrase = (t_list *)malloc(sizeof(t_list *));
 	while (s[i])
 	{
 		if (s[i] == '"')
 		{
 			str = extract_phrase(s, &i, '"');
 			if (!str)
-				herdock_detected();
-			//else
-			//	ft_lstadd_back(&phrase, ft_lstnew(str));
-			printf("%s\n", str);
+				syntaxe_error();
+			else
+				ft_lstadd_back(&phrase, ft_lstnew(str));
 		}
 		else if (s[i] == '\'')
 		{
 			str = extract_phrase(s, &i, '\'');
 			if (!str)
-				herdock_detected();
-			//else
-			//	ft_lstadd_back(&phrase, ft_lstnew(str));
-			printf("%s\n", str);
+				syntaxe_error();
+			else
+				ft_lstadd_back(&phrase, ft_lstnew(str));
 		}
-		else
+		else if (s[i] != ' ' && s[i] != '\t')
 		{
 			str = extract_word(s, &i);
-			printf("%s\n", str);
+			ft_lstadd_back(&phrase, ft_lstnew(str));
 		}
+		else
+			i++;
 	}
 	return (phrase);
 }

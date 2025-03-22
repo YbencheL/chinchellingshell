@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tool0.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:48:31 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/19 17:20:57 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/22 12:16:28 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,25 @@ void	check_args(int ac, char **av)
 		printf("\n\n");
 		exit (1);
 	}
+}
+void *ft_malloc(size_t size)
+{
+	void	*ptr;
+	t_list	*tmp;
+
+	ptr = malloc(size);
+	if (!ptr)
+	{
+		ft_putstr_fd("Error : malloc fail to allocate", 2);
+		return (NULL);
+	}
+	tmp = ft_lstnew_custom(ptr);
+	if (!tmp)
+	{
+		ft_putstr_fd("Error : malloc fail to allocate", 2);
+		free(ptr);
+		return (NULL);
+	}
+	ft_lstadd_back(&g_gbc, tmp);
+	return (ptr);	
 }
