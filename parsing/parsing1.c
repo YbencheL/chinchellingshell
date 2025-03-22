@@ -49,45 +49,45 @@ char	*extract_phrase(char *s, int *start, char c)
 		j++;
 	}
 	if (s[j] == c)
-{		str = ft_substr(s, *start, j - *start + 1);
+	{
+		str = ft_substr(s, *start, j - *start + 1);
 		*start = j + 1;
 		return (str);
-}
-*start = j + 1;
+	}
+	*start = j + 1;
 	return (NULL);
+}
+
+t_list	*handle_quotes(char *s, int *i, t_list **phrase)
+{
+	char	*str;
+	char	quote_type;
+
+	quote_type = s[*i];
+	str = extract_phrase(s, i, quote_type);
+	if (!str)
+	{
+		syntaxe_error();
+		return (NULL);
+	}
+	ft_lstadd_back(phrase, ft_lstnew(str));
+	return (*phrase);
 }
 
 t_list	*split_phrase(char *s)
 {
-	int	i;
+	int		i;
 	t_list	*phrase;
-	char *str;
+	char	*str;
 
 	phrase = NULL;
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == '"')
+		if (s[i] == '"' || s[i] == '\'')
 		{
-			str = extract_phrase(s, &i, '"');
-			if (!str)
-			{
-				syntaxe_error();
+			if (!handle_quotes(s, &i, &phrase))
 				return (NULL);
-			}
-			else
-				ft_lstadd_back(&phrase, ft_lstnew(str));
-		}
-		else if (s[i] == '\'')
-		{
-			str = extract_phrase(s, &i, '\'');
-			if (!str)
-			{
-				syntaxe_error();
-				return (NULL);
-			}
-			else
-				ft_lstadd_back(&phrase, ft_lstnew(str));
 		}
 		else if (s[i] != ' ' && s[i] != '\t')
 		{
@@ -100,23 +100,5 @@ t_list	*split_phrase(char *s)
 	return (phrase);
 }
 
-// void	split_tokens(t_list *s)
-// {
-
-
-// 	while (s)
-// 	{
-// 		if (s->ptr[0] != '\'' || s->ptr[0] != '"')
-// 		{
-// 			ft_split((char *)s->ptr);
-			
-// 		}
-// 		else
-// 		{
-
-// 		}
-// 		s = s->next;
-// 	}
-// }
 /*we still need to hundle word outside the quotes 
 get the linked list we creat splited and take it inside the token list while identifyinh it type*/

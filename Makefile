@@ -2,7 +2,7 @@ NAME = minishell
 
 SRCS = main/minishell.c \
 helper_functions/helper_function_1.c helper_functions/helper_function_2.c helper_functions/helper_function_3.c \
-parsing/parsing1.c \
+parsing/parsing1.c parsing/parsing2.c \
 tools/tool0.c tools/tool1.c tools/tool2.c tools/tool3.c tools/tool4.c \
 
 LDFLAGS = -lreadline

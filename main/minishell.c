@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/22 13:28:34 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:18:32 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void shell_loop(t_mp *pg)
 	char    *rl;
 	/*t_token *tokens;
 	t_cmd   *cmds;*/
-	t_list *f;
+	t_list	*f;
+	t_arg	*token;
 	//char	**str;
 	
 	(void)pg;
@@ -38,11 +39,15 @@ void shell_loop(t_mp *pg)
 		{
 			add_history(rl);
 			f = split_phrase(rl);
-			// while (f != NULL)
-			// {
-			// 	printf("%s\n", (char *)f->ptr);
-			// 	f = f->next;
-			// }
+			token = split_tokens(f);
+			typeof_token(token);
+			if (!error_slayer(token))
+				continue;
+			while (token != NULL)
+			{
+				printf("%s is of type : %d\n", token->arg, token->type);
+				token = token->next;
+			}
 			// f = NULL;
 			// t_list *current = f;			
 			// while (current != NULL)

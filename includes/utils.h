@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:38:13 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/22 12:16:15 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/22 15:22:16 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,6 @@ typedef struct s_list
     void    *ptr;
     struct s_list   *next;
 } t_list;
-
-////////////////////-----tools-----////////////////////
-
-void    *ft_malloc(size_t size);
-void 	print_banner(void);
-void	print_exit(void);
-char	**init_env(char **envp);
-void	allocation_fails(void);
-void    sig_handler(int sig);
-void    signal_setup(void);
-char	**ft_split(char const *s);
 
 /////////////////////helper_function/////////////////////
 t_list	*ft_lstnew(void *ptr);

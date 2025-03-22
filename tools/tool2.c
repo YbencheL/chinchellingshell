@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tool2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:00:00 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/18 20:44:34 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:08:57 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char **ft_split(char const *s)
     if (!s)
         return (NULL);
     total_splits = count_splits(s);
-    split = (char **)malloc((total_splits + 1) * sizeof(char *));
+    split = (char **)ft_malloc((total_splits + 1) * sizeof(char *));
     if (!split)
         return (NULL);
     return (process_splits(s, split));

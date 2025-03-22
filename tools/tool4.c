@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tool4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 17:25:20 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/19 17:56:23 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/22 15:51:37 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,47 @@ t_token_type	token_type(char *str)
 		return HEREDOC;
 	else
 		return WORD;
+}
+
+void	typeof_token(t_arg	*arg)
+{
+	t_arg	*head;
+
+	head = arg;
+
+	while(head)
+	{
+		head->type = token_type(head->arg);
+		head = head->next;
+	}
+}
+
+
+t_arg	*new_arg(char *arg)
+{
+	t_arg	*new;
+
+	new = (t_arg *)ft_malloc(sizeof(t_arg));
+	if (!new)
+		return (NULL);
+	new->arg = arg;
+	new->next = NULL;
+	return (new); 
+}
+
+void	argadd_back(t_arg **arg, t_arg *new)
+{
+	t_arg	*temp;
+
+	if (!arg || !new)
+		return ;
+	if (!*arg)
+	{
+		*arg = new;
+		return ;
+	}
+	temp = *arg;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new;
 }

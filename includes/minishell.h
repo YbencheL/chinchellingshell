@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/22 12:12:23 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:20:20 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,15 @@ typedef enum t_type {
 
 typedef struct s_arg
 {
-    char            *arg;
-    t_token_type    type;
+    char			*arg;
+    t_token_type	type;
+    struct s_arg	*next;
 }   t_arg;
 
 typedef struct s_token
 {
-    t_arg   **args;
-    t_type  type;
+	t_arg   **args;
+    t_type	type;
     int     heredoc;
 }   t_token;
 
@@ -60,8 +61,22 @@ extern t_list *g_gbc;
 
 void	check_args(int ac, char **av);
 t_list	*split_phrase(char *s);
+t_arg	*split_tokens(t_list *s);
 
+////////////////////-----tools-----////////////////////
 
+void    *ft_malloc(size_t size);
+void 	print_banner(void);
+void	print_exit(void);
+char	**init_env(char **envp);
+void	allocation_fails(void);
+void    sig_handler(int sig);
+void    signal_setup(void);
+char	**ft_split(char const *s);
+t_arg	*new_arg(char *arg);
+void	argadd_back(t_arg **arg, t_arg *new);
+void	typeof_token(t_arg	*arg);
+int     error_slayer(t_arg *arg);
 
 
 
