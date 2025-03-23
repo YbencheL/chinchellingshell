@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/22 16:22:42 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/23 16:39:44 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,22 @@ extern t_list *g_gbc;
 
 ////////////////////----parsing----////////////////////
 
-void	check_args(int ac, char **av);
+void	unclosed_q_error(void);
+char	*extract_word(char *s, int *start);
+char	*extract_phrase(char *s, int *start, char c);
+t_list	*handle_quotes(char *s, int *i, t_list **phrase);
 t_list	*split_phrase(char *s);
 t_arg	*split_tokens(t_list *s);
+void	add_token(char **str, t_arg **token);
+t_arg	*split_tokens(t_list *s);
+int     error_slayer(t_arg *arg);
+int     expand_variables(t_arg *token);
+t_list	*checking_variables(t_arg *token);
+char    *check_for_var(char *s, int *start);
 
 ////////////////////-----tools-----////////////////////
 
+void	check_args(int ac, char **av);
 void    *ft_malloc(size_t size);
 void 	print_banner(void);
 void	print_exit(void);
@@ -72,12 +82,15 @@ char	**init_env(char **envp);
 void	allocation_fails(void);
 void    sig_handler(int sig);
 void    signal_setup(void);
+int 	is_delimiter(char c);
+int 	is_special_char(char c);
+size_t 	count_splits(char const *s);
+size_t 	get_word_len(const char *s);
 char	**ft_split(char const *s);
 t_arg	*new_arg(char *arg);
 void	argadd_back(t_arg **arg, t_arg *new);
 void	typeof_token(t_arg	*arg);
 int     error_slayer(t_arg *arg);
-
 
 
 #endif

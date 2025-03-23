@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/22 16:18:32 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/23 20:26:49 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ t_list *g_gbc;
 	to free all the memory thats allocated use this 	ft_lstclear(t_list &gbc, free)
     */
 
-void shell_loop(t_mp *pg)
+void shell_loop(void)
 {
 	char    *rl;
 	/*t_token *tokens;
 	t_cmd   *cmds;*/
 	t_list	*f;
 	t_arg	*token;
+	t_arg	*head;
 	//char	**str;
 	
-	(void)pg;
 	//t_list *current;
 	while (1)
 	{
@@ -43,11 +43,13 @@ void shell_loop(t_mp *pg)
 			typeof_token(token);
 			if (!error_slayer(token))
 				continue;
+			head = token;
 			while (token != NULL)
 			{
 				printf("%s is of type : %d\n", token->arg, token->type);
 				token = token->next;
 			}
+			token = head;
 			// f = NULL;
 			// t_list *current = f;			
 			// while (current != NULL)
@@ -63,26 +65,25 @@ void shell_loop(t_mp *pg)
 			//	printf("%s\n",str[i]);
 			//	i++;
 			//}
-			/*// Step 1: Tokenization
-			tokens = tokenize(rl);
-			if (!tokens)
-				allocation_fails();
+			// Step 1: Tokenization
+			// tokens = tokenize(rl);
+			// if (!tokens)
+			// 	allocation_fails();
 
-			// Step 2: Syntax Checking
-			if (check_syntax_error(tokens))
-				allocation_fails();
+			// // Step 2: Syntax Checking
+			// if (check_syntax_error(tokens))
+			// 	allocation_fails();
 				
-			// Step 3: Expand Variables (Replacing $VAR with it's value and handling $?)
-			expand_variables(tokens, pg->env);
+			// // Step 3: Expand Variables (Replacing $VAR with it's value and handling $?)
+			// expand_variables(token);
+			// // Step 4: Handle Quotes (Double "" and single ')
+			// handle_quotes(tokens);
 
-			// Step 4: Handle Quotes (Double "" and single ')
-			handle_quotes(tokens);
-
-			// Step 5: Convert Tokens to Commands
-			cmds = parse_tokens(tokens);
+			// // Step 5: Convert Tokens to Commands
+			// cmds = parse_tokens(tokens);
 			
-			// Step 6: Execute Commands
-			execute_commands(cmds, pg);*/
+			// // Step 6: Execute Commands
+			// execute_commands(cmds, pg);
 		}
 		free(rl);
 	}
@@ -98,7 +99,7 @@ int	main(int ac, char **av, char **env)
 	pg.envp = init_env(env);
 	print_banner();
 	signal_setup();
-	shell_loop(&pg);
+	shell_loop();
 	print_exit();
 	ft_lstclear(&g_gbc, free);
 }

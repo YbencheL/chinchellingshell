@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/22 22:52:27 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/23 20:26:35 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,3 +70,94 @@ int	error_slayer(t_arg *arg)
 	}
 	return 1;
 }
+char	*check_for_var(char *s, int *start)
+{
+	int		i;
+	char	*str;
+	
+	i = *start + 1;
+	while (s[i])
+	{
+		if ((s[i] <= 'z' && s[i] >= 'a') || (s[i] <= 'Z' && s[i] >= 'A') || (s[i] <= '9' && s[i] >= '0') || s[i] == '_')
+			i++;
+		else
+			break ;
+	}
+	str = ft_substr(s, *start, i - *start);
+	*start = i;
+	return (str);
+}
+
+t_list	*checking_variables(t_arg *token)
+{
+	t_arg	*start;
+	int		i;
+	t_list	*vars;
+	char	* str;
+	
+	vars = NULL;
+	start = token;
+	while (start)
+	{
+		i = 0;
+		if (start->type == WORD)
+		{
+			while (start->arg[i])
+			{
+				if(start->arg[i] == '$')
+				{				
+					str = check_for_var(start->arg, &i);
+					ft_lstadd_back(&vars, ft_lstnew(str));
+				}
+				else
+					i++;
+			}
+		}
+		start = start->next;
+	}
+	return vars;
+}
+
+// int    expand_variables(t_arg *token)
+// {
+// 	t_list	*var;
+// 	t_list	*tmp;
+// 	// char *getenv_v;
+	
+// 	var = checking_variables(token);
+// 	tmp = var;
+// 	while(tmp)
+// 	{
+// 		// Get the list of variables
+
+// 		// You've already done this with var = checking_variables(token)
+// 		// This gives you a list of all variables (like $HOME, $USER, etc.)
+// 		// Create a replace_substring function
+		
+// 		// Takes original string, substring to replace, and replacement value
+// 		// Returns a new string with all occurrences replaced
+// 		// Create a replace_variables function
+		
+// 		// For each token containing variables:
+// 		// Extract variable name (skip the $ character)
+// 		// Get environment value using getenv()
+// 		// Use replace_substring to swap the variable for its value
+// 		// Process each token
+		
+// 		// Loop through all tokens
+// 		// For each token of type WORD, check if it contains variables
+// 		// Apply variable replacement where needed
+// 		// Memory management
+		
+// 		// Allocate memory for new strings after replacement
+// 		// Free original strings after replacement
+// 		// Free the variable list when done
+// 		// Special cases
+		
+// 		// Handle $? for exit status
+// 		// Handle variables within quotes correctly
+// 		// Handle non-existent variables (replace with empty string)
+// 		tmp = tmp->next;
+// 	}
+// 	return 0;
+// }
