@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/23 21:16:01 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/23 21:29:16 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,13 +122,16 @@ t_list	*checking_variables(t_arg *token)
 // {
 // 	t_list	*var;
 // 	t_list	*tmp;
-// 	// char *getenv_v;
+// 	char *getenv_v;
+// 	char *current_var;
 	
 // 	var = checking_variables(token);
 // 	tmp = var;
 // 	while(tmp)
 // 	{
-// 		printf("%s\n", (char *)tmp->ptr);
+// 		current_var = (char *)tmp->ptr;
+// 		getenv_v = getenv(current_var + 1);
+// 		printf("var : %s\n", getenv_v);
 // 		tmp = tmp->next;
 // 	}
 // 	return 0;
