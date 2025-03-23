@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/23 20:26:35 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/23 21:16:01 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,35 +128,7 @@ t_list	*checking_variables(t_arg *token)
 // 	tmp = var;
 // 	while(tmp)
 // 	{
-// 		// Get the list of variables
-
-// 		// You've already done this with var = checking_variables(token)
-// 		// This gives you a list of all variables (like $HOME, $USER, etc.)
-// 		// Create a replace_substring function
-		
-// 		// Takes original string, substring to replace, and replacement value
-// 		// Returns a new string with all occurrences replaced
-// 		// Create a replace_variables function
-		
-// 		// For each token containing variables:
-// 		// Extract variable name (skip the $ character)
-// 		// Get environment value using getenv()
-// 		// Use replace_substring to swap the variable for its value
-// 		// Process each token
-		
-// 		// Loop through all tokens
-// 		// For each token of type WORD, check if it contains variables
-// 		// Apply variable replacement where needed
-// 		// Memory management
-		
-// 		// Allocate memory for new strings after replacement
-// 		// Free original strings after replacement
-// 		// Free the variable list when done
-// 		// Special cases
-		
-// 		// Handle $? for exit status
-// 		// Handle variables within quotes correctly
-// 		// Handle non-existent variables (replace with empty string)
+// 		printf("%s\n", (char *)tmp->ptr);
 // 		tmp = tmp->next;
 // 	}
 // 	return 0;
