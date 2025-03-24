@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:38:13 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/23 16:06:10 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:49:43 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@
 
 typedef struct s_index
 {
-	int i;
+	int	i;
 	int	j;
 }	t_index;
 
 typedef struct s_list
 {
-    void    *ptr;
-    struct s_list   *next;
-} t_list;
+	void			*ptr;
+	struct s_list	*next;
+}	t_list;
 
 /////////////////////helper_function/////////////////////
 t_list	*ft_lstnew(void *ptr);
@@ -43,6 +43,5 @@ char	*ft_substr(const char *s, unsigned int start, size_t len);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 int		ft_strcmp(const char *s1, const char *s2);
 t_list	*ft_lstnew_custom(void	*ptr);
-
 
 #endif

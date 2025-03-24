@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/23 16:39:44 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:49:30 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,36 +18,37 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef enum token_type {
-    WORD,
-    PIPE, 
-    RED_IN,
-    RED_OUT,
-    RED_APPEND,
-    HEREDOC
-}   t_token_type;
+typedef enum token_type
+{
+	WORD,
+	PIPE,
+	RED_IN,
+	RED_OUT,
+	RED_APPEND,
+	HEREDOC
+}	t_token_type;
 
-typedef enum t_type {
-    CMD,
+typedef enum t_type
+{
+	CMD,
 	PIPELINE,
-    REDIRECTION,
-    FILE_ARG
-}   t_type;
+	REDIRECTION,
+	FILE_ARG
+}	t_type;
 
 typedef struct s_arg
 {
-    char			*arg;
-    t_token_type	type;
-    struct s_arg	*next;
-}   t_arg;
+	char			*arg;
+	t_token_type	type;
+	struct s_arg	*next;
+}	t_arg;
 
 typedef struct s_token
 {
-	t_arg   **args;
-    t_type	type;
-    int     heredoc;
-}   t_token;
-
+	t_arg	**args;
+	t_type	type;
+	int		heredoc;
+}	t_token;
 
 typedef struct s_mp
 {
@@ -55,7 +56,7 @@ typedef struct s_mp
 	t_token	token;
 }	t_mp;
 
-extern t_list *g_gbc;
+extern t_list	*g_gbc;
 
 ////////////////////----parsing----////////////////////
 
@@ -67,30 +68,29 @@ t_list	*split_phrase(char *s);
 t_arg	*split_tokens(t_list *s);
 void	add_token(char **str, t_arg **token);
 t_arg	*split_tokens(t_list *s);
-int     error_slayer(t_arg *arg);
-int     expand_variables(t_arg *token);
+int		error_slayer(t_arg *arg);
+// int     expand_variables(t_arg *token);
 t_list	*checking_variables(t_arg *token);
-char    *check_for_var(char *s, int *start);
+char	*check_for_var(char *s, int *start);
 
 ////////////////////-----tools-----////////////////////
 
 void	check_args(int ac, char **av);
-void    *ft_malloc(size_t size);
-void 	print_banner(void);
+void	*ft_malloc(size_t size);
+void	print_banner(void);
 void	print_exit(void);
 char	**init_env(char **envp);
 void	allocation_fails(void);
-void    sig_handler(int sig);
-void    signal_setup(void);
-int 	is_delimiter(char c);
-int 	is_special_char(char c);
-size_t 	count_splits(char const *s);
-size_t 	get_word_len(const char *s);
+void	sig_handler(int sig);
+void	signal_setup(void);
+int		is_delimiter(char c);
+int		is_special_char(char c);
+size_t	count_splits(char const *s);
+size_t	get_word_len(const char *s);
 char	**ft_split(char const *s);
 t_arg	*new_arg(char *arg);
 void	argadd_back(t_arg **arg, t_arg *new);
 void	typeof_token(t_arg	*arg);
-int     error_slayer(t_arg *arg);
-
+int		error_slayer(t_arg *arg);
 
 #endif
