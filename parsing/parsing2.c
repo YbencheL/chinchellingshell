@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/23 21:29:16 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:24:46 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	add_token(char **str, t_arg **token)
 {
 	int	i;
-	
+
 	i = 0;
 	while (str[i])
 	{
@@ -28,7 +28,7 @@ t_arg	*split_tokens(t_list *s)
 {
 	t_arg	*token;
 	char	**str;
-	
+
 	token = NULL;
 	while (s)
 	{
@@ -49,36 +49,40 @@ int	error_slayer(t_arg *arg)
 	t_arg	*tmp;
 
 	tmp = arg;
-	while(tmp)
+	while (tmp)
 	{
-		if(tmp->next && ft_strcmp(tmp->arg, "|") == 0 && ft_strcmp(tmp->next->arg, "|") == 0)
+		if (tmp->next && ft_strcmp(tmp->arg, "|") == 0
+			&& ft_strcmp(tmp->next->arg, "|") == 0)
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `||'\n", 2);
-			return 0;
+			ft_putstr_fd("minishell: syntax error, unexpected token`||'\n", 2);
+			return (0);
 		}
-		else if (ft_strcmp(tmp->arg, "|") == 0 && !tmp->next)
+		if (ft_strcmp(tmp->arg, "|") == 0 && !tmp->next)
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
-			return 0;
+			ft_putstr_fd("minishell: syntax error, unexpected token`|'\n", 2);
+			return (0);
 		}
-		else if (tmp->type <= 4 && tmp->type >= 2 && !tmp->next)
+		if (tmp->type <= 4 && tmp->type >= 2 && !tmp->next)
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `redirection`\n", 2);
-			return 0;
+			ft_putstr_fd("minishell: syntax error, unexpected token "
+				"`redirection`\n", 2);
+			return (0);
 		}
 		tmp = tmp->next;
 	}
-	return 1;
+	return (1);
 }
+
 char	*check_for_var(char *s, int *start)
 {
 	int		i;
 	char	*str;
-	
+
 	i = *start + 1;
 	while (s[i])
 	{
-		if ((s[i] <= 'z' && s[i] >= 'a') || (s[i] <= 'Z' && s[i] >= 'A') || (s[i] <= '9' && s[i] >= '0') || s[i] == '_')
+		if ((s[i] <= 'z' && s[i] >= 'a') || (s[i] <= 'Z' && s[i] >= 'A')
+			|| (s[i] <= '9' && s[i] >= '0') || s[i] == '_')
 			i++;
 		else
 			break ;
@@ -90,12 +94,12 @@ char	*check_for_var(char *s, int *start)
 
 t_list	*checking_variables(t_arg *token)
 {
-	t_arg	*start;
-	int		i;
-	t_list	*vars;
-	char	* str;
-	
-	vars = NULL;
+	t_arg		*start;
+	int			i;
+	t_list		*vars;
+	char		*str;
+
+	str = NULL;
 	start = token;
 	while (start)
 	{
@@ -104,18 +108,16 @@ t_list	*checking_variables(t_arg *token)
 		{
 			while (start->arg[i])
 			{
-				if(start->arg[i] == '$')
-				{				
-					str = check_for_var(start->arg, &i);
-					ft_lstadd_back(&vars, ft_lstnew(str));
-				}
+				if (start->arg[i] == '$')
+					ft_lstadd_back(&vars,
+						ft_lstnew(check_for_var(start->arg, &i)));
 				else
 					i++;
 			}
 		}
 		start = start->next;
 	}
-	return vars;
+	return (vars);
 }
 
 // int    expand_variables(t_arg *token)
@@ -124,7 +126,7 @@ t_list	*checking_variables(t_arg *token)
 // 	t_list	*tmp;
 // 	char *getenv_v;
 // 	char *current_var;
-	
+
 // 	var = checking_variables(token);
 // 	tmp = var;
 // 	while(tmp)

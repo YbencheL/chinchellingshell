@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 16:51:57 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/18 15:19:9:06 by abenzaho         ###   ########.fr       */
+/*   Created: 2025/03/25 17:06:55 by ybenchel          #+#    #+#             */
+/*   Updated: 2025/03/25 17:08:57 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ void	unclosed_q_error(void)
 
 char	*extract_word(char *s, int *start)
 {
-	int	i;
+	int		i;
 	char	*str;
 
 	i = *start;
 	while (s[i])
 	{
 		if (s[i] == '\'' || s[i] == '"')
-			break;
-		i++;	
+			break ;
+		i++;
 	}
 	str = ft_substr(s, *start, i - *start);
 	*start = i;
@@ -36,16 +36,17 @@ char	*extract_word(char *s, int *start)
 
 char	*extract_phrase(char *s, int *start, char c)
 {
-	int	j;
-	char *str = NULL;
+	int		j;
+	char	*str;
 
+	str = NULL;
 	j = *start + 1;
 	while (s[j])
 	{
 		if (((s[j] == '\\' || s[j] == ';') && s[j + 1] == c))
 			j += 2;
 		if (s[j] == c)
-			break;
+			break ;
 		j++;
 	}
 	if (s[j] == c)
@@ -98,6 +99,3 @@ t_list	*split_phrase(char *s)
 	}
 	return (phrase);
 }
-
-/*we still need to hundle word outside the quotes 
-get the linked list we creat splited and take it inside the token list while identifyinh it type*/
