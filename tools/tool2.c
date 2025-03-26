@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:00:00 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/26 17:50:34 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:00:19 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	handle_special_chars(char const **s, char **split, size_t *i)
 static int	handle_words(char const **s, char **split, size_t *i)
 {
 	int	len;
-	
+
 	len = get_word_len(*s);
 	split[*i] = ft_substr(*s, 0, len);
 	if (!split[*i])
@@ -55,6 +55,7 @@ static int	handle_words(char const **s, char **split, size_t *i)
 static char	**process_splits(char const *s, char **split)
 {
 	size_t	i;
+
 	i = 0;
 	while (*s)
 	{
