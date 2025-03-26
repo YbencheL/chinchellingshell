@@ -14,33 +14,31 @@
 
 t_token_type	token_type(char *str)
 {
-	if(ft_strcmp(str, "|") == 0)
-		return PIPE;
-	else if(ft_strcmp(str, "<") == 0)
-		return RED_IN;
-	else if(ft_strcmp(str, ">") == 0)
-		return RED_OUT;
-	else if(ft_strcmp(str, ">>") == 0)
-		return RED_APPEND;
-	else if(ft_strcmp(str, "<<") == 0)
-		return HEREDOC;
+	if (ft_strcmp(str, "|") == 0)
+		return (PIPE);
+	else if (ft_strcmp(str, "<") == 0)
+		return (RED_IN);
+	else if (ft_strcmp(str, ">") == 0)
+		return (RED_OUT);
+	else if (ft_strcmp(str, ">>") == 0)
+		return (RED_APPEND);
+	else if (ft_strcmp(str, "<<") == 0)
+		return (HEREDOC);
 	else
-		return WORD;
+		return (WORD);
 }
 
-void	typeof_token(t_arg	*arg)
+void	typeof_token(t_arg *arg)
 {
 	t_arg	*head;
 
 	head = arg;
-
-	while(head)
+	while (head)
 	{
 		head->type = token_type(head->arg);
 		head = head->next;
 	}
 }
-
 
 t_arg	*new_arg(char *arg)
 {
@@ -51,7 +49,7 @@ t_arg	*new_arg(char *arg)
 		return (NULL);
 	new->arg = arg;
 	new->next = NULL;
-	return (new); 
+	return (new);
 }
 
 void	argadd_back(t_arg **arg, t_arg *new)

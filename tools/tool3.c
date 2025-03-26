@@ -38,51 +38,51 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	return (str);
 }
 
-size_t get_word_len(const char *s)
+size_t	get_word_len(const char *s)
 {
-    size_t len;
+	size_t	len;
 
-    len = 0;
-    while (s[len] && !is_delimiter(s[len]) && !is_special_char(s[len]))
-        len++;
-    return (len);
+	len = 0;
+	while (s[len] && !is_delimiter(s[len]) && !is_special_char(s[len]))
+		len++;
+	return (len);
 }
 
-int is_delimiter(char c)
+int	is_delimiter(char c)
 {
 	return (c == ' ' || c == '\t');
 }
 
-int is_special_char(char c)
+int	is_special_char(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
 
-size_t count_splits(char const *s)
+size_t	count_splits(char const *s)
 {
-    size_t count;
-    int in_split;
+	size_t	count;
+	int		in_split;
 
-    count = 0;
-    in_split = 0;
-    while (*s)
-    {
-        if (is_special_char(*s))
-        {
-            count++;
-            if ((*s == '>' && *(s + 1) == '>')
-                || (*s == '<' && *(s + 1) == '<'))
-                s++;
-            in_split = 0;
-        }
-        else if (!is_delimiter(*s) && !in_split)
-        {
-            in_split = 1;
-            count++;
-        }
-        else if (is_delimiter(*s))
-            in_split = 0;
-        s++;
-    }
-    return (count);
+	count = 0;
+	in_split = 0;
+	while (*s)
+	{
+		if (is_special_char(*s))
+		{
+			count++;
+			if ((*s == '>' && *(s + 1) == '>') || (*s == '<' && *(s
+						+ 1) == '<'))
+				s++;
+			in_split = 0;
+		}
+		else if (!is_delimiter(*s) && !in_split)
+		{
+			in_split = 1;
+			count++;
+		}
+		else if (is_delimiter(*s))
+			in_split = 0;
+		s++;
+	}
+	return (count);
 }

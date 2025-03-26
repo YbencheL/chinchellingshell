@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tool0.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:48:31 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/22 13:25:04 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:36:50 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,11 @@ void	check_args(int ac, char **av)
 		printf("┃                                           ┃\n");
 		printf("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n");
 		printf("\n\n");
-		exit (1);
+		exit(1);
 	}
 }
-void *ft_malloc(size_t size)
+
+void	*ft_malloc(size_t size)
 {
 	void	*ptr;
 	t_list	*tmp;
@@ -93,5 +94,5 @@ void *ft_malloc(size_t size)
 		exit(1);
 	}
 	ft_lstadd_back(&g_gbc, tmp);
-	return (ptr);	
+	return (ptr);
 }
