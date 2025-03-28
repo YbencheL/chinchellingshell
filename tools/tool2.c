@@ -6,21 +6,23 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:00:00 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/26 18:00:19 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/28 20:05:33 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	**free_split(char **split, size_t i)
+size_t	get_word_len(const char *s)
 {
-	while (i--)
-		free(split[i]);
-	free(split);
-	return (NULL);
+	size_t	len;
+
+	len = 0;
+	while (s[len] && !is_delimiter(s[len]) && !is_special_char(s[len]))
+		len++;
+	return (len);
 }
 
-static int	handle_special_chars(char const **s, char **split, size_t *i)
+int	handle_special_chars(char const **s, char **split, size_t *i)
 {
 	int	advance;
 
@@ -39,7 +41,7 @@ static int	handle_special_chars(char const **s, char **split, size_t *i)
 	return (1);
 }
 
-static int	handle_words(char const **s, char **split, size_t *i)
+int	handle_words(char const **s, char **split, size_t *i)
 {
 	int	len;
 
@@ -52,30 +54,33 @@ static int	handle_words(char const **s, char **split, size_t *i)
 	return (1);
 }
 
-static char	**process_splits(char const *s, char **split)
+size_t	count_splits(char const *s)
 {
-	size_t	i;
+	size_t	count;
+	int		in_split;
 
-	i = 0;
+	count = 0;
+	in_split = 0;
 	while (*s)
 	{
-		while (*s && is_delimiter(*s))
-			s++;
-		if (!*s)
-			break ;
 		if (is_special_char(*s))
 		{
-			if (!handle_special_chars(&s, split, &i))
-				return (free_split(split, i));
+			count++;
+			if ((*s == '>' && *(s + 1) == '>') || (*s == '<' && *(s
+						+ 1) == '<'))
+				s++;
+			in_split = 0;
 		}
-		else
+		else if (!is_delimiter(*s) && !in_split)
 		{
-			if (!handle_words(&s, split, &i))
-				return (free_split(split, i));
+			in_split = 1;
+			count++;
 		}
+		else if (is_delimiter(*s))
+			in_split = 0;
+		s++;
 	}
-	split[i] = NULL;
-	return (split);
+	return (count);
 }
 
 char	**ft_split(char const *s)

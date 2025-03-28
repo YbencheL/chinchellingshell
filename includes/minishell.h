@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/24 17:49:30 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/28 20:06:07 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,8 @@ t_arg	*new_arg(char *arg);
 void	argadd_back(t_arg **arg, t_arg *new);
 void	typeof_token(t_arg	*arg);
 int		error_slayer(t_arg *arg);
+char	**process_splits(char const *s, char **split);
+int		handle_special_chars(char const **s, char **split, size_t *i);
+int		handle_words(char const **s, char **split, size_t *i);
 
 #endif
