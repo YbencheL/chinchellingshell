@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/29 17:15:53 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/29 18:06:27 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,28 @@ char	*replace_var(char *token, char *var, char *value)
 	return (new_string);
 }
 
+char	*get_variable_value(char *var_name, t_mp *ev)
+{
+	char	*exit_status;
+	char	*value;
+
+	if (!ft_strcmp(var_name, "$?"))
+	{
+		exit_status = ft_itoa(ev->exit_status);
+		if (!exit_status)
+			allocation_fails();
+		return (exit_status);
+	}
+	else
+	{
+		value = search_env(var_name, ev);
+		if (value)
+			return (value);
+		else
+			return ("");
+	}
+}
+
 int	expand_variables(t_arg *token, t_mp *ev)
 {
 	t_list	*var;
@@ -74,9 +96,7 @@ int	expand_variables(t_arg *token, t_mp *ev)
 	tmp = var;
 	while (tmp)
 	{
-		value = search_env(tmp->ptr, ev);
-		if (!value)
-			value = "";
+		value = get_variable_value(tmp->ptr, ev);
 		current = token;
 		while (current)
 		{

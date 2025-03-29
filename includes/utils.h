@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:38:13 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/29 17:16:07 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/29 17:54:20 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <limits.h>
+# include <stdint.h>
 # include <unistd.h>
 
 typedef struct s_index
@@ -48,5 +50,7 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strstr(const char *haystack, const char *needle);
 char	*ft_strcat(char *dest, const char *src);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+char	*ft_itoa(int n);
+void	*ft_calloc(size_t count, size_t size);
 
 #endif

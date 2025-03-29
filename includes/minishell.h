@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/29 17:00:55 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/29 18:06:44 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_mp
 {
 	char	**envp;
 	t_token	token;
+	int		exit_status;
 }	t_mp;
 
 extern t_list	*g_gbc;
@@ -72,6 +73,7 @@ int		error_slayer(t_arg *arg);
 int		expand_variables(t_arg *token, t_mp *ev);
 t_list	*checking_variables(t_arg *token);
 char	*check_for_var(char *s, int *start);
+char	*get_variable_value(char *var_name, t_mp *ev);
 
 ////////////////////-----tools-----////////////////////
 

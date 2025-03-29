@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/29 17:03:05 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/29 18:02:27 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,10 @@ void shell_loop(t_mp *pg)
 	t_arg	*token;
 	t_arg	*head;
 	//char	**str;
-	
-	//t_list *current;
+
 	while (1)
 	{
 		rl = readline("Minishell$ ");
-		// hadi hiya li katkhdm ctr + d ila haydtiha ctr + d maghatkhdmsh
 		if (!rl)
 		 	return ;
 		if (ft_strlen(rl))
@@ -66,14 +64,6 @@ void shell_loop(t_mp *pg)
 			//	printf("%s\n",str[i]);
 			//	i++;
 			//}
-			// Step 1: Tokenization
-			// tokens = tokenize(rl);
-			// if (!tokens)
-			// 	allocation_fails();
-
-			// // Step 2: Syntax Checking
-			// if (check_syntax_error(tokens))
-			// 	allocation_fails();
 				
 			// // Step 3: Expand Variables (Replacing $VAR with it's value and handling $?)
 			// // Step 4: Handle Quotes (Double "" and single ')
@@ -94,6 +84,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_mp	pg;
 
+	pg.exit_status = 0;
 	g_gbc = ft_lstnew_custom(NULL);
 	check_args(ac, av);
 	pg.envp = init_env(env);
