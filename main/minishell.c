@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/23 21:29:29 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/29 16:10:08 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_list *g_gbc;
 	to free all the memory thats allocated use this 	ft_lstclear(t_list &gbc, free)
     */
 
-void shell_loop(void)
+void shell_loop(t_mp *pg)
 {
 	char    *rl;
 	/*t_token *tokens;
@@ -75,7 +75,7 @@ void shell_loop(void)
 			// 	allocation_fails();
 				
 			// // Step 3: Expand Variables (Replacing $VAR with it's value and handling $?)
-			// expand_variables(token);
+			expand_variables(token, pg);
 			// // Step 4: Handle Quotes (Double "" and single ')
 			// handle_quotes(tokens);
 
@@ -99,7 +99,7 @@ int	main(int ac, char **av, char **env)
 	pg.envp = init_env(env);
 	print_banner();
 	signal_setup();
-	shell_loop();
+	shell_loop(&pg);
 	print_exit();
 	ft_lstclear(&g_gbc, free);
 }
