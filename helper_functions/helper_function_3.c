@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 17:32:56 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/29 16:03:20 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/29 16:48:32 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,4 @@ char	*ft_strstr(const char *haystack, const char *needle)
 		i++;
 	}
 	return (NULL);
-}
-
-char	*ft_strcat(char *dest, const char *src)
-{
-	size_t	dest_len;
-	size_t	i;
-
-	dest_len = ft_strlen(dest);
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[dest_len + i] = src[i];
-		i++;
-	}
-	dest[dest_len + i] = '\0';
-	return (dest);
 }
