@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/29 17:11:56 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/29 17:15:53 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*search_env(char *var, t_mp *ev)
 	new_var[len + 1] = '\0';
 	while (ev->envp[i])
 	{
-		if (ft_strcmp(ev->envp[i], new_var) == 0)
+		if (ft_strncmp(ev->envp[i], new_var, ft_strlen(new_var)) == 0)
 		{
 			equal_sign = ft_strchr(ev->envp[i], '=');
 			if (equal_sign)

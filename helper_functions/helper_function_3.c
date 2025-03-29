@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 17:32:56 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/29 17:11:26 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/29 17:16:03 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,22 @@ t_list	*ft_lstnew_custom(void	*ptr)
 	new_node->ptr = ptr;
 	new_node->next = NULL;
 	return (new_node);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		if (s1[i] == '\0' || s2[i] == '\0')
+			break ;
+		i++;
+	}
+	return (0);
 }
 
 char	*ft_strchr(const char *s, int c)
