@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/29 16:34:41 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/29 16:47:33 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,33 +196,26 @@ int    expand_variables(t_arg *token, t_mp *ev)
 	t_list	*var;
 	t_list	*tmp;
 	t_arg	*current;
-	char	*new_arg;
 	char	*value;
 
-	if (!ev)
-		return 0;
-	var = checking_variables(token);
-	if (!var)
-		return 0;
+	if (!(var = checking_variables(token)))
+		return (0);
 	tmp = var;
-	while(tmp)
+	while (tmp)
 	{
 		value = search_env(tmp->ptr, ev);
-		if(!value)
+		if (!value)
 			value = "";
 		current = token;
 		while (current)
 		{
 			printf("Token before: %s\n", current->arg);
 			if (current->type == WORD && ft_strstr(current->arg, tmp->ptr))
-			{
-				new_arg = replace_var(current->arg, tmp->ptr, value);
-				current->arg = new_arg;
-			}
+				current->arg = replace_var(current->arg, tmp->ptr, value);
 			printf("After replacement: %s\n", current->arg);
 			current = current->next;
 		}
 		tmp = tmp->next;
 	}
-	return 0;
+	return (0);
 }
