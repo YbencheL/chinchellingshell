@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/29 16:59:56 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/29 17:02:47 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,8 @@ int	expand_variables(t_arg *token, t_mp *ev)
 		current = token;
 		while (current)
 		{
-			printf("Token before: %s\n", current->arg);
 			if (current->type == WORD && ft_strstr(current->arg, tmp->ptr))
 				current->arg = replace_var(current->arg, tmp->ptr, value);
-			printf("After replacement: %s\n", current->arg);
 			current = current->next;
 		}
 		tmp = tmp->next;

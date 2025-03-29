@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/29 16:10:08 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/29 17:03:05 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void shell_loop(t_mp *pg)
 			token = split_tokens(f);
 			typeof_token(token);
 			if (!error_slayer(token))
-				continue;
+			continue;
+			expand_variables(token, pg);
 			head = token;
 			while (token != NULL)
 			{
@@ -75,7 +76,6 @@ void shell_loop(t_mp *pg)
 			// 	allocation_fails();
 				
 			// // Step 3: Expand Variables (Replacing $VAR with it's value and handling $?)
-			expand_variables(token, pg);
 			// // Step 4: Handle Quotes (Double "" and single ')
 			// handle_quotes(tokens);
 
