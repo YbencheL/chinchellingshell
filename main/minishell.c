@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/29 18:02:27 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:32:22 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void shell_loop(t_mp *pg)
 
 	while (1)
 	{
-		rl = readline("Minishell$ ");
+		rl = readline("\033[1;32mMinishell$\033[0m ");
 		if (!rl)
 		 	return ;
 		if (ft_strlen(rl))
