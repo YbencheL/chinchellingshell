@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/29 17:30:52 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:55:51 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_list	*checking_variables(t_arg *token)
 		i = 0;
 		if (start->type == WORD)
 		{
-			while (start->arg[i])
+			while (start->arg[i] && start->arg[i] != '\'')
 			{
 				if (start->arg[i] == '$')
 					ft_lstadd_back(&vars, ft_lstnew(check_for_var(start->arg,
