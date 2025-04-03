@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/31 13:54:03 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:36:26 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ int	expand_variables(t_arg *token, t_mp *ev)
 		current = token;
 		while (current)
 		{
-			if (current->type == WORD && ft_strstr(current->arg, tmp->ptr))
+			if (current->type == WORD && ft_strstr(current->arg, tmp->ptr)
+				&& !ft_strncmp(tmp->ptr, "\'", 2))
 				current->arg = replace_var(current->arg, tmp->ptr, value);
 			current = current->next;
 		}
