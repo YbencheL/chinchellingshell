@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/04 09:41:40 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/04 18:33:36 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void shell_loop(t_mp *pg)
 	t_list	*f;
 	t_arg	*token;
 	t_arg	*head;
-	//char	**str;
 
 	while (1)
 	{
@@ -45,26 +44,6 @@ void shell_loop(t_mp *pg)
 				token = token->next;
 			}
 			token = head;
-			// f = NULL;
-			// t_list *current = f;			
-			// while (current != NULL)
-			// {
-			// 	if (current->ptr != NULL)
-			// 		printf("%s\n", (char *)current->ptr);
-			// 	current = current->next;
-			// }
-			//str = ft_split(rl);
-			//int i = 0;
-			//while (str[i])
-			//{
-			//	printf("%s\n",str[i]);
-			//	i++;
-			//}
-				
-			// // Step 3: Expand Variables (Replacing $VAR with it's value and handling $?)
-			// // Step 4: Handle Quotes (Double "" and single ')
-			// handle_quotes(tokens);
-
 			// // Step 5: Convert Tokens to Commands
 			// cmds = parse_tokens(tokens);
 			
