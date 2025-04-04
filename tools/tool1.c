@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:32:03 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/26 17:57:48 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/04 10:01:00 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,7 @@ void	signal_setup(void)
 	struct sigaction	sa;
 
 	ft_memset(&sa, 0, sizeof(struct sigaction));
-	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = sig_handler;
-	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
-	rl_catch_signals = 0;
 }
-/* still need to understand each part of signals */

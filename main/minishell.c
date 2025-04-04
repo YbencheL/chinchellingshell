@@ -6,17 +6,13 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/02 15:32:22 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/04 09:41:40 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 t_list *g_gbc;
-/*  need to inisialize this garbage collector and first use ft_lstnew to get the first node
-    use this to add another adresse 					ft_lstadd_back(&g_gbc, *ft_lstnew(ptr))
-	to free all the memory thats allocated use this 	ft_lstclear(t_list &gbc, free)
-    */
 
 void shell_loop(t_mp *pg)
 {
