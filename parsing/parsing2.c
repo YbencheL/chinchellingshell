@@ -6,23 +6,11 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/04 16:24:43 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/04 18:32:21 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	add_token(char **str, t_arg **token)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		argadd_back(token, new_arg(str[i]));
-		i++;
-	}
-}
 
 t_arg	*split_tokens(t_list *s)
 {
@@ -91,16 +79,17 @@ char	*check_for_var(char *s, int *start)
 	*start = i;
 	return (str);
 }
+
 void	check_unclosed_quotes(char *s, int *i)
 {
 	int	j;
+
 	if (s[0] == '\'')
-	{	
+	{
 		j = *i + 1;
-		
 		while (s[j])
-		{	
-			if(s[j] == '\'')
+		{
+			if (s[j] == '\'')
 			{
 				*i = j + 1;
 				return ;
@@ -129,7 +118,8 @@ t_list	*checking_variables(t_arg *token)
 				if (start->arg[i] == '\'')
 					check_unclosed_quotes(start->arg, &i);
 				if (start->arg[i] == '$')
-					ft_lstadd_back(&vars, ft_lstnew(check_for_var(start->arg, &i)));
+					ft_lstadd_back(&vars, ft_lstnew(check_for_var(start->arg,
+								&i)));
 				else
 					i++;
 			}
