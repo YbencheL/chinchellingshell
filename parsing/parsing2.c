@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/03 12:55:51 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:24:43 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,25 @@ char	*check_for_var(char *s, int *start)
 	*start = i;
 	return (str);
 }
+void	check_unclosed_quotes(char *s, int *i)
+{
+	int	j;
+	if (s[0] == '\'')
+	{	
+		j = *i + 1;
+		
+		while (s[j])
+		{	
+			if(s[j] == '\'')
+			{
+				*i = j + 1;
+				return ;
+			}
+			j++;
+		}
+	}
+	return ;
+}
 
 t_list	*checking_variables(t_arg *token)
 {
@@ -105,11 +124,12 @@ t_list	*checking_variables(t_arg *token)
 		i = 0;
 		if (start->type == WORD)
 		{
-			while (start->arg[i] && start->arg[i] != '\'')
+			while (start->arg[i])
 			{
+				if (start->arg[i] == '\'')
+					check_unclosed_quotes(start->arg, &i);
 				if (start->arg[i] == '$')
-					ft_lstadd_back(&vars, ft_lstnew(check_for_var(start->arg,
-								&i)));
+					ft_lstadd_back(&vars, ft_lstnew(check_for_var(start->arg, &i)));
 				else
 					i++;
 			}
