@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/03/29 18:06:44 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:15:11 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,12 @@ typedef struct s_token
 	t_type	type;
 	int		heredoc;
 }	t_token;
+
+// typedef struct s_cmd
+// {
+//  	char			*cmds;
+// 	struct s_cmd	*next;
+// }	t_cmd;
 
 typedef struct s_mp
 {

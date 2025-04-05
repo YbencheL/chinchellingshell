@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/05 13:58:07 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:11:04 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,3 +108,8 @@ int	expand_variables(t_arg *token, t_mp *ev)
 	}
 	return (0);
 }
+
+// t_cmd	*parse_tokens(t_token	*tokens)
+// {
+// 	//cmd
+// }
