@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/05 13:55:25 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:34:41 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	add_token(char **str, t_arg **token)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		argadd_back(token, new_arg(str[i]));
+		i++;
+	}
+}
 
 t_arg	*split_tokens(t_list *s)
 {
@@ -75,29 +87,21 @@ char	*check_for_var(char *s, int *start)
 		else
 			break ;
 	}
-	str = ft_substr(s, *start, i - *start);
+	str = ft_substr(s, *start + 1, i - *start - 1);
 	*start = i;
 	return (str);
 }
 
-void	check_unclosed_quotes(char *s, int *i)
+char	*modify_str(char *s, char *var)
 {
-	int	j;
-
-	if (s[0] == '\'')
-	{
-		j = *i + 1;
-		while (s[j])
-		{
-			if (s[j] == '\'')
-			{
-				*i = j + 1;
-				return ;
-			}
-			j++;
-		}
-	}
-	return ;
+	char *str;
+	char	*s1;
+	
+	str = getenv(var);
+	if (!str)
+		return (NULL);
+	s1 = replace_var(s, var, str);
+	return (s1);
 }
 
 t_list	*checking_variables(t_arg *token)
@@ -105,21 +109,27 @@ t_list	*checking_variables(t_arg *token)
 	t_arg	*start;
 	int		i;
 	t_list	*vars;
+	char	*tmp;
+
 
 	vars = NULL;
 	start = token;
 	while (start)
 	{
 		i = 0;
-		if (start->type == WORD)
+		if (start->type == WORD && start->arg[0] != '\'')
 		{
 			while (start->arg[i])
 			{
-				if (start->arg[i] == '\'')
-					check_unclosed_quotes(start->arg, &i);
-				else if (start->arg[i] == '$')
-					ft_lstadd_back(&vars, ft_lstnew(check_for_var(start->arg,
-								&i)));
+				if (start->arg[i] == '$')
+				{
+					tmp = check_for_var(start->arg, &i);
+					if (tmp)
+					{
+						start->arg = modify_str(start->arg, tmp);
+						i = 0;
+					}
+				}
 				else
 					i++;
 			}

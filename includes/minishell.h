@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/05 14:15:11 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:36:58 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,20 @@ extern t_list	*g_gbc;
 
 ////////////////////----parsing----////////////////////
 
+void	add_token(char **str, t_arg **token);
 void	unclosed_q_error(void);
 char	*extract_word(char *s, int *start);
 char	*extract_phrase(char *s, int *start, char c);
 t_list	*handle_quotes(char *s, int *i, t_list **phrase);
 t_list	*split_phrase(char *s);
 t_arg	*split_tokens(t_list *s);
-void	add_token(char **str, t_arg **token);
 t_arg	*split_tokens(t_list *s);
 int		error_slayer(t_arg *arg);
 int		expand_variables(t_arg *token, t_mp *ev);
 t_list	*checking_variables(t_arg *token);
 char	*check_for_var(char *s, int *start);
 char	*get_variable_value(char *var_name, t_mp *ev);
+char	*replace_var(char *token, char *var, char *value);
 
 ////////////////////-----tools-----////////////////////
 

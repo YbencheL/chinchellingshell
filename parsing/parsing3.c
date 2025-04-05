@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/05 14:11:04 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:35:10 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*replace_var(char *token, char *var, char *value)
 	new_string = ft_malloc(sizeof(char) * (total_len + 1));
 	if (!new_string)
 		allocation_fails();
-	ft_strlcpy(new_string, token, before_var_len + 1);
+	ft_strlcpy(new_string, token, before_var_len);
 	ft_strcat(new_string, value);
 	ft_strcat(new_string, var_pos + ft_strlen(var));
 	return (new_string);
@@ -108,6 +108,7 @@ int	expand_variables(t_arg *token, t_mp *ev)
 	}
 	return (0);
 }
+
 
 // t_cmd	*parse_tokens(t_token	*tokens)
 // {
