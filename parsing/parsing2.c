@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/04 18:32:21 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/05 13:55:25 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_list	*checking_variables(t_arg *token)
 			{
 				if (start->arg[i] == '\'')
 					check_unclosed_quotes(start->arg, &i);
-				if (start->arg[i] == '$')
+				else if (start->arg[i] == '$')
 					ft_lstadd_back(&vars, ft_lstnew(check_for_var(start->arg,
 								&i)));
 				else
