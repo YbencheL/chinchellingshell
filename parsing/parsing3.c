@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/03 12:56:27 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/05 13:39:18 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ char	*search_env(char *var, t_mp *ev)
 	ft_strlcpy(new_var, &var[1], ft_strlen(&var[1]) + 1);
 	len = ft_strlen(new_var);
 	new_var[len] = '=';
-	new_var[len + 1] = '\0';
 	while (ev->envp[i])
 	{
 		if (ft_strncmp(ev->envp[i], new_var, ft_strlen(new_var)) == 0)
