@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/05 16:36:58 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/06 11:47:28 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ t_list	*split_phrase(char *s);
 t_arg	*split_tokens(t_list *s);
 t_arg	*split_tokens(t_list *s);
 int		error_slayer(t_arg *arg);
-int		expand_variables(t_arg *token, t_mp *ev);
 t_list	*checking_variables(t_arg *token);
 char	*check_for_var(char *s, int *start);
 char	*get_variable_value(char *var_name, t_mp *ev);

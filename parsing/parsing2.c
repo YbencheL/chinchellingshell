@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/05 16:34:41 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/06 12:00:57 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,19 +92,22 @@ char	*check_for_var(char *s, int *start)
 	return (str);
 }
 
-char	*modify_str(char *s, char *var)
+char	*modify_str(char *s, char *var, t_mp *pg)
 {
 	char *str;
 	char	*s1;
 	
-	str = getenv(var);
+	if (!ft_strcmp(var, "$?"))
+		str = ft_strdup(ft_itoa(pg->exit_status));
+	else
+		str = getenv(var);
 	if (!str)
-		return (NULL);
+		return (s);
 	s1 = replace_var(s, var, str);
 	return (s1);
 }
 
-t_list	*checking_variables(t_arg *token)
+t_list	*checking_variables(t_arg *token, t_mp *pg)
 {
 	t_arg	*start;
 	int		i;
@@ -125,10 +128,7 @@ t_list	*checking_variables(t_arg *token)
 				{
 					tmp = check_for_var(start->arg, &i);
 					if (tmp)
-					{
-						start->arg = modify_str(start->arg, tmp);
-						i = 0;
-					}
+						start->arg = modify_str(start->arg, tmp, pg);
 				}
 				else
 					i++;
