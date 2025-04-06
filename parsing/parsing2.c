@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/06 12:00:57 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/06 12:19:52 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ char	*check_for_var(char *s, int *start)
 
 char	*modify_str(char *s, char *var, t_mp *pg)
 {
-	char *str;
+	char 	*str;
 	char	*s1;
 	
-	if (!ft_strcmp(var, "$?"))
+	if (!ft_strcmp(var, "?"))
 		str = ft_strdup(ft_itoa(pg->exit_status));
 	else
 		str = getenv(var);

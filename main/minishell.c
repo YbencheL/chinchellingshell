@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/06 12:00:27 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/06 12:17:43 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void shell_loop(t_mp *pg)
 	t_list	*f;
 	t_arg	*token;
 	t_arg	*head;
-	t_list	*vars;
 	(void)pg;
 
 	while (1)
@@ -33,7 +32,7 @@ void shell_loop(t_mp *pg)
 		if (ft_strlen(rl))
 		{
 			add_history(rl);
-			f = split_phrase(rl);
+			f = split_phrase(rl, pg);
 			token = split_tokens(f);
 			typeof_token(token);
 			if (!error_slayer(token))
