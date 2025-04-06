@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:06:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/06 18:42:37 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/06 19:18:15 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ char	*extract_word(char *s, int *start, t_lst **phrase)
 	while (s[i])
 	{
 		if (s[i] == ' ' || s[i] == '\t')
+		{
 			is = 1;
+			break;
+		}
 		else if (s[i] != '"' && s[i] != '\'')
 			is = 0;
 		if (s[i] == '\'' || s[i] == '"')
