@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/06 12:17:43 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/06 17:11:43 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void shell_loop(t_mp *pg)
 	char    *rl;
 	/*t_token *tokens;
 	t_cmd   *cmds;*/
-	t_list	*f;
+	t_lst	*f;
 	t_arg	*token;
 	t_arg	*head;
-	(void)pg;
+	(void)head;
 
 	while (1)
 	{
@@ -35,8 +35,8 @@ void shell_loop(t_mp *pg)
 			f = split_phrase(rl, pg);
 			token = split_tokens(f);
 			typeof_token(token);
-			if (!error_slayer(token))
-			continue;
+			if (!error_slayer(token, pg))
+				continue;
 			checking_variables(token, pg);
 			head = token;
 			while (token != NULL)
@@ -45,6 +45,9 @@ void shell_loop(t_mp *pg)
 				token = token->next;
 			}
 			token = head;
+			
+
+			
 			// // Step 5: Convert Tokens to Commands
 			// cmds = parse_tokens(tokens);
 			

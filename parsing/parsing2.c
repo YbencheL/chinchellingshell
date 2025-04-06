@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/06 12:19:52 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/06 19:05:05 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,35 @@ void	add_token(char **str, t_arg **token)
 	}
 }
 
-t_arg	*split_tokens(t_list *s)
+t_arg	*split_tokens(t_lst *s)
 {
 	t_arg	*token;
 	char	**str;
-
+	t_arg	*last;
+	int		space;
+	
 	token = NULL;
+	last = NULL;
+	space = 0;
 	while (s)
 	{
-		if (((char *)s->ptr)[0] != '\'' && ((char *)s->ptr)[0] != '"')
+		if (last != NULL && space == 0 && last->arg[0] != '|' && last->arg[0] != '<' && last->arg[0] != '>')
+			last->arg = ft_strjoin(last->arg, (char *)(s->ptr));
+		else if (((char *)s->ptr)[0] != '\'' && ((char *)s->ptr)[0] != '"')
 		{
 			str = ft_split((char *)s->ptr);
 			add_token(str, &token);
 		}
 		else
 			argadd_back(&token, new_arg(s->ptr));
+		space = s->is;
 		s = s->next;
+		last = ft_arglast(token);
 	}
 	return (token);
 }
 
-int	error_slayer(t_arg *arg)
+int	error_slayer(t_arg *arg, t_mp *pg)
 {
 	t_arg	*tmp;
 
@@ -55,17 +63,20 @@ int	error_slayer(t_arg *arg)
 			&& ft_strcmp(tmp->next->arg, "|") == 0)
 		{
 			ft_putstr_fd("minishell: syntax error, unexpected token`||'\n", 2);
+			pg->exit_status = 2;
 			return (0);
 		}
 		if (ft_strcmp(tmp->arg, "|") == 0 && !tmp->next)
 		{
 			ft_putstr_fd("minishell: syntax error, unexpected token`|'\n", 2);
+			pg->exit_status = 2;
 			return (0);
 		}
 		if (tmp->type <= 4 && tmp->type >= 2 && !tmp->next)
 		{
 			ft_putstr_fd("minishell: syntax error, unexpected token "
 				"`redirection`\n", 2);
+			pg->exit_status = 2;
 			return (0);
 		}
 		tmp = tmp->next;

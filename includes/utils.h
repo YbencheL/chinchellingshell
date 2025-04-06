@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:38:13 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/06 11:54:31 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/06 18:33:06 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+
+typedef struct s_lst
+{
+	void			*ptr;
+	int				is;
+	struct s_lst	*next;
+}	t_lst;
+
 /////////////////////helper_function/////////////////////
 t_list	*ft_lstnew(void *ptr);
 void	ft_lstadd_back(t_list **lst, t_list *new);
@@ -52,5 +60,8 @@ char	*ft_strcat(char *dest, const char *src);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 char	*ft_itoa(int n);
 void	*ft_calloc(size_t count, size_t size);
+t_lst	*ft_lstnew_space(void *ptr, int is);
+void	ft_lstadd_back_space(t_lst **lst, t_lst *new);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/06 12:18:16 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/06 17:10:50 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,12 @@ extern t_list	*g_gbc;
 
 void	add_token(char **str, t_arg **token);
 void	unclosed_q_error(t_mp *pg);
-char	*extract_word(char *s, int *start);
+char	*extract_word(char *s, int *start, t_lst **phrase);
 char	*extract_phrase(char *s, int *start, char c);
-t_list	*handle_quotes(char *s, int *i, t_list **phrase, t_mp *pg);
-t_list	*split_phrase(char *s,  t_mp *pg);
-t_arg	*split_tokens(t_list *s);
-t_arg	*split_tokens(t_list *s);
-int		error_slayer(t_arg *arg);
+t_lst	*handle_quotes(char *s, int *i, t_lst **phrase, t_mp *pg);
+t_lst	*split_phrase(char *s,  t_mp *pg);
+t_arg	*split_tokens(t_lst *s);
+int		error_slayer(t_arg *arg, t_mp *pg);
 t_list	*checking_variables(t_arg *token, t_mp *pg);
 char	*check_for_var(char *s, int *start);
 char	*get_variable_value(char *var_name, t_mp *ev);
@@ -99,9 +98,9 @@ char	**ft_split(char const *s);
 t_arg	*new_arg(char *arg);
 void	argadd_back(t_arg **arg, t_arg *new);
 void	typeof_token(t_arg	*arg);
-int		error_slayer(t_arg *arg);
 char	**process_splits(char const *s, char **split);
 int		handle_special_chars(char const **s, char **split, size_t *i);
 int		handle_words(char const **s, char **split, size_t *i);
+t_arg	*ft_arglast(t_arg *lst);
 
 #endif

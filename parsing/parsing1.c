@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:06:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/06 12:16:08 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/06 18:42:37 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,28 @@ void	unclosed_q_error(t_mp *pg)
 	pg->exit_status = 2;
 }
 
-char	*extract_word(char *s, int *start)
+char	*extract_word(char *s, int *start, t_lst **phrase)
 {
 	int		i;
 	char	*str;
-
+	int		is;
+	
+	is = 0;
 	i = *start;
 	while (s[i])
 	{
+		if (s[i] == ' ' || s[i] == '\t')
+			is = 1;
+		else if (s[i] != '"' && s[i] != '\'')
+			is = 0;
 		if (s[i] == '\'' || s[i] == '"')
 			break ;
 		i++;
 	}
+	printf("%i\n", is);
 	str = ft_substr(s, *start, i - *start);
 	*start = i;
+	ft_lstadd_back_space(phrase, ft_lstnew_space(str, is));
 	return (str);
 }
 
@@ -59,11 +67,13 @@ char	*extract_phrase(char *s, int *start, char c)
 	return (NULL);
 }
 
-t_list	*handle_quotes(char *s, int *i, t_list **phrase, t_mp *pg)
+t_lst	*handle_quotes(char *s, int *i, t_lst **phrase, t_mp *pg)
 {
 	char	*str;
 	char	quote_type;
+	int		is;
 
+	is = 0;
 	quote_type = s[*i];
 	str = extract_phrase(s, i, quote_type);
 	if (!str)
@@ -71,15 +81,17 @@ t_list	*handle_quotes(char *s, int *i, t_list **phrase, t_mp *pg)
 		unclosed_q_error(pg);
 		return (NULL);
 	}
-	ft_lstadd_back(phrase, ft_lstnew(str));
+	if (s[*i] == ' ' || s[*i] == '\t')
+		is = 1;
+	printf("%i\n", is);
+	ft_lstadd_back_space(phrase, ft_lstnew_space(str, is));
 	return (*phrase);
 }
 
-t_list	*split_phrase(char *s, t_mp *pg)
+t_lst	*split_phrase(char *s, t_mp *pg)
 {
 	int		i;
-	t_list	*phrase;
-	char	*str;
+	t_lst	*phrase;
 
 	phrase = NULL;
 	i = 0;
@@ -91,10 +103,7 @@ t_list	*split_phrase(char *s, t_mp *pg)
 				return (NULL);
 		}
 		else if (s[i] != ' ' && s[i] != '\t')
-		{
-			str = extract_word(s, &i);
-			ft_lstadd_back(&phrase, ft_lstnew(str));
-		}
+			extract_word(s, &i, &phrase);
 		else
 			i++;
 	}

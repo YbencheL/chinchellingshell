@@ -68,3 +68,15 @@ void	argadd_back(t_arg **arg, t_arg *new)
 		temp = temp->next;
 	temp->next = new;
 }
+
+t_arg	*ft_arglast(t_arg *lst)
+{
+	t_arg	*last;
+
+	if (!lst)
+		return (NULL);
+	last = lst;
+	while (last->next != NULL)
+		last = last->next;
+	return (last);
+}
