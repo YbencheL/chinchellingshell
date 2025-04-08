@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/08 18:45:43 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:25:54 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void shell_loop(t_mp *pg)
 {
 	char    *rl;
 	t_arg	*token;
+	t_cmd	*cmds;
 	t_arg	*head;
 	
 	token = NULL;
@@ -59,9 +60,21 @@ void shell_loop(t_mp *pg)
 		// 		printf("%s is of type : %d\n", token->arg, token->type);
 		// 		token = token->next;
 		// 	}
-		// 	token = head;
-		// 	// // Step 5: Convert Tokens to Commands
-		// 	// cmds = parse_tokens(tokens);
+		token = head;
+		cmds = tokens_to_cmds(token);
+		t_cmd *current_cmd = cmds;
+		while (current_cmd != NULL)
+		{
+			printf("Command:\n");
+			int j = 0;
+			while (current_cmd->cmds[j] != NULL)
+			{
+				printf("  Argument: %s\n", current_cmd->cmds[j]);
+				j++;
+			}
+			current_cmd = current_cmd->next;
+		}
+
 			
 		// 	// // Step 6: Execute Commands
 		// 	// execute_commands(cmds, pg);

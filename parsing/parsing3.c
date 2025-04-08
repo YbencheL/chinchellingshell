@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/08 17:49:02 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:25:47 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,68 @@
 // 	return (new_string);
 // }
 
-// t_cmd	*parse_tokens(t_token	*tokens)
-// {
-// 	//cmd
-// }
+t_cmd    *create_command(void)
+{
+    t_cmd    *cmd;
+
+    cmd = (t_cmd *)ft_malloc(sizeof(t_cmd));
+    if (!cmd)
+        allocation_fails();
+    return (cmd);
+}
+
+void    handle_word_token(t_cmd *cmd, t_arg *current, int *i)
+{
+    if (*i == 0)
+    {
+        cmd->cmds = ft_malloc(sizeof(char *) * 100);
+        if (!cmd->cmds)
+            allocation_fails();
+    }
+    cmd->cmds[(*i)++] = ft_strdup(current->arg);
+    if (!cmd->cmds[*i - 1])
+        allocation_fails();
+}
+
+void    finalize_command(t_cmd *cmd, int i)
+{
+    if (i > 0)
+    {
+        cmd->cmds[i] = NULL;
+        cmd->heredoc = 0;
+    }
+    cmd->next = NULL;
+}
+
+t_cmd    *tokens_to_cmds(t_arg *tokens)
+{
+    t_cmd    *cmd;
+    t_cmd    *first_cmd;
+    t_arg    *current;
+    int        i = 0;
+
+    cmd = create_command();
+    first_cmd = cmd;
+    current = tokens;
+    while (current != NULL)
+    {
+        if (current->type == WORD)
+            handle_word_token(cmd, current, &i);
+        else if (current->type == PIPE)
+        {
+            cmd->type = PIPELINE;
+            finalize_command(cmd, i);
+            cmd->next = create_command();
+            cmd = cmd->next;
+            i = 0;
+        }
+        else if (current->type == RED_IN || current->type == RED_APPEND
+            || current->type == RED_OUT)
+            cmd->type = REDIRECTION;
+        else if (current->type == HEREDOC)
+            cmd->heredoc = 1;
+        current = current->next;
+    }
+    finalize_command(cmd, i);
+    return (first_cmd);
+}

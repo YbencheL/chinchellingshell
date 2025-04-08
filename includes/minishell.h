@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/08 18:45:07 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:25:50 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,17 @@ typedef struct s_arg
 	struct s_arg	*next;
 }	t_arg;
 
-typedef struct s_token
+typedef struct s_cmd
 {
-	t_arg	**args;
-	t_type	type;
-	int		heredoc;
-}	t_token;
-
-// typedef struct s_cmd
-// {
-//  	char			*cmds;
-// 	struct s_cmd	*next;
-// }	t_cmd;
+	char			**cmds;
+	t_type			type;
+	int				heredoc;
+	struct s_cmd	*next;
+}	t_cmd;
 
 typedef struct s_mp
 {
 	char	**envp;
-	t_token	token;
 	int		exit_status;
 }	t_mp;
 
@@ -71,6 +65,7 @@ extern t_list	*g_gbc;
 int		check_unclosed_quotes(char *s, t_mp *pg);
 t_arg	*add_token(char **str);
 int		typeof_token(t_arg *arg, t_mp *pg);
+t_cmd    *tokens_to_cmds(t_arg *tokens);
 // void	add_token(char **str, t_arg **token);
 // void	unclosed_q_error(t_mp *pg);
 // char	*extract_word(char *s, int *start, t_lst **phrase);
