@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/08 19:25:54 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:50:49 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,28 @@ void shell_loop(t_mp *pg)
 		// 	}
 		token = head;
 		cmds = tokens_to_cmds(token);
-		t_cmd *current_cmd = cmds;
-		while (current_cmd != NULL)
+		t_cmd *current = cmds;
+		int i = 1;
+		while (current)
 		{
-			printf("Command:\n");
-			int j = 0;
-			while (current_cmd->cmds[j] != NULL)
+			printf("== Command #%d ==\n", i);
+			if (current->cmds)
 			{
-				printf("  Argument: %s\n", current_cmd->cmds[j]);
-				j++;
+				printf("Command and args: ");
+				for (int j = 0; current->cmds[j]; j++)
+					printf("[%s] ", current->cmds[j]);
+				printf("\n");
 			}
-			current_cmd = current_cmd->next;
-		}
-
-			
+			if (current->infile)
+				printf("Input Redirection: %s\n", current->infile);
+			if (current->appendfile)
+				printf("Append Redirection: %s\n", current->appendfile);
+			if (current->outfile)
+				printf("Output Redirection: %s\n", current->outfile);
+			printf("\n");
+			current = current->next;
+			i++;
+		}		
 		// 	// // Step 6: Execute Commands
 		// 	// execute_commands(cmds, pg);
 		}

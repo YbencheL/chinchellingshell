@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/08 19:25:50 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:34:14 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ typedef struct s_cmd
 {
 	char			**cmds;
 	t_type			type;
+	char			*infile;
+	char			*outfile;
+	char			*appendfile;
 	int				heredoc;
 	struct s_cmd	*next;
 }	t_cmd;

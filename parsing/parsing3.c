@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/08 19:25:47 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:59:53 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,20 @@
 // 	return (new_string);
 // }
 
-t_cmd    *create_command(void)
+// C
+t_cmd *create_command(void)
 {
-    t_cmd    *cmd;
+    t_cmd *cmd;
 
     cmd = (t_cmd *)ft_malloc(sizeof(t_cmd));
     if (!cmd)
         allocation_fails();
+    cmd->cmds = NULL;
+    cmd->infile = NULL;
+    cmd->outfile = NULL;
+    cmd->appendfile = NULL;
+    cmd->heredoc = 0;
+    cmd->next = NULL;
     return (cmd);
 }
 
@@ -116,9 +123,17 @@ t_cmd    *tokens_to_cmds(t_arg *tokens)
             cmd = cmd->next;
             i = 0;
         }
-        else if (current->type == RED_IN || current->type == RED_APPEND
-            || current->type == RED_OUT)
-            cmd->type = REDIRECTION;
+		else if ((current->type == RED_IN || current->type == RED_OUT || current->type == RED_APPEND)
+			&& current->next && current->next->type == WORD)
+		{
+ 	 		if (current->type == RED_IN)
+	  			cmd->infile = ft_strdup(current->next->arg);
+  			else if (current->type == RED_OUT)
+	 	 		cmd->outfile = ft_strdup(current->next->arg);
+  			else if (current->type == RED_APPEND)
+	  			cmd->appendfile = ft_strdup(current->next->arg);
+  			current = current->next;
+		}
         else if (current->type == HEREDOC)
             cmd->heredoc = 1;
         current = current->next;
