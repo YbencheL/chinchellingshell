@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/08 19:59:53 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/08 20:43:49 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,6 @@ void    handle_word_token(t_cmd *cmd, t_arg *current, int *i)
             allocation_fails();
     }
     cmd->cmds[(*i)++] = ft_strdup(current->arg);
-    if (!cmd->cmds[*i - 1])
-        allocation_fails();
-}
-
-void    finalize_command(t_cmd *cmd, int i)
-{
-    if (i > 0)
-    {
-        cmd->cmds[i] = NULL;
-        cmd->heredoc = 0;
-    }
-    cmd->next = NULL;
 }
 
 t_cmd    *tokens_to_cmds(t_arg *tokens)
@@ -118,7 +106,9 @@ t_cmd    *tokens_to_cmds(t_arg *tokens)
         else if (current->type == PIPE)
         {
             cmd->type = PIPELINE;
-            finalize_command(cmd, i);
+			if (i > 0)
+				cmd->cmds[i] = NULL;
+			cmd->next = NULL;
             cmd->next = create_command();
             cmd = cmd->next;
             i = 0;
@@ -138,6 +128,8 @@ t_cmd    *tokens_to_cmds(t_arg *tokens)
             cmd->heredoc = 1;
         current = current->next;
     }
-    finalize_command(cmd, i);
+    if (i > 0)
+        cmd->cmds[i] = NULL;
+    cmd->next = NULL;
     return (first_cmd);
 }
