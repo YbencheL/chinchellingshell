@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/08 17:40:18 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:45:07 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ extern t_list	*g_gbc;
 
 
 int		check_unclosed_quotes(char *s, t_mp *pg);
+t_arg	*add_token(char **str);
+int		typeof_token(t_arg *arg, t_mp *pg);
 // void	add_token(char **str, t_arg **token);
 // void	unclosed_q_error(t_mp *pg);
 // char	*extract_word(char *s, int *start, t_lst **phrase);
@@ -92,7 +94,6 @@ void	signal_setup(void);
 void	print_banner(void);
 void	print_exit(void);
 char	**split_words(char *s);
-t_arg	*add_token(char **str);
 t_arg	*new_arg(char *arg);
 void	argadd_back(t_arg **arg, t_arg *new);
 // void	check_args(int ac, char **av);
