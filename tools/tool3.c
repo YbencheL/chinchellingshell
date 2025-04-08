@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tool3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:44:05 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/28 20:05:01 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:39:57 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,46 +38,31 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	return (str);
 }
 
-static char	**free_split(char **split, size_t i)
+t_arg	*new_arg(char *arg)
 {
-	while (i--)
-		free(split[i]);
-	free(split);
-	return (NULL);
+	t_arg	*new;
+
+	new = (t_arg *)ft_malloc(sizeof(t_arg));
+	if (!new)
+		return (NULL);
+	new->arg = arg;
+	new->next = NULL;
+	return (new);
 }
 
-int	is_delimiter(char c)
+void	argadd_back(t_arg **arg, t_arg *new)
 {
-	return (c == ' ' || c == '\t');
-}
+	t_arg	*temp;
 
-int	is_special_char(char c)
-{
-	return (c == '|' || c == '<' || c == '>');
-}
-
-char	**process_splits(char const *s, char **split)
-{
-	size_t	i;
-
-	i = 0;
-	while (*s)
+	if (!arg || !new)
+		return ;
+	if (!*arg)
 	{
-		while (*s && is_delimiter(*s))
-			s++;
-		if (!*s)
-			break ;
-		if (is_special_char(*s))
-		{
-			if (!handle_special_chars(&s, split, &i))
-				return (free_split(split, i));
-		}
-		else
-		{
-			if (!handle_words(&s, split, &i))
-				return (free_split(split, i));
-		}
+		*arg = new;
+		return ;
 	}
-	split[i] = NULL;
-	return (split);
+	temp = *arg;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new;
 }
