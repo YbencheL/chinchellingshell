@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/09 09:08:05 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/09 09:30:58 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,14 @@ void shell_loop(t_mp *pg)
 					printf("[%s] ", current->cmds[j]);
 				printf("\n");
 			}
-			// if (current->infile)
+			if (current->infile)
 				printf("Input Redirection: %s\n", current->infile);
-			// if (current->appendfile)
+			if (current->appendfile)
 				printf("Append Redirection: %s\n", current->appendfile);
-			// if (current->outfile)
+			if (current->outfile)
 				printf("Output Redirection: %s\n", current->outfile);
+			printf("Input file : %s, Output file : %s, Append file : %s\n", current->infile, current->outfile, current->appendfile);
+			printf("");
 			printf("\n");
 			current = current->next;
 			i++;
