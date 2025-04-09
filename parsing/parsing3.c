@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/08 20:43:49 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/09 09:17:26 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,47 +89,61 @@ void    handle_word_token(t_cmd *cmd, t_arg *current, int *i)
     cmd->cmds[(*i)++] = ft_strdup(current->arg);
 }
 
-t_cmd    *tokens_to_cmds(t_arg *tokens)
+void handle_redirection(t_cmd *cmd, t_arg *current, t_arg **curr_ptr)
 {
-    t_cmd    *cmd;
-    t_cmd    *first_cmd;
-    t_arg    *current;
-    int        i = 0;
+	if (current->next && current->next->type == WORD)
+	{
+		if (current->type == RED_IN)
+			cmd->infile = ft_strdup(current->next->arg);
+		else if (current->type == RED_OUT)
+			cmd->outfile = ft_strdup(current->next->arg);
+		else if (current->type == RED_APPEND)
+			cmd->appendfile = ft_strdup(current->next->arg);
+		*curr_ptr = current->next;
+	}
+}
 
-    cmd = create_command();
-    first_cmd = cmd;
-    current = tokens;
-    while (current != NULL)
-    {
-        if (current->type == WORD)
-            handle_word_token(cmd, current, &i);
-        else if (current->type == PIPE)
-        {
-            cmd->type = PIPELINE;
-			if (i > 0)
-				cmd->cmds[i] = NULL;
-			cmd->next = NULL;
-            cmd->next = create_command();
-            cmd = cmd->next;
-            i = 0;
-        }
-		else if ((current->type == RED_IN || current->type == RED_OUT || current->type == RED_APPEND)
-			&& current->next && current->next->type == WORD)
-		{
- 	 		if (current->type == RED_IN)
-	  			cmd->infile = ft_strdup(current->next->arg);
-  			else if (current->type == RED_OUT)
-	 	 		cmd->outfile = ft_strdup(current->next->arg);
-  			else if (current->type == RED_APPEND)
-	  			cmd->appendfile = ft_strdup(current->next->arg);
-  			current = current->next;
-		}
-        else if (current->type == HEREDOC)
-            cmd->heredoc = 1;
-        current = current->next;
-    }
-    if (i > 0)
-        cmd->cmds[i] = NULL;
-    cmd->next = NULL;
-    return (first_cmd);
+void handle_pipe(t_cmd *cmd, t_cmd **cmd_ptr, int *i)
+{
+	t_cmd *new_cmd;
+	
+	cmd->type = PIPELINE;
+	if (*i > 0)
+		cmd->cmds[*i] = NULL;
+	new_cmd = create_command();
+	new_cmd->infile = cmd->infile;
+	new_cmd->outfile = cmd->outfile;
+	new_cmd->appendfile = cmd->appendfile;
+	cmd->next = new_cmd;
+	*cmd_ptr = new_cmd;
+	*i = 0;
+}
+
+t_cmd *tokens_to_cmds(t_arg *tokens)
+{
+	t_cmd *cmd;
+	t_cmd *first_cmd;
+	t_arg *current;
+	int i;
+	
+	i = 0;
+	cmd = create_command();
+	first_cmd = cmd;
+	current = tokens;
+	while (current != NULL)
+	{
+		if (current->type == WORD)
+			handle_word_token(cmd, current, &i);
+		else if (current->type == PIPE)
+			handle_pipe(cmd, &cmd, &i);
+		else if (current->type == RED_IN || current->type == RED_OUT
+			|| current->type == RED_APPEND)
+			handle_redirection(cmd, current, &current);
+		else if (current->type == HEREDOC)
+			cmd->heredoc = 1;
+		current = current->next;
+	}
+	if (i > 0)
+		cmd->cmds[i] = NULL;
+	return (first_cmd);
 }
