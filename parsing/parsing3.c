@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/10 19:55:58 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:59:51 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,20 @@ t_red *create_redirection(t_token_type type, char *file)
     t_red *red = ft_malloc(sizeof(t_red));
     if (!red)
         allocation_fails();
-    red->type = type;
+    red->type = &type;
     red->file = ft_strdup(file);
     red->next = NULL;
     return red;
 }
 
-t_cmd *create_command(char *cmd)
+t_cmd *create_command(char *arg)
 {
     t_cmd *cmd = ft_malloc(sizeof(t_cmd));
     if (!cmd)
         allocation_fails();
-    cmd->type = type;
     cmd->arg = ft_strdup(arg);
+    if (!cmd->arg)
+        allocation_fails();
     cmd->next = NULL;
     return cmd;
 }
@@ -98,17 +99,17 @@ void append_redirection(t_red **head, t_token_type type, char *file)
     }
 }
 
-void append_command(t_cmd **head, char *cmd)
+void append_command(t_cmd **head, char *arg)
 {
-    t_cmd *cmd = create_redirection(type, cmd);
-    if (!*cmd)
-        *head = new;
+    t_cmd *new = create_command(arg);
+    if (!*head)
+        *head = new; // If the list is empty, set the new node as the head
     else
     {
-        t_red *tmp = *head;
-        while (tmp->next)
+        t_cmd *tmp = *head;
+        while (tmp->next) // Traverse to the end of the list
             tmp = tmp->next;
-        tmp->next = new;
+        tmp->next = new; // Append the new node
     }
 }
 
@@ -123,44 +124,46 @@ void handle_redirection(t_token *token, t_arg *current, t_arg **curr_ptr)
 
 t_token *tokens_to_cmds(t_arg *tokens)
 {
-	t_token *node = ft_malloc(sizeof(t_token));
-	t_token *first = node;
-	t_arg   *current = tokens;
+    t_token *node = ft_malloc(sizeof(t_token));
+    if (!node)
+        allocation_fails();
+    t_token *first = node;
+    t_arg   *current = tokens;
 
-	node->cmds = NULL;
-	node->redi = NULL;
-	node->heredoc = 0;
-	node->next = NULL;
+    node->cmds = NULL;
+    node->redi = NULL;
+    node->heredoc = 0;
+    node->next = NULL;
 
-	while (current != NULL)
-	{
-		if (current->type == WORD)
-		{
-			append_command(&node->cmds, current->arg);
-		}
-		else if (current->type == RED_IN || current->type == RED_OUT
-            || current->type == RED_APPEND)
-		{
-			handle_redirection(node, current, &current);
-		}
-		else if (current->type == HEREDOC)
-		{
-			node->heredoc = 1;
-		}
-		else if (current->type == PIPE)
-		{
-			node->type = PIPELINE;
-			node->next = ft_malloc(sizeof(t_token));
-			if (!node->next)
-				allocation_fails();
-			node = node->next;
-			node->cmds = NULL;
-			node->redi = NULL;
-			node->heredoc = 0;
-			node->next = NULL;
-		}
-		current = current->next;
-	}
-	node->type = CMD;
-	return first;
+    while (current != NULL)
+    {
+        if (current->type == WORD)
+        {
+            append_command(&node->cmds, current->arg);
+        }
+        else if (current->type == RED_IN || current->type == RED_OUT
+                 || current->type == RED_APPEND)
+        {
+            handle_redirection(node, current, &current);
+        }
+        else if (current->type == HEREDOC)
+        {
+            node->heredoc = 1;
+        }
+        else if (current->type == PIPE)
+        {
+            node->type = PIPELINE;
+            node->next = ft_malloc(sizeof(t_token));
+            if (!node->next)
+                allocation_fails();
+            node = node->next;
+            node->cmds = NULL;
+            node->redi = NULL;
+            node->heredoc = 0;
+            node->next = NULL;
+        }
+        current = current->next; // Ensure current is updated
+    }
+    node->type = CMD;
+    return first;
 }
