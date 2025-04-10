@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/10 18:51:31 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:52:32 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,13 @@
 
 void initialize_redirection_arrays(t_cmd *cmd)
 {
+    // cmd->infile = (char **)ft_malloc(sizeof(char *) * 1); 
+    // cmd->outfile = (char **)ft_malloc(sizeof(char *) * 1);
+    // cmd->appendfile = (char **)ft_malloc(sizeof(char *) * 1);
+
+    // if (!cmd->infile || !cmd->outfile || !cmd->appendfile)
+    //     allocation_fails();
+
     cmd->infile = NULL;
     cmd->outfile = NULL;
     cmd->appendfile = NULL;
