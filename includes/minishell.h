@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/10 19:45:33 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:54:04 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ extern t_list	*g_gbc;
 int		check_unclosed_quotes(char *s, t_mp *pg);
 t_arg	*add_token(char **str);
 int		typeof_token(t_arg *arg, t_mp *pg);
-t_cmd    *tokens_to_cmds(t_arg *tokens);
+t_token *tokens_to_cmds(t_arg *tokens);
 void	expand_variables(t_arg *token, t_mp *pg);
 // void	add_token(char **str, t_arg **token);
 // void	unclosed_q_error(t_mp *pg);

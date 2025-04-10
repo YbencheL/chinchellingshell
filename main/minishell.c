@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/10 19:47:41 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:53:51 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,44 +62,54 @@ void shell_loop(t_mp *pg)
 		// 		token = token->next;
 		// 	}
 		token = head;
-		cmds = tokens_to_cmds(token);
-		t_cmd *current = cmds;
+		t_token *tokens = tokens_to_cmds(token);  // Convert tokens to commands
+		t_token *current = tokens;
 		int cmd_num = 1;
+		
 		while (current)
 		{
 			printf("== Command #%d ==\n", cmd_num);
-			if (current->cmds)
+		
+			// Print command and arguments
+			t_cmd *cmd = current->cmds;
+			if (cmd)
 			{
 				printf("Command and args: ");
-				for (int j = 0; current->cmds[j]; j++)
-					printf("[%s] ", current->cmds[j]);
+				while (cmd)
+				{
+					for (int i = 0; cmd->arg[i]; i++)
+						printf("[%s] ", cmd->arg[i]);
+					cmd = cmd->next;
+				}
 				printf("\n");
 			}
-			if (current->infile)
+		
+			// Print redirections
+			t_red *red = current->redirections;
+			if (red)
 			{
-				printf("Input Redirection: ");
-				for (int j = 0; current->infile[j]; j++)
-					printf("[%s] ", current->infile[j]);
-				printf("\n");
+				printf("Redirections:\n");
+				while (red)
+				{
+					if (red->type == RED_IN)
+						printf("  Input: [%s]\n", red->file);
+					else if (red->type == RED_OUT)
+						printf("  Output: [%s]\n", red->file);
+					else if (red->type == RED_APPEND)
+						printf("  Append: [%s]\n", red->file);
+					else if (red->type == HEREDOC)
+						printf("  Heredoc: [%s]\n", red->file);
+					red = red->next;
+				}
 			}
-			if (current->outfile)
-			{
-				printf("Output Redirection: ");
-				for (int j = 0; current->outfile[j]; j++)
-					printf("[%s] ", current->outfile[j]);
-				printf("\n");
-			}
-			if (current->appendfile)
-			{
-				printf("Append Redirection: ");
-				for (int j = 0; current->appendfile[j]; j++)
-					printf("[%s] ", current->appendfile[j]);
-				printf("\n");
-			}
+		
+			if (current->heredoc)
+				printf("Heredoc active: yes\n");
+		
 			printf("\n");
 			current = current->next;
 			cmd_num++;
-		}
+		}		
 		// 	// // Step 6: Execute Commands
 		// 	// execute_commands(cmds, pg);
 		}
