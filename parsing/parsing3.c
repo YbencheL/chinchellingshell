@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/10 19:45:29 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:47:41 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,31 +121,46 @@ void handle_redirection(t_token *token, t_arg *current, t_arg **curr_ptr)
     }
 }
 
-t_cmd *tokens_to_cmds(t_arg *tokens)
+t_token *tokens_to_cmds(t_arg *tokens)
 {
-	t_cmd 	*cmd;
-	t_cmd 	*first_cmd;
-	t_arg 	*current;
-	int 	i;
-	
-	i = 0;
-	cmd = create_command();
-	first_cmd = cmd;
-	current = tokens;
+	t_token *node = ft_malloc(sizeof(t_token));
+	t_token *first = node;
+	t_arg   *current = tokens;
+
+	node->cmds = NULL;
+	node->redirections = NULL;
+	node->heredoc = 0;
+	node->next = NULL;
+
 	while (current != NULL)
 	{
 		if (current->type == WORD)
-			handle_word_token(cmd, current, &i);
-		else if (current->type == PIPE)
-			handle_pipe(cmd, &cmd, &i);
+		{
+			append_command(&node->cmds, current->arg);
+		}
 		else if (current->type == RED_IN || current->type == RED_OUT
-			|| current->type == RED_APPEND)
-			handle_redirection(cmd, current, &current);
+            || current->type == RED_APPEND)
+		{
+			handle_redirection(node, current, &current);
+		}
 		else if (current->type == HEREDOC)
-			cmd->heredoc = 1;
+		{
+			node->heredoc = 1;
+		}
+		else if (current->type == PIPE)
+		{
+			node->type = PIPELINE;
+			node->next = ft_malloc(sizeof(t_token));
+			if (!node->next)
+				allocation_fails();
+			node = node->next;
+			node->cmds = NULL;
+			node->redirections = NULL;
+			node->heredoc = 0;
+			node->next = NULL;
+		}
 		current = current->next;
 	}
-	if (i > 0)
-		cmd->cmds[i] = NULL;
-	return (first_cmd);
+	node->type = CMD;
+	return first;
 }
