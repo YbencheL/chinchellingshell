@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/10 19:47:41 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:55:58 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void handle_redirection(t_token *token, t_arg *current, t_arg **curr_ptr)
 {
     if (current->next && current->next->type == WORD)
     {
-        append_redirection(&token->redirections, current->type, current->next->arg);
+        append_redirection(&token->redi, current->type, current->next->arg);
         *curr_ptr = current->next;
     }
 }
@@ -128,7 +128,7 @@ t_token *tokens_to_cmds(t_arg *tokens)
 	t_arg   *current = tokens;
 
 	node->cmds = NULL;
-	node->redirections = NULL;
+	node->redi = NULL;
 	node->heredoc = 0;
 	node->next = NULL;
 
@@ -155,7 +155,7 @@ t_token *tokens_to_cmds(t_arg *tokens)
 				allocation_fails();
 			node = node->next;
 			node->cmds = NULL;
-			node->redirections = NULL;
+			node->redi = NULL;
 			node->heredoc = 0;
 			node->next = NULL;
 		}
