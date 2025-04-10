@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:30:54 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/06 18:32:44 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:48:27 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_memcpy(str + ft_strlen(s1), s2, ft_strlen(s2));
 	str[ft_strlen(s1) + ft_strlen(s2)] = '\0';
 	return (str);
+}
+
+int	ft_isalnum(int c)
+{
+	if ((c <= 'z' && c >= 'a') || (c <= 'Z' && c >= 'A') || (c <= '9'
+			&& c >= '0'))
+		return (1);
+	return (0);
 }

@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "minishell.h": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "format": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

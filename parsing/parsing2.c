@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/08 18:44:47 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:46:46 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	check_syntaxe(t_arg *arg)
 				return (0);
 			}
 		}
-		else if (arg->type <= 4 && arg->type >= 2)
+		else if (arg->type <= 5 && arg->type >= 2)
 		{
 			if (!arg->next)
 			{
@@ -84,6 +84,148 @@ int	typeof_token(t_arg *arg, t_mp *pg)
 		return (0);
 	}
 	return (1);
+}
+
+void	replace_var(t_arg *token, char *var, char *value, int *k)
+{
+	int		len;
+	char	*str;
+	int		j;
+	int		i;
+	int		s;
+
+	j = 0;
+	len = ft_strlen(token->arg) + ft_strlen(value) - ft_strlen(var) + 1;
+	str = (char *)ft_malloc(sizeof(char) * (len));
+	while (j < *k)
+	{
+		str[j] = token->arg[j];
+		j++;
+	}
+	s = j;
+	i = 0;
+	while (value[i])
+	{
+		str[j] = value[i];
+		i++;
+		j++;
+	}
+	*k = j;
+	i = j;
+	j = s + ft_strlen(var);
+	while(token->arg[j])
+	{
+		str[i] = token->arg[j];
+		j++;
+		i++;
+	}
+	str[i] = '\0';
+	token->arg = str;
+}
+
+char	*get_var(char *s, int start)
+{
+	int i;
+	char *str;
+
+	i = start;
+	while (s[i])
+	{
+		if (ft_isdigit(s[i]) && start == i)
+		{
+			i++;
+			break;
+		}
+		else if (ft_isalnum(s[i]) || s[i] == '_')
+			i++;
+		else
+			break;
+	}
+	str = ft_substr(s, start, i - start);
+	printf("%s--->",str);
+	return (str);
+}
+
+char	*expand(t_arg *token, int *i, t_mp *pg)
+{
+	int		j;
+	char	*var;
+	char	*value;
+
+	var = NULL;
+	value = NULL;
+	j = *i + 1;
+	if (token->arg[j] == '?')
+	{
+		var = ft_strdup("$?");
+		value = ft_itoa(pg->exit_status);
+	}
+	else
+	{
+		var = get_var(token->arg, j);
+		value = getenv(var);
+		var = ft_strjoin(ft_strdup("$") , var);
+	}
+	if (!value)
+	 	replace_var(token, var, ft_strdup(""), i);
+	else	
+		replace_var(token, var, value, i);
+	return (NULL);
+}
+
+void	hundel_quotes_var(t_arg **token, int *i, t_mp *pg)
+{
+	int	j;
+
+	if ((*token)->arg[*i] != '\'')
+	{
+		j = *i + 1; 
+		while ((*token)->arg[j])
+		{
+			if ((*token)->arg[j] == '$' && (ft_isalnum((*token)->arg[j + 1]) || (*token)->arg[j + 1] == '_' || (*token)->arg[j + 1] == '?'))
+					expand(*token, &j, pg);
+			else if ((*token)->arg[j] == '"')
+			{
+				j++;
+				break;
+			}
+			else
+				j++;
+		}
+	}
+	else
+	{
+		j = *i + 1;
+		while ((*token)->arg[j])
+		{
+			if ((*token)->arg[j] == '\'')
+			{
+				j++;
+				break;
+			}
+			j++;	
+		}
+	}
+	*i = j;
+}
+
+void	expand_variables(t_arg *token, t_mp *pg)
+{
+	int	i;
+	t_arg *head;
+	head = token;
+	while (token)
+	{	
+		i = 0;
+		while (token->arg[i])
+		{
+			if (token->arg[i] == '"' || token->arg[i] == '\'')
+				hundel_quotes_var(&token, &i, pg);
+			else
+				i++;
+		}
+		token = token->next;
+	}
 }
 
 // t_arg *split_tokens(t_lst *s)

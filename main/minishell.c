@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/09 09:30:58 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:50:57 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void shell_loop(t_mp *pg)
 				free(rl);
 				continue;
 			}
+			expand_variables(token, pg);
 			head = token;
 			while (token != NULL)
 			{
@@ -63,10 +64,10 @@ void shell_loop(t_mp *pg)
 		token = head;
 		cmds = tokens_to_cmds(token);
 		t_cmd *current = cmds;
-		int i = 1;
+		int cmd_num = 1;
 		while (current)
 		{
-			printf("== Command #%d ==\n", i);
+			printf("== Command #%d ==\n", cmd_num);
 			if (current->cmds)
 			{
 				printf("Command and args: ");
@@ -75,17 +76,30 @@ void shell_loop(t_mp *pg)
 				printf("\n");
 			}
 			if (current->infile)
-				printf("Input Redirection: %s\n", current->infile);
-			if (current->appendfile)
-				printf("Append Redirection: %s\n", current->appendfile);
+			{
+				printf("Input Redirection: ");
+				for (int j = 0; current->infile[j]; j++)
+					printf("[%s] ", current->infile[j]);
+				printf("\n");
+			}
 			if (current->outfile)
-				printf("Output Redirection: %s\n", current->outfile);
-			printf("Input file : %s, Output file : %s, Append file : %s\n", current->infile, current->outfile, current->appendfile);
-			printf("");
+			{
+				printf("Output Redirection: ");
+				for (int j = 0; current->outfile[j]; j++)
+					printf("[%s] ", current->outfile[j]);
+				printf("\n");
+			}
+			if (current->appendfile)
+			{
+				printf("Append Redirection: ");
+				for (int j = 0; current->appendfile[j]; j++)
+					printf("[%s] ", current->appendfile[j]);
+				printf("\n");
+			}
 			printf("\n");
 			current = current->next;
-			i++;
-		}		
+			cmd_num++;
+		}
 		// 	// // Step 6: Execute Commands
 		// 	// execute_commands(cmds, pg);
 		}

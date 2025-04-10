@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/08 19:34:14 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:54:56 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef enum token_type
 	RED_IN,
 	RED_OUT,
 	RED_APPEND,
-	HEREDOC
+	HEREDOC 
 }	t_token_type;
 
 typedef enum t_type
@@ -47,9 +47,9 @@ typedef struct s_cmd
 {
 	char			**cmds;
 	t_type			type;
-	char			*infile;
-	char			*outfile;
-	char			*appendfile;
+	char			**infile;
+	char			**outfile;
+	char			**appendfile;
 	int				heredoc;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -69,6 +69,7 @@ int		check_unclosed_quotes(char *s, t_mp *pg);
 t_arg	*add_token(char **str);
 int		typeof_token(t_arg *arg, t_mp *pg);
 t_cmd    *tokens_to_cmds(t_arg *tokens);
+void	expand_variables(t_arg *token, t_mp *pg);
 // void	add_token(char **str, t_arg **token);
 // void	unclosed_q_error(t_mp *pg);
 // char	*extract_word(char *s, int *start, t_lst **phrase);

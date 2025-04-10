@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tool0.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:48:31 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/08 17:39:48 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:40:56 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,3 @@ void	*ft_malloc(size_t size)
 	ft_lstadd_back(&g_gbc, tmp);
 	return (ptr);
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/09 09:21:06 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:51:31 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,27 +62,33 @@
 // }
 
 // C
+
+void initialize_redirection_arrays(t_cmd *cmd)
+{
+    cmd->infile = NULL;
+    cmd->outfile = NULL;
+    cmd->appendfile = NULL;
+}
+
 t_cmd *create_command(void)
 {
     t_cmd *cmd;
-
     cmd = (t_cmd *)ft_malloc(sizeof(t_cmd));
     if (!cmd)
         allocation_fails();
     cmd->cmds = NULL;
-    cmd->infile = NULL;
-    cmd->outfile = NULL;
-    cmd->appendfile = NULL;
+    initialize_redirection_arrays(cmd);
     cmd->heredoc = 0;
     cmd->next = NULL;
-    return (cmd);
+
+    return cmd;
 }
 
 void    handle_word_token(t_cmd *cmd, t_arg *current, int *i)
 {
     if (*i == 0)
     {
-        cmd->cmds = ft_malloc(sizeof(char *) * 100);
+        cmd->cmds = (char **)ft_malloc(sizeof(char *) * 100);
         if (!cmd->cmds)
             allocation_fails();
     }
@@ -91,40 +97,60 @@ void    handle_word_token(t_cmd *cmd, t_arg *current, int *i)
 
 void handle_redirection(t_cmd *cmd, t_arg *current, t_arg **curr_ptr)
 {
-	if (current->next && current->next->type == WORD)
-	{
-		if (current->type == RED_IN)
-			cmd->infile = ft_strdup(current->next->arg);
-		else if (current->type == RED_OUT)
-			cmd->outfile = ft_strdup(current->next->arg);
-		else if (current->type == RED_APPEND)
-			cmd->appendfile = ft_strdup(current->next->arg);
-		*curr_ptr = current->next;
-	}
+    int current_size;
+
+    if (current->next && current->next->type == WORD)
+    {
+        if (current->type == RED_IN)
+        {
+            current_size = ft_pcounter(cmd->infile);
+            cmd->infile = ft_malloc(sizeof(char *) * (current_size + 2));
+            if (!cmd->infile)
+                allocation_fails();
+            cmd->infile[current_size] = ft_strdup(current->next->arg);
+            cmd->infile[current_size + 1] = NULL;
+        }
+        else if (current->type == RED_OUT)
+        {
+            current_size = ft_pcounter(cmd->outfile);
+            cmd->outfile = ft_malloc(sizeof(char *) * (current_size + 2));
+            if (!cmd->outfile)
+                allocation_fails();
+            cmd->outfile[current_size] = ft_strdup(current->next->arg);
+            cmd->outfile[current_size + 1] = NULL;
+        }
+        else if (current->type == RED_APPEND)
+        {
+            current_size = ft_pcounter(cmd->appendfile);
+            cmd->appendfile = ft_malloc(sizeof(char *) * (current_size + 2));
+            if (!cmd->appendfile)
+                allocation_fails();
+            cmd->appendfile[current_size] = ft_strdup(current->next->arg);
+            cmd->appendfile[current_size + 1] = NULL;
+        }
+        *curr_ptr = current->next;
+    }
 }
 
 void handle_pipe(t_cmd *cmd, t_cmd **cmd_ptr, int *i)
 {
-	t_cmd *new_cmd;
-	
-	cmd->type = PIPELINE;
-	if (*i > 0)
-		cmd->cmds[*i] = NULL;
-	new_cmd = create_command();
-	new_cmd->infile = cmd->infile;
-	new_cmd->outfile = cmd->outfile;
-	new_cmd->appendfile = cmd->appendfile;
-	cmd->next = new_cmd;
-	*cmd_ptr = new_cmd;
-	*i = 0;
+    t_cmd *new_cmd;
+
+    cmd->type = PIPELINE;
+    if (*i > 0)
+        cmd->cmds[*i] = NULL;
+    new_cmd = create_command();
+    cmd->next = new_cmd;
+    *cmd_ptr = new_cmd;
+    *i = 0;
 }
 
 t_cmd *tokens_to_cmds(t_arg *tokens)
 {
-	t_cmd *cmd;
-	t_cmd *first_cmd;
-	t_arg *current;
-	int i;
+	t_cmd 	*cmd;
+	t_cmd 	*first_cmd;
+	t_arg 	*current;
+	int 	i;
 	
 	i = 0;
 	cmd = create_command();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:38:13 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/06 18:33:06 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:52:06 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,8 @@ void	*ft_calloc(size_t count, size_t size);
 t_lst	*ft_lstnew_space(void *ptr, int is);
 void	ft_lstadd_back_space(t_lst **lst, t_lst *new);
 char	*ft_strjoin(char const *s1, char const *s2);
+int		ft_isalnum(int c);
+int		ft_isdigit(int c);
+int		ft_isalpha(int c);
 
 #endif
