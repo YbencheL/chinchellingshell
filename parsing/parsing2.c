@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/10 17:46:46 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:45:42 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,10 @@ void	expand_variables(t_arg *token, t_mp *pg)
 		{
 			if (token->arg[i] == '"' || token->arg[i] == '\'')
 				hundel_quotes_var(&token, &i, pg);
+			// else if ()
+			// {
+				
+			// }
 			else
 				i++;
 		}

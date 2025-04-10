@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/10 12:54:56 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:45:33 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,25 @@ typedef struct s_arg
 
 typedef struct s_cmd
 {
-	char			**cmds;
-	t_type			type;
-	char			**infile;
-	char			**outfile;
-	char			**appendfile;
-	int				heredoc;
+	char			**arg;
 	struct s_cmd	*next;
 }	t_cmd;
+
+typedef struct s_red
+{
+	t_token_type		*type;
+	char				*file;
+	struct s_red		*next;
+}	t_red;
+
+typedef struct s_token
+{
+	t_cmd			*cmds;
+	t_red			*redi;
+	t_type			type;
+	int				heredoc;
+	struct s_token	*next;
+}	t_token;
 
 typedef struct s_mp
 {

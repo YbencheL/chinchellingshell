@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/10 18:55:37 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:45:29 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,87 +62,63 @@
 // }
 
 // C
-
-void initialize_redirection_arrays(t_cmd *cmd)
+t_red *create_redirection(t_token_type type, char *file)
 {
-    cmd->infile = NULL;
-    cmd->outfile = NULL;
-    cmd->appendfile = NULL;
+    t_red *red = ft_malloc(sizeof(t_red));
+    if (!red)
+        allocation_fails();
+    red->type = type;
+    red->file = ft_strdup(file);
+    red->next = NULL;
+    return red;
 }
 
-t_cmd *create_command(void)
+t_cmd *create_command(char *cmd)
 {
-    t_cmd *cmd;
-    cmd = (t_cmd *)ft_malloc(sizeof(t_cmd));
+    t_cmd *cmd = ft_malloc(sizeof(t_cmd));
     if (!cmd)
         allocation_fails();
-    cmd->cmds = NULL;
-    initialize_redirection_arrays(cmd);
-    cmd->heredoc = 0;
+    cmd->type = type;
+    cmd->arg = ft_strdup(arg);
     cmd->next = NULL;
-
     return cmd;
 }
 
-void    handle_word_token(t_cmd *cmd, t_arg *current, int *i)
+void append_redirection(t_red **head, t_token_type type, char *file)
 {
-    if (*i == 0)
+    t_red *new = create_redirection(type, file);
+    if (!*head)
+        *head = new;
+    else
     {
-        cmd->cmds = (char **)ft_malloc(sizeof(char *) * 100);
-        if (!cmd->cmds)
-            allocation_fails();
+        t_red *tmp = *head;
+        while (tmp->next)
+            tmp = tmp->next;
+        tmp->next = new;
     }
-    cmd->cmds[(*i)++] = ft_strdup(current->arg);
 }
 
-void handle_redirection(t_cmd *cmd, t_arg *current, t_arg **curr_ptr)
+void append_command(t_cmd **head, char *cmd)
 {
-    int current_size;
+    t_cmd *cmd = create_redirection(type, cmd);
+    if (!*cmd)
+        *head = new;
+    else
+    {
+        t_red *tmp = *head;
+        while (tmp->next)
+            tmp = tmp->next;
+        tmp->next = new;
+    }
+}
 
+void handle_redirection(t_token *token, t_arg *current, t_arg **curr_ptr)
+{
     if (current->next && current->next->type == WORD)
     {
-        if (current->type == RED_IN)
-        {
-            current_size = ft_pcounter(cmd->infile);
-            cmd->infile = ft_malloc(sizeof(char *) * (current_size + 2));
-            if (!cmd->infile)
-                allocation_fails();
-            cmd->infile[current_size] = ft_strdup(current->next->arg);
-            cmd->infile[current_size + 1] = NULL;
-        }
-        else if (current->type == RED_OUT)
-        {
-            current_size = ft_pcounter(cmd->outfile);
-            cmd->outfile = ft_malloc(sizeof(char *) * (current_size + 2));
-            if (!cmd->outfile)
-                allocation_fails();
-            cmd->outfile[current_size] = ft_strdup(current->next->arg);
-            cmd->outfile[current_size + 1] = NULL;
-        }
-        else if (current->type == RED_APPEND)
-        {
-            current_size = ft_pcounter(cmd->appendfile);
-            cmd->appendfile = ft_malloc(sizeof(char *) * (current_size + 2));
-            if (!cmd->appendfile)
-                allocation_fails();
-            cmd->appendfile[current_size] = ft_strdup(current->next->arg);
-            cmd->appendfile[current_size + 1] = NULL;
-        }
+        append_redirection(&token->redirections, current->type, current->next->arg);
         *curr_ptr = current->next;
     }
-}
-
-void handle_pipe(t_cmd *cmd, t_cmd **cmd_ptr, int *i)
-{
-    t_cmd *new_cmd;
-
-    cmd->type = PIPELINE;
-    if (*i > 0)
-        cmd->cmds[*i] = NULL;
-    new_cmd = create_command();
-    cmd->next = new_cmd;
-    *cmd_ptr = new_cmd;
-    *i = 0;
 }
 
 t_cmd *tokens_to_cmds(t_arg *tokens)
