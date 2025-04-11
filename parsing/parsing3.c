@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/11 10:12:49 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:40:41 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,14 @@ t_red *create_redirection(t_token_type type, char *file)
 void append_redirection(t_red **head, t_token_type type, char *file)
 {
 	t_red *new;
+	t_red *tmp;
 	
 	new = create_redirection(type, file);
     if (!*head)
         *head = new;
     else
     {
-        t_red *tmp = *head;
+        tmp = *head;
         while (tmp->next)
             tmp = tmp->next;
 		tmp->next = new;
@@ -117,12 +118,15 @@ t_cmd *create_command(char *arg_str)
 
 void append_command(t_cmd **head, char *arg)
 {
-	t_cmd *new = create_command(arg);
+	t_cmd *new;
+	t_cmd *tmp;
+
+	new = create_command(arg);
     if (!*head)
 	*head = new;
     else
     {
-        t_cmd *tmp = *head;
+        tmp = *head;
         while (tmp->next)
             tmp = tmp->next;
         tmp->next = new;
