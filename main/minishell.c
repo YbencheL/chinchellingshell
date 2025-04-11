@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/10 20:31:05 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:48:57 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,13 @@ void shell_loop(t_mp *pg)
 				token = token->next;
 			}
 			token = head;
-			t_token *tokens = tokens_to_cmds(token);  // Convert tokens to commands
+			t_token *tokens = tokens_to_cmds(token);
 			t_token *current = tokens;
 			int cmd_num = 1;
 			
 			while (current)
 			{
 				printf("== Command #%d ==\n", cmd_num);
-			
-				// Print command and arguments
 				t_cmd *cmd = current->cmds;
 				if (cmd)
 				{
@@ -69,8 +67,6 @@ void shell_loop(t_mp *pg)
 					}
 					printf("\n");
 				}
-			
-				// Print redirections
 				t_red *red = current->redi;
 				if (red)
 				{
