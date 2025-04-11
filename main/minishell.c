@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/10 20:29:48 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/10 20:31:05 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,54 +48,54 @@ void shell_loop(t_mp *pg)
 				token = token->next;
 			}
 			token = head;
-			// t_token *tokens = tokens_to_cmds(token);  // Convert tokens to commands
-			// t_token *current = tokens;
-			// int cmd_num = 1;
+			t_token *tokens = tokens_to_cmds(token);  // Convert tokens to commands
+			t_token *current = tokens;
+			int cmd_num = 1;
 			
-			// while (current)
-			// {
-			// 	printf("== Command #%d ==\n", cmd_num);
+			while (current)
+			{
+				printf("== Command #%d ==\n", cmd_num);
 			
-			// 	// Print command and arguments
-			// 	t_cmd *cmd = current->cmds;
-			// 	if (cmd)
-			// 	{
-			// 		printf("Command and args: ");
-			// 		while (cmd)
-			// 		{
-			// 			for (int i = 0; cmd->arg[i]; i++)
-			// 				printf("[%s] ", cmd->arg[i]);
-			// 			cmd = cmd->next;
-			// 		}
-			// 		printf("\n");
-			// 	}
+				// Print command and arguments
+				t_cmd *cmd = current->cmds;
+				if (cmd)
+				{
+					printf("Command and args: ");
+					while (cmd)
+					{
+						for (int i = 0; cmd->arg[i]; i++)
+							printf("[%s] ", cmd->arg[i]);
+						cmd = cmd->next;
+					}
+					printf("\n");
+				}
 			
-			// 	// Print redirections
-			// 	t_red *red = current->redi;
-			// 	if (red)
-			// 	{
-			// 		printf("Redirections:\n");
-			// 		while (red)
-			// 		{
-			// 			if (*(red->type) == RED_IN)
-			// 				printf("  Input: [%s]\n", red->file);
-			// 			else if (*(red->type) == RED_OUT)
-			// 				printf("  Output: [%s]\n", red->file);
-			// 			else if (*(red->type) == RED_APPEND)
-			// 				printf("  Append: [%s]\n", red->file);
-			// 			else if (*(red->type) == HEREDOC)
-			// 				printf("  Heredoc: [%s]\n", red->file);
-			// 			red = red->next;
-			// 		}
-			// 	}
+				// Print redirections
+				t_red *red = current->redi;
+				if (red)
+				{
+					printf("Redirections:\n");
+					while (red)
+					{
+						if (*(red->type) == RED_IN)
+							printf("  Input: [%s]\n", red->file);
+						else if (*(red->type) == RED_OUT)
+							printf("  Output: [%s]\n", red->file);
+						else if (*(red->type) == RED_APPEND)
+							printf("  Append: [%s]\n", red->file);
+						else if (*(red->type) == HEREDOC)
+							printf("  Heredoc: [%s]\n", red->file);
+						red = red->next;
+					}
+				}
 			
-			// 	if (current->heredoc)
-			// 		printf("Heredoc active: yes\n");
+				if (current->heredoc)
+					printf("Heredoc active: yes\n");
 			
-			// 	printf("\n");
-			// 	current = current->next;
-			// 	cmd_num++;
-			// }		
+				printf("\n");
+				current = current->next;
+				cmd_num++;
+			}		
 		}
 		free(rl);
 	}
