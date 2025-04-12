@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/12 15:36:57 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/12 18:06:33 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,13 @@ extern t_list	*g_gbc;
 
 
 int		check_unclosed_quotes(char *s, t_mp *pg);
-t_arg	*add_token(char **str);
-int		typeof_token(t_arg *arg, t_mp *pg);
+t_arg   *tokenize(char *line, t_mp *pg);
+
 t_token *tokens_to_cmds(t_arg *tokens);
 void	expand_variables(t_arg *token, t_mp *pg);
-void	hundle_var_space(t_arg **token);
+void	handle_var_space(t_arg **token);
+void	append_redirection(t_red **head, t_token_type type, char *file);
+void	append_command(t_cmd **head, char *arg);
 // void	add_token(char **str, t_arg **token);
 // void	unclosed_q_error(t_mp *pg);
 // char	*extract_word(char *s, int *start, t_lst **phrase);
@@ -102,7 +104,7 @@ void	allocation_fails(void);
 void	signal_setup(void);
 void	print_banner(void);
 void	print_exit(void);
-char	**split_words(char *s);
+char	**split_token(char *s);
 t_arg	*new_arg(char *arg);
 void	argadd_back(t_arg **arg, t_arg *new);
 // void	check_args(int ac, char **av);

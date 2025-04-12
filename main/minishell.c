@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/12 16:15:42 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/12 18:39:52 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,19 @@ void shell_loop(t_mp *pg)
 	token = NULL;
 	while (1)
 	{
-		rl = readline("\033[1;32mMinishell$\033[0m ");
+		rl = readline("Minishell$");
 		if (!rl)
 		 	return ;
 		if (ft_strlen(rl))
 		{
 			add_history(rl);
 			if (!check_unclosed_quotes(rl, pg))
-			{
-				free(rl);
 				continue;
-			}
-			token = add_token(split_words(rl));
-			if (!typeof_token(token, pg))	
-			{
-				free(rl);
+			token = tokenize(rl, pg);
+			if (!token)	
 				continue;
-			}
 			expand_variables(token, pg);
-			hundle_var_space(&token);
+			handle_var_space(&token);
 			head = token;
 			while (token != NULL)
 			{
