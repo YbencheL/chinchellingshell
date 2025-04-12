@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/10 20:24:27 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:36:57 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,13 @@ typedef enum token_type
 	RED_IN,
 	RED_OUT,
 	RED_APPEND,
-	HEREDOC 
+	HEREDOC
 }	t_token_type;
 
 typedef enum t_type
 {
 	CMD,
 	PIPELINE,
-	REDIRECTION,
-	FILE_ARG
 }	t_type;
 
 typedef struct s_arg
@@ -81,6 +79,7 @@ t_arg	*add_token(char **str);
 int		typeof_token(t_arg *arg, t_mp *pg);
 t_token *tokens_to_cmds(t_arg *tokens);
 void	expand_variables(t_arg *token, t_mp *pg);
+void	hundle_var_space(t_arg **token);
 // void	add_token(char **str, t_arg **token);
 // void	unclosed_q_error(t_mp *pg);
 // char	*extract_word(char *s, int *start, t_lst **phrase);

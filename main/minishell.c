@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/11 16:48:57 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:15:42 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void shell_loop(t_mp *pg)
 				free(rl);
 				continue;
 			}
-			//expand_variables(token, pg);
+			expand_variables(token, pg);
+			hundle_var_space(&token);
 			head = token;
 			while (token != NULL)
 			{

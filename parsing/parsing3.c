@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/11 16:40:41 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:28:10 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ t_token *initialize_token_node(void)
 	node->cmds = NULL;
 	node->redi = NULL;
 	node->heredoc = 0;
+	node->type = CMD;
 	node->next = NULL;
 	return node;
 }
@@ -189,6 +190,5 @@ t_token *tokens_to_cmds(t_arg *tokens)
 		}
 		current = current->next;
 	}
-	node->type = CMD;
 	return first;
 }
