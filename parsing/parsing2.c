@@ -6,11 +6,48 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/12 18:39:25 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:25:00 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	check_export(t_arg *token)
+{
+	int	i;
+	int	j;
+	
+	if (ft_strcmp("export", token->arg))
+		return (0);
+	if (!token->next)
+		return (0);
+	i = 0;
+	j = i;
+	while (token->next->arg[i])
+	{
+		if (ft_isdigit(token->next->arg[i]) && i == j)
+			break;
+		else if (!ft_isalnum(token->next->arg[i]) && token->next->arg[i] != '_')
+			break ;
+		i++;
+	}
+	if (token->next->arg[i] != '=' || token->next->arg[i + 1] != '$')
+		return (0);
+	i = i + 2;
+	j = i;
+	while (token->next->arg[i])
+	{
+		if (ft_isdigit(token->next->arg[i]) && i == j)
+			break;
+		else if (!ft_isalnum(token->next->arg[i]) && token->next->arg[i] != '_')
+			break ;
+		i++;
+	}
+	if (token->next->arg[i] != '\0')
+		return (0);
+	token->next->type = WORD2;
+	return (1);
+}
 
 void	replace_var(t_arg *token, char *var, char *value, int *k)
 {
@@ -161,16 +198,25 @@ void	expand_variables(t_arg *token, t_mp *pg)
 	while (token)
 	{	
 		i = 0;
-		while (token->arg[i])
+		if (check_export(token))
 		{
-			if (token->arg[i] == '"' || token->arg[i] == '\'')
-				handel_quotes_var(&token, &i, pg);
-			else if (token->arg[i] != '"' || token->arg[i] != '\'')
-				handel_var(token, &i, pg);
-			else
-				i++;
+			printf("im in ???????????\n");
+			handel_var(token->next, &i, pg);
+			token = token->next->next;
 		}
-		token = token->next;
+		else
+		{
+			while (token->arg[i])
+			{
+				if (token->arg[i] == '"' || token->arg[i] == '\'')
+					handel_quotes_var(&token, &i, pg);
+				else if (token->arg[i] != '"' || token->arg[i] != '\'')
+					handel_var(token, &i, pg);
+				else
+					i++;
+			}
+			token = token->next;
+		}
 	}
 }
 
@@ -187,12 +233,14 @@ int	check_for_space(t_arg *token)
 			while (token->arg[i])
 			{
 				if (token->arg[i] == '\'' || token->arg[i] == '"')
+				{	
+					i++;
 					break;
+				}
 				i++;	
 			}
 		}
-		else if (token->arg[i] == ' ' || token->arg[i] == '\t' || token->arg[i] == '|'
-			|| token->arg[i] == '>' || token->arg[i] == '<')
+		else if (token->arg[i] == ' ' || token->arg[i] == '\t')
 			return (1);
 		else
 			i++;
@@ -207,7 +255,7 @@ void	split_word_var(t_arg **current, t_arg **previous, t_arg **new_head)
 	t_arg	*new_list;
 	t_arg	*head;
 	
-	str = split_token((*current)->arg);
+	str = ft_split((*current)->arg);
 	new_list = new_arg(str[0]);
 	new_list->type = WORD;
 	head = new_list;
@@ -226,27 +274,32 @@ void	split_word_var(t_arg **current, t_arg **previous, t_arg **new_head)
 	else
 		(*previous)->next = head;
 	new_list->next = (*current)->next;
+	*current = new_list;
+	*previous = new_list;
 }
 
 void	handle_var_space(t_arg **token)
 {
-	t_arg	*current;
-	t_arg	*previous;
-	t_arg	*new_head;
-	
-	current = *token;
-	previous = NULL;
-	new_head = NULL;
-	while (current)
-	{
-		if (current->type == WORD && check_for_space(current))
-			split_word_var(&current, &previous, &new_head);
-		else if (!new_head)
-			new_head = current;
+    t_arg	*current;
+    t_arg	*previous;
+    t_arg	*new_head;
+    
+    current = *token;
+    previous = NULL;
+    new_head = NULL;
+    while (current)
+    {
+        if (current->type == WORD && check_for_space(current))
+                split_word_var(&current, &previous, &new_head);
+        else if (!new_head)
+            new_head = current;
+		if (current->type == WORD2)
+			current->type = WORD;
 		previous = current;
-		current = current->next;
-	}
-	*token = new_head;
+        current = current->next;
+    }
+    if (new_head)
+        *token = new_head;
 }
 
 // t_arg *split_tokens(t_lst *s)

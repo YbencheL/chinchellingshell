@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/12 18:06:33 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:58:56 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ typedef enum token_type
 	RED_IN,
 	RED_OUT,
 	RED_APPEND,
-	HEREDOC
+	HEREDOC,
+	WORD2
 }	t_token_type;
 
 typedef enum t_type
@@ -107,6 +108,7 @@ void	print_exit(void);
 char	**split_token(char *s);
 t_arg	*new_arg(char *arg);
 void	argadd_back(t_arg **arg, t_arg *new);
+char	**split_only_spaces(char *s);
 // void	check_args(int ac, char **av);
 // void	*ft_malloc(size_t size);
 // void	print_banner(void);

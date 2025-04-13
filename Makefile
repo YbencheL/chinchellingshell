@@ -2,7 +2,7 @@ NAME = minishell
 
 SRCS = main/minishell.c \
 helper_functions/helper_function_1.c helper_functions/helper_function_2.c helper_functions/helper_function_3.c \
-helper_functions/helper_function_4.c helper_functions/helper_function_5.c helper_functions/helper_function_6.c \
+helper_functions/helper_function_4.c helper_functions/helper_function_5.c helper_functions/helper_function_6.c helper_functions/ft_split.c \
 parsing/1_first_check_quotes.c parsing/2_char_to_token_check.c parsing/parsing2.c parsing/parsing_tokens_to_cmds1.c \
 tools/tool0.c tools/tool1.c tools/tool2.c tools/tool3.c tools/tool4.c parsing/parsing_tokens_to_cmds2.c \
 
