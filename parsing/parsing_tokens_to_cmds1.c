@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/12 18:39:24 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:25:33 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void	new_pipeline(t_token *node)
 {
 	node->type = PIPELINE;
 	node->next = initialize_token_node();
-	if (!node->next)
-		allocation_fails();
 }
 
 t_token	*tokens_to_cmds(t_arg *tokens)
