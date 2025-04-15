@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/13 16:58:56 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:44:13 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef enum token_type
 typedef enum t_type
 {
 	CMD,
+	FILE_ARG,
+	REDIRECTION,
 	PIPELINE,
 }	t_type;
 
@@ -42,23 +44,9 @@ typedef struct s_arg
 	struct s_arg	*next;
 }	t_arg;
 
-typedef struct s_cmd
-{
-	char			**arg;
-	struct s_cmd	*next;
-}	t_cmd;
-
-typedef struct s_red
-{
-	t_token_type		*type;
-	char				*file;
-	struct s_red		*next;
-}	t_red;
-
 typedef struct s_token
 {
-	t_cmd			*cmds;
-	t_red			*redi;
+	char			**cmds;
 	t_type			type;
 	int				heredoc;
 	struct s_token	*next;
@@ -77,12 +65,9 @@ extern t_list	*g_gbc;
 
 int		check_unclosed_quotes(char *s, t_mp *pg);
 t_arg   *tokenize(char *line, t_mp *pg);
-
-t_token *tokens_to_cmds(t_arg *tokens);
+t_token **tokens_to_cmds(t_arg *tokens);
 void	expand_variables(t_arg *token, t_mp *pg);
 void	handle_var_space(t_arg **token);
-void	append_redirection(t_red **head, t_token_type type, char *file);
-void	append_command(t_cmd **head, char *arg);
 // void	add_token(char **str, t_arg **token);
 // void	unclosed_q_error(t_mp *pg);
 // char	*extract_word(char *s, int *start, t_lst **phrase);
