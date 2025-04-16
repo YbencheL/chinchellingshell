@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/15 19:44:13 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:33:34 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ extern t_list	*g_gbc;
 
 int		check_unclosed_quotes(char *s, t_mp *pg);
 t_arg   *tokenize(char *line, t_mp *pg);
-t_token **tokens_to_cmds(t_arg *tokens);
+t_token *tokens_to_cmds(t_arg *tokens);
 void	expand_variables(t_arg *token, t_mp *pg);
 void	handle_var_space(t_arg **token);
 // void	add_token(char **str, t_arg **token);

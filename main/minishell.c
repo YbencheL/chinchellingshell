@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/16 13:06:43 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:57:55 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,42 +43,64 @@ void shell_loop(t_mp *pg)
                 token = token->next;
             }
             token = head;
-			t_token **tokens = tokens_to_cmds(token);
-                
+			t_token *tokens = tokens_to_cmds(token);
+            t_token *current = tokens;
+            
+            printf("\n+--------------- COMMAND INFORMATION ---------------+\n");
             int i = 0;
-            while (tokens[i])
+            while (current)
             {
-                t_token *current = tokens[i];
-                printf("== Command #%d ==\n", i + 1);
+                printf("| Command #%d:\n", i + 1);
+                printf("+---------------------------------------------------+\n");
                 
-                // Display command type
-                if (current->type == CMD)
-                    printf("Type: Command\n");
-                else if (current->type == PIPELINE)
-                    printf("Type: Pipeline\n");
-                else if (current->type == RED_IN)
-                    printf("Type: IN (%d)\n", current->type);
-				else if (current->type == RED_OUT)
-                    printf("Type: OUT (%d)\n", current->type);
-				else if (current->type == RED_APPEND)
-                    printf("Type: APPEND (%d)\n", current->type);
-				else if (current->type == FILE_ARG)
-                    printf("Type: FILE (%d)\n", current->type);
                 // Display command content
                 if (current->cmds && current->cmds[0])
-                    printf("Command string: %s\n", current->cmds[0]);
+                {
+                    printf("| Command: %s\n", current->cmds[0]);
+                    
+                    // Display all arguments
+                    printf("| Arguments: ");
+                    int arg_idx = 1;
+                    if (current->cmds[arg_idx])
+                    {
+                        while (current->cmds[arg_idx])
+                        {
+                            printf("%s ", current->cmds[arg_idx]);
+                            arg_idx++;
+                        }
+                        printf("\n");
+                    }
+                    else
+                        printf("None\n");
+                }
                 else
-                    printf("No command string\n");
+                    printf("| No command string\n");
+                
+                // Display command type
+                printf("| Type: ");
+                if (current->type == CMD)
+                    printf("Command\n");
+                else if (current->type == PIPELINE)
+                    printf("Pipeline\n");
+                else if (current->type == RED_IN)
+                    printf("IN (%d)\n", current->type);
+                else if (current->type == RED_OUT)
+                    printf("OUT (%d)\n", current->type);
+                else if (current->type == RED_APPEND)
+                    printf("APPEND (%d)\n", current->type);
+                else if (current->type == FILE_ARG)
+                    printf("FILE (%d)\n", current->type);
+                else
+                    printf("Unknown (%d)\n", current->type);
                 
                 // Display heredoc flag
-                if (current->heredoc)
-                    printf("Has heredoc: Yes\n");
-                else
-                    printf("Has heredoc: No\n");
+                printf("| Heredoc: %s\n", current->heredoc ? "Yes" : "No");
                 
-                printf("\n");
+                printf("+---------------------------------------------------+\n");
+                current = current->next;
                 i++;
-            }		
+            }
+            printf("\n");
         }
         free(rl);
     }
