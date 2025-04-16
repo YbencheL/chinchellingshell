@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/15 20:19:55 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:06:43 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void shell_loop(t_mp *pg)
                 token = token->next;
             }
             token = head;
-            t_token **tokens = tokens_to_cmds(token);
+			t_token **tokens = tokens_to_cmds(token);
                 
             int i = 0;
             while (tokens[i])

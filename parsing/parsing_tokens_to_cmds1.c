@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/15 21:54:54 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:18:17 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,13 @@ int count_commands(t_arg *tokens)
 
 void handle_word_token(t_token *current, t_arg *token)
 {
-    char *temp;
 
     if (!current->cmds)
         current->cmds = ft_malloc(sizeof(char*) * 2);
         
-    if (current->cmds[0])
+    if (!current->cmds[0])
     {
-        temp = current->cmds[0];
-        current->cmds[0] = ft_strjoin(temp, " ");
-        
-        temp = current->cmds[0];
-        current->cmds[0] = ft_strjoin(temp, token->arg);
-    }
-    else
-    {
-        current->cmds[0] = ft_strdup(token->arg);
+        current->cmds[0] = token->arg;
         current->cmds[1] = NULL;
     }
 }
@@ -96,14 +87,27 @@ t_token **tokens_to_cmds(t_arg *tokens)
     {
         if (curr_token->type == WORD)
         {
-            handle_word_token(current, curr_token);
+            if (!current->cmds[0])
+            {
+                handle_word_token(current, curr_token);
+            }
+            else
+            {
+                current->next = initialize_token_node();
+                current = current->next;
+                current->type = CMD;
+                current->cmds[0] = curr_token->arg;
+                current->cmds[1] = NULL;
+                if (cmd_idx < count)
+                    cmd_list[cmd_idx++] = current;
+            }
             curr_token = curr_token->next;
         }
         else if (curr_token->type == PIPE)
         {
             current->next = initialize_token_node();
             current = current->next;
-            current->cmds[0] = ft_strdup("|");
+            current->cmds[0] = curr_token->arg;
             current->cmds[1] = NULL;
 			current->type = PIPELINE;
             if (cmd_idx < count)
@@ -120,29 +124,18 @@ t_token **tokens_to_cmds(t_arg *tokens)
 			current->next = initialize_token_node();
             current = current->next;
             current->type = REDIRECTION;
-            if (curr_token->type == RED_IN)
-                current->cmds[0] = ft_strdup("<");
-            else if (curr_token->type == RED_OUT)
-                current->cmds[0] = ft_strdup(">");
-            else if (curr_token->type == RED_APPEND)
-                current->cmds[0] = ft_strdup(">>");
+            current->cmds[0] = curr_token->arg;
             current->cmds[1] = NULL;
             if (cmd_idx < count)
                 cmd_list[cmd_idx++] = current;
-                
-            if (curr_token->next && curr_token->next->type == WORD)
-            {
-                current->next = initialize_token_node();
-                current = current->next;
-                current->type = FILE_ARG;
-                current->cmds[0] = ft_strdup(curr_token->next->arg);
-                current->cmds[1] = NULL;
-                if (cmd_idx < count)
-                    cmd_list[cmd_idx++] = current;
-                curr_token = curr_token->next->next;
-            }
-            else
-                curr_token = curr_token->next;
+            current->next = initialize_token_node();
+            current = current->next;
+            current->type = FILE_ARG;
+            current->cmds[0] = curr_token->next->arg;
+            current->cmds[1] = NULL;
+            if (cmd_idx < count)
+                cmd_list[cmd_idx++] = current;
+            curr_token = curr_token->next->next;
         }
         else if (curr_token->type == HEREDOC)
             current->heredoc = 1;
