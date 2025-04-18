@@ -66,6 +66,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_isalnum(int c);
 int		ft_isdigit(int c);
 int		ft_isalpha(int c);
-char	**ft_split(const char *s);
+char	**ft_split(char *s);
 
 #endif

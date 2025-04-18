@@ -151,7 +151,7 @@ char	**split_token(char *s)
 {
 	char	**str;
 
-	if (!s)
+	if (!s || !word_counter(s))
 		return (NULL);
 	str = (char **)ft_malloc(sizeof(char *) * (word_counter(s) + 1));
 	fill_split(str, s);

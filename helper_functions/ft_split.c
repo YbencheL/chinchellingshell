@@ -78,13 +78,13 @@ static int	check_end(const char *s, int i)
         return (-i - 5);
 }
 
-char	**ft_split(char const *s)
+char	**ft_split(char *s)
 {
     char	**str;
     int		i;
     int		j;
 
-    if (!s)
+    if (!s || !word_counter(s))
         return (NULL);
     str = (char **)ft_malloc((word_counter(s) + 1) * sizeof(char *));
     if (!str)

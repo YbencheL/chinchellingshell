@@ -99,6 +99,8 @@ t_arg   *tokenize(char *line, t_mp *pg)
 	t_arg	*head;
 
     lines = split_token(line);
+	if (!lines)
+		return (NULL);
     tokens = add_token(lines);
 	head = tokens;
 	while (head)
