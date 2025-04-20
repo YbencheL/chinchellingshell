@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/16 14:55:27 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/20 15:08:41 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ t_token *tokens_to_cmds(t_arg *tokens)
         else if (curr_token->type == RED_IN || curr_token->type == RED_OUT || 
                 curr_token->type == RED_APPEND || curr_token->type == HEREDOC)
 			handle_redirections(&curr_token, tmp);
-
 		if (!first)
 		{
 			first = tmp;
@@ -113,6 +112,5 @@ t_token *tokens_to_cmds(t_arg *tokens)
 		}
     }
 	cmd_list = first;
-   // cmd_list[count] = NULL;
     return (cmd_list);
 }
