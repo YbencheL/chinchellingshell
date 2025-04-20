@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:25:04 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/20 14:32:12 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/20 14:42:27 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ int	check_redirection(t_token *tokens)
 {
 	int fd;
 	
-	if (ft_strcmp(tokens->cmd[0], ">") == 0)
-		fd = open(tokens->cmd[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (ft_strcmp(tokens->cmd[0], ">>") == 0)
-		fd = open(tokens->cmd[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if (ft_strcmp(tokens->cmd[0], "<") == 0)
-		fd = open(tokens->cmd[1], O_RDONLY);
+	if (ft_strcmp(tokens->cmds[0], ">") == 0)
+		fd = open(tokens->cmds[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (ft_strcmp(tokens->cmds[0], ">>") == 0)
+		fd = open(tokens->cmds[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (ft_strcmp(tokens->cmds[0], "<") == 0)
+		fd = open(tokens->cmds[1], O_RDONLY);
 	else
 		return (EXIT_FAILURE);
 	if (fd == -1)
 	{
-		perror(tokens->cmd[1]);
+		perror(tokens->cmds[1]);
 		return (EXIT_FAILURE);
 	}
 	return (fd);	
