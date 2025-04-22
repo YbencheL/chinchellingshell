@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/22 19:09:43 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:10:09 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,81 +14,10 @@
 
 t_list *g_gbc;
 
-void print_cmds(t_cmds *cmds)
-{
-    t_cmds *current = cmds;
-    int stdin_backup, stdout_backup;
-    
-    in_n_out_backup(&stdin_backup, &stdout_backup);    
-    
-    while (current)
-    {
-        printf("Command: ");
-        for (int i = 0; current->cmds && current->cmds[i]; i++)
-        {
-            printf("%s ", current->cmds[i]);
-        }
-        printf("\n");
-        
-        t_file *file = current->files;
-        while (file)
-        {
-            printf("  File: %s, Type: ", file->file);
-            if (file->type == RED_IN)
-            {
-                printf("Input < ");
-                int fd = open(file->file, O_RDONLY);
-                if (fd != -1)
-                {
-                    printf("(fd: %d) - Redirecting input\n", fd);
-                    dup_in(fd);
-                }
-                else
-                    printf("(fd: -1) - Failed to open file\n");
-            }
-            else if (file->type == RED_OUT)
-            {
-                printf("Output > ");
-                int fd = open(file->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-                if (fd != -1)
-                {
-                    printf("(fd: %d) - Redirecting output\n", fd);
-                    dup_out(fd);
-                }
-                else
-                    printf("(fd: -1) - Failed to open file\n");
-            }
-            else if (file->type == RED_APPEND)
-            {
-                printf("Append >> ");
-                int fd = open(file->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-                if (fd != -1)
-                {
-                    printf("(fd: %d) - Redirecting output (append)\n", fd);
-                    dup_out(fd);
-                }
-                else
-                    printf("(fd: -1) - Failed to open file\n");
-            }
-            else if (file->type == HEREDOC)
-            {
-                printf("Heredoc << ");
-                printf("(fd: %d) - Processing heredoc\n", file->fd);
-                check_herdoc(current->files);
-                break;
-            }
-            file = file->next;
-        }
-        
-        current = current->next;
-    }
-    
-    // Restore standard input/output
-    dup2(stdin_backup, STDIN_FILENO);
-    dup2(stdout_backup, STDOUT_FILENO);
-    close(stdin_backup);
-    close(stdout_backup);
-}
+// void print_cmds(t_cmds *cmds)
+// {
+
+// }
 
 t_cmds	*parsing(char *rl, t_mp *pg)
 {
