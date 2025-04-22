@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:25:04 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/20 14:42:27 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:56:31 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,26 @@ int	check_redirection(t_token *tokens)
 		fd = open(tokens->cmds[1], O_RDONLY);
 	else
 		return (EXIT_FAILURE);
+	if (fd == -1)
+	{
+		perror(tokens->cmds[1]);
+		return (EXIT_FAILURE);
+	}
+	return (fd);	
+}
+
+int	check_herdoc(t_file *files)
+{
+	int fd;
+	t_file	*current;
+	
+	current = files;
+	while(current)
+	{
+		if(current->type == HEREDOC)
+			fd = open("herdoc.txt", O_CREAT | O_WRONLY | O_RDONLY, 0644);
+		current = current->next;
+	}
 	if (fd == -1)
 	{
 		perror(tokens->cmds[1]);
