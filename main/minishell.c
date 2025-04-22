@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/16 14:57:55 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:57:59 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,105 @@
 
 t_list *g_gbc;
 
+void print_cmds(t_cmds *cmds)
+{
+    t_cmds *current = cmds;
+    int stdin_backup, stdout_backup;
+    
+    in_n_out_backup(&stdin_backup, &stdout_backup);    
+    
+    while (current)
+    {
+        printf("Command: ");
+        for (int i = 0; current->cmds && current->cmds[i]; i++)
+        {
+            printf("%s ", current->cmds[i]);
+        }
+        printf("\n");
+        
+        t_file *file = current->files;
+        while (file)
+        {
+            printf("  File: %s, Type: ", file->file);
+            if (file->type == RED_IN)
+            {
+                printf("Input < ");
+                int fd = open(file->file, O_RDONLY);
+                if (fd != -1)
+                {
+                    printf("(fd: %d) - Redirecting input\n", fd);
+                    dup_in(fd);
+                }
+                else
+                    printf("(fd: -1) - Failed to open file\n");
+            }
+            else if (file->type == RED_OUT)
+            {
+                printf("Output > ");
+                int fd = open(file->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                if (fd != -1)
+                {
+                    printf("(fd: %d) - Redirecting output\n", fd);
+                    dup_out(fd);
+                }
+                else
+                    printf("(fd: -1) - Failed to open file\n");
+            }
+            else if (file->type == RED_APPEND)
+            {
+                printf("Append >> ");
+                int fd = open(file->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+                if (fd != -1)
+                {
+                    printf("(fd: %d) - Redirecting output (append)\n", fd);
+                    dup_out(fd);
+                }
+                else
+                    printf("(fd: -1) - Failed to open file\n");
+            }
+            else if (file->type == HEREDOC)
+            {
+                printf("Heredoc << ");
+                printf("(fd: %d) - Processing heredoc\n", file->fd);
+                check_herdoc(current->files);
+                break;
+            }
+            file = file->next;
+        }
+        
+        current = current->next;
+    }
+    
+    // Restore standard input/output
+    dup2(stdin_backup, STDIN_FILENO);
+    dup2(stdout_backup, STDOUT_FILENO);
+    close(stdin_backup);
+    close(stdout_backup);
+}
+
+t_cmds	*parsing(char *rl, t_mp *pg)
+{
+	t_arg	*token;
+    t_token *tokens;
+    t_cmds  *cmds;
+	
+	if (!check_unclosed_quotes(rl, pg))
+		return (NULL);
+	token = tokenize(rl, pg);
+	if (!token)	
+		return (NULL);
+	expand_variables(token, pg);
+	handle_var_space(&token);
+	tokens = tokens_to_cmds(token);
+	cmds = get_final_cmds(tokens);
+	return (cmds);
+}
+
 void shell_loop(t_mp *pg)
 {
     char    *rl;
-    t_arg	*token;
-    t_arg	*head;
+    t_cmds  *cmds;
     
-    token = NULL;
     while (1)
     {
         rl = readline("Minishell$ ");
@@ -29,78 +121,10 @@ void shell_loop(t_mp *pg)
         if (ft_strlen(rl))
         {
             add_history(rl);
-            if (!check_unclosed_quotes(rl, pg))
-                continue;
-            token = tokenize(rl, pg);
-            if (!token)	
-                continue;
-            expand_variables(token, pg);
-            handle_var_space(&token);
-            head = token;
-            while (token != NULL)
-            {
-                printf("%s is of type : %d\n", token->arg, token->type);
-                token = token->next;
-            }
-            token = head;
-			t_token *tokens = tokens_to_cmds(token);
-            t_token *current = tokens;
-            
-            printf("\n+--------------- COMMAND INFORMATION ---------------+\n");
-            int i = 0;
-            while (current)
-            {
-                printf("| Command #%d:\n", i + 1);
-                printf("+---------------------------------------------------+\n");
-                
-                // Display command content
-                if (current->cmds && current->cmds[0])
-                {
-                    printf("| Command: %s\n", current->cmds[0]);
-                    
-                    // Display all arguments
-                    printf("| Arguments: ");
-                    int arg_idx = 1;
-                    if (current->cmds[arg_idx])
-                    {
-                        while (current->cmds[arg_idx])
-                        {
-                            printf("%s ", current->cmds[arg_idx]);
-                            arg_idx++;
-                        }
-                        printf("\n");
-                    }
-                    else
-                        printf("None\n");
-                }
-                else
-                    printf("| No command string\n");
-                
-                // Display command type
-                printf("| Type: ");
-                if (current->type == CMD)
-                    printf("Command\n");
-                else if (current->type == PIPELINE)
-                    printf("Pipeline\n");
-                else if (current->type == RED_IN)
-                    printf("IN (%d)\n", current->type);
-                else if (current->type == RED_OUT)
-                    printf("OUT (%d)\n", current->type);
-                else if (current->type == RED_APPEND)
-                    printf("APPEND (%d)\n", current->type);
-                else if (current->type == FILE_ARG)
-                    printf("FILE (%d)\n", current->type);
-                else
-                    printf("Unknown (%d)\n", current->type);
-                
-                // Display heredoc flag
-                printf("| Heredoc: %s\n", current->heredoc ? "Yes" : "No");
-                
-                printf("+---------------------------------------------------+\n");
-                current = current->next;
-                i++;
-            }
-            printf("\n");
+			cmds = parsing(rl, pg);
+			if (!cmds)
+				continue;
+           // print_cmds(cmds);
         }
         free(rl);
     }

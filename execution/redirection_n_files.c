@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_n_files.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:25:04 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/22 13:56:31 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:57:59 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,49 @@ int	check_redirection(t_token *tokens)
 	return (fd);	
 }
 
-int	check_herdoc(t_file *files)
+void	check_herdoc(t_file *files)
 {
-	int fd;
-	t_file	*current;
-	
-	current = files;
-	while(current)
-	{
-		if(current->type == HEREDOC)
-			fd = open("herdoc.txt", O_CREAT | O_WRONLY | O_RDONLY, 0644);
-		current = current->next;
-	}
-	if (fd == -1)
-	{
-		perror(tokens->cmds[1]);
-		return (EXIT_FAILURE);
-	}
-	return (fd);	
+    char    *line;
+    int     fds[2];
+    t_file  *current;
+    int     found_heredoc;
+
+    found_heredoc = 0;
+    if (pipe(fds) == -1)
+    {
+        perror("pipe error\n");
+        return ;
+    }
+    current = files;
+    while (current)
+    {
+        if (current->type == HEREDOC)
+        {
+            found_heredoc = 1;
+            line = readline("> ");
+            while (line && ft_strcmp(line, current->file) != 0)
+            {
+                write(fds[1], line, ft_strlen(line));
+                write(fds[1], "\n", 1);
+                free(line);
+                line = readline("> ");
+            }
+            if (line)
+                free(line);
+        }
+        current = current->next;
+    }
+    
+    if (found_heredoc)
+    {
+        close(fds[1]);
+        dup_in(fds[0]);
+    }
+    else
+    {
+        close(fds[0]);
+        close(fds[1]);
+    }
 }
 
 void	dup_in(int fd)

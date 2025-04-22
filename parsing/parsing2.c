@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/13 17:25:00 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:58:00 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,11 +288,13 @@ void	handle_var_space(t_arg **token)
     previous = NULL;
     new_head = NULL;
     while (current)
-    {
+    {	
         if (current->type == WORD && check_for_space(current))
                 split_word_var(&current, &previous, &new_head);
         else if (!new_head)
             new_head = current;
+		else if (current->type >= 2 && current->type <= 5)
+			current = current->next;
 		if (current->type == WORD2)
 			current->type = WORD;
 		previous = current;

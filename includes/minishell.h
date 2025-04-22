@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/22 13:28:05 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:52:32 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef enum token_type
 typedef enum t_type
 {
 	CMD,
-	FILE_ARG,
 	REDIRECTION,
 	PIPELINE,
 }	t_type;
@@ -54,17 +53,18 @@ typedef struct s_token
 
 typedef struct	s_file
 {
-	char	*file;
+	char			*file;
 	t_token_type	type;
-	int		fd;
+	int				fd;
+	struct s_file	*next;
 }	t_file;
 
-typedef struct s_pars
+typedef struct s_cmds
 {
 	char	**cmds;
 	t_file	*files;
-	struct s_pars	*next;
-}	t_pars;
+	struct s_cmds	*next;
+}	t_cmds;
 
 typedef struct s_mp
 {
@@ -82,6 +82,7 @@ t_arg   *tokenize(char *line, t_mp *pg);
 t_token *tokens_to_cmds(t_arg *tokens);
 void	expand_variables(t_arg *token, t_mp *pg);
 void	handle_var_space(t_arg **token);
+t_cmds	*get_final_cmds(t_token *token);
 // void	add_token(char **str, t_arg **token);
 // void	unclosed_q_error(t_mp *pg);
 // char	*extract_word(char *s, int *start, t_lst **phrase);
@@ -126,6 +127,12 @@ char	**split_only_spaces(char *s);
 // int		handle_special_chars(char const **s, char **split, size_t *i);
 // int		handle_words(char const **s, char **split, size_t *i);
 // t_arg	*ft_arglast(t_arg *lst);
+
+////////////////////-----execution-----////////////////////
+void	check_herdoc(t_file *files);
+void	dup_in(int fd);
+void	dup_out(int fd);
+void	in_n_out_backup(int *stdin_b, int *stdout_b);
 
 
 #endif
