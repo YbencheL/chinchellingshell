@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_n_files.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:25:04 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/22 19:11:16 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:45:32 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	check_redirection(t_file *files)
         dup_in(fd);
     else 
         dup_out(fd);
-        
     return (EXIT_SUCCESS);	
 }
 
@@ -48,18 +47,18 @@ void	check_herdoc(t_file *files)
 {
     char    *line;
     t_file  *current;
+	int 	fds[2];
 
+	if (pipe(fds) == -1)
+	{
+		perror("pipe error");
+		return;
+	}
     current = files;
     while (current)
     {
         if (current->type == HEREDOC)
         {
-            int fds[2];
-            if (pipe(fds) == -1)
-            {
-                perror("pipe error");
-                return;
-            }
             current->fd = fds[0];
             line = readline("> ");
             while (line && ft_strcmp(line, current->file) != 0)
