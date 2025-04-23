@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/23 12:40:29 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/23 12:48:11 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void shell_loop(t_mp *pg)
             if (cmds->files && cmds->files->type == HEREDOC)
             {
                 printf("\n\033[1;33m[Testing Heredoc]\033[0m\n");
-                check_herdoc(cmds->files);
+                check_herdoc(cmds->files, pg);
                 
                 // Create a simple command to display the heredoc content
                 // For example, if we want to cat the heredoc content:

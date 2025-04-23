@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/23 12:38:17 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/23 13:00:51 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ char	**split_only_spaces(char *s);
 // t_arg	*ft_arglast(t_arg *lst);
 
 ////////////////////-----execution-----////////////////////
-void	check_herdoc(t_file *files);
+void 	check_herdoc(t_file *files);
 void	dup_in(int fd);
 void	dup_out(int fd);
 void	in_n_out_backup(int *stdin_b, int *stdout_b);

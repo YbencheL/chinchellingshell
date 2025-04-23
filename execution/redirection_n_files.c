@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/19 11:25:04 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/23 12:42:09 by ybenchel         ###   ########.fr       */
+/*   Created: 2025/04/19 11:25:04 by ybenchel          #+#             */
+/*   Updated: 2025/04/23 12:56:24 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,38 +43,54 @@ int	check_redirection(t_file *files)
     return (EXIT_SUCCESS);	
 }
 
-void handle_heredoc_line(int fd, char *line)
+void process_heredoc_delimiter(char *file, int fd)
 {
-	write(fd, line, ft_strlen(line));
-	write(fd, "\n", 1);
-	free(line);
+	char *line;
+	char *delimiter = file;
+	int quoted = 0;
+
+	if ((delimiter[0] == '"' && delimiter[ft_strlen(delimiter) - 1] == '"') ||
+		(delimiter[0] == '\'' && delimiter[ft_strlen(delimiter) - 1] == '\''))
+	{
+		quoted = 1;
+		delimiter = ft_substr(delimiter, 1, ft_strlen(delimiter) - 2);
+	}
+	
+	line = readline("> ");
+	while (line && ft_strcmp(line, delimiter) != 0)
+	{
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+		line = readline("> ");
+	}
+	
+	if (line)
+		free(line);
 }
 
 void check_herdoc(t_file *files)
 {
-	char *line;
 	t_file *current;
 	int fds[2];
 	
-	current = files;
 	if (pipe(fds) == -1)
+	{
+		perror("pipe error");
 		return;
+	}
+	
+	current = files;
 	while (current)
 	{
 		if (current->type == HEREDOC)
 		{
 			current->fd = fds[0];
-			line = readline("> ");
-			while (line && ft_strcmp(line, files->file) != 0)
-			{
-				handle_heredoc_line(fds[1], line);
-				line = readline("> ");
-			}
-			free(line);
-			close(fds[1]);
+			process_heredoc_delimiter(current->file, fds[1]);
 		}
 		current = current->next;
 	}
+	close(fds[1]);
 }
 
 void	dup_in(int fd)
