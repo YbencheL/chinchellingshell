@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/23 12:48:11 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:08:22 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,37 +22,37 @@ void print_cmds(t_cmds *cmds)
     
     if (!cmds)
     {
-        printf("\n\033[1;31m[DEBUG] No commands to print\033[0m\n");
+        printf("\n\033[1;31m[DEBUG] No commands to parse or execute\033[0m\n");
         return;
     }
     
     current = cmds;
-    printf("\n\033[1;36m===== COMMAND STRUCTURE (DEBUG) =====\033[0m\n");
+    printf("\n\033[1;36m╔════════ COMMAND STRUCTURE ════════╗\033[0m\n");
     
     int cmd_num = 0;
     while (current)
     {
         cmd_num++;
-        printf("\n\033[1;33m[Command #%d]\033[0m\n", cmd_num);
+        printf("\n\033[1;33m┌─ Command #%d ─────────────────────┐\033[0m\n", cmd_num);
         
         // Print command and arguments
-        printf("• \033[1;32mCommand:\033[0m ");
+        printf("\033[1;33m│\033[0m \033[1;32mCommand:\033[0m ");
         if (current->cmds)
         {
             i = 0;
             printf("\n");
             while (current->cmds[i])
             {
-                printf("  - Arg[%d]: \"%s\"\n", i, current->cmds[i]);
+                printf("\033[1;33m│\033[0m   - Arg[%d]: \033[1;37m\"%s\"\033[0m\n", i, current->cmds[i]);
                 i++;
             }
-            printf("  - Total arguments: %d\n", i);
+            printf("\033[1;33m│\033[0m   - Total arguments: \033[1;37m%d\033[0m\n", i);
         }
         else
             printf("\033[1;31m[None]\033[0m\n");
             
         // Print all redirections
-        printf("• \033[1;32mRedirections:\033[0m ");
+        printf("\033[1;33m│\033[0m \033[1;32mRedirections:\033[0m ");
         file = current->files;
         if (!file)
             printf("\033[1;31m[None]\033[0m\n");
@@ -63,22 +63,22 @@ void print_cmds(t_cmds *cmds)
             while (file)
             {
                 file_count++;
-                printf("  - File[%d]: \"%s\", Type: ", file_count, file->file);
+                printf("\033[1;33m│\033[0m   - File[%d]: \033[1;37m\"%s\"\033[0m, Type: ", file_count, file->file);
                 if (file->type == RED_IN)
-                    printf("\033[1;34mInput Redirection (<)\033[0m");
+                    printf("\033[1;34m< (Input)\033[0m");
                 else if (file->type == RED_OUT)
-                    printf("\033[1;34mOutput Redirection (>)\033[0m");
+                    printf("\033[1;34m> (Output)\033[0m");
                 else if (file->type == RED_APPEND)
-                    printf("\033[1;34mAppend Redirection (>>)\033[0m");
+                    printf("\033[1;34m>> (Append)\033[0m");
                 else if (file->type == HEREDOC)
-                    printf("\033[1;34mHeredoc (<<)\033[0m");
+                    printf("\033[1;34m<< (Heredoc)\033[0m");
                 else
                     printf("\033[1;31mUnknown\033[0m");
                 
-                printf(", FD: %d\n", file->fd);
+                printf(", FD: \033[1;37m%d\033[0m\n", file->fd);
                 file = file->next;
             }
-            printf("  - Total redirections: %d\n", file_count);
+            printf("\033[1;33m│\033[0m   - Total redirections: \033[1;37m%d\033[0m\n", file_count);
         }
         
         if (current->next)
@@ -86,7 +86,45 @@ void print_cmds(t_cmds *cmds)
             
         current = current->next;
     }
-    printf("\n\033[1;36m===================================\033[0m\n\n");
+    printf("\n\033[1;36m╚═══════════════════════════════════╝\033[0m\n\n");
+}
+
+void print_all_heredocs(t_file *files)
+{
+    t_file *current = files;
+    int heredoc_count = 0;
+    
+    while (current)
+    {
+        if (current->type == HEREDOC)
+        {
+            heredoc_count++;
+            printf("\n\033[1;33m┌─ Heredoc #%d (\"%s\") ────────────┐\033[0m\n", 
+                   heredoc_count, current->file);
+            
+            int stdin_backup = dup(STDIN_FILENO);
+            dup2(current->fd, STDIN_FILENO);
+            
+            char buffer[1024];
+            ssize_t bytes_read;
+            printf("\033[1;37m");
+            while ((bytes_read = read(STDIN_FILENO, buffer, 1023)) > 0)
+            {
+                buffer[bytes_read] = '\0';
+                printf("%s", buffer);
+            }
+            printf("\033[0m");
+            printf("\n\033[1;33m└─────────────────────────────────┘\033[0m\n");
+            
+            // Restore stdin
+            dup2(stdin_backup, STDIN_FILENO);
+            close(stdin_backup);
+        }
+        current = current->next;
+    }
+    
+    if (heredoc_count == 0)
+        printf("\n\033[1;31m[No heredocs found]\033[0m\n");
 }
 
 t_cmds	*parsing(char *rl, t_mp *pg)
@@ -111,7 +149,6 @@ void shell_loop(t_mp *pg)
 {
     char    *rl;
     t_cmds  *cmds;
-    
     while (1)
     {
         rl = readline("Minishell$ ");
@@ -124,33 +161,15 @@ void shell_loop(t_mp *pg)
             if (!cmds)
                 continue;
             print_cmds(cmds);
-            
+                
             // Test heredoc functionality
             if (cmds->files && cmds->files->type == HEREDOC)
             {
-                printf("\n\033[1;33m[Testing Heredoc]\033[0m\n");
-                check_herdoc(cmds->files, pg);
+                printf("\n\033[1;33m[Testing Heredocs]\033[0m\n");
+                check_herdoc(cmds->files);
                 
-                // Create a simple command to display the heredoc content
-                // For example, if we want to cat the heredoc content:
-                printf("\n\033[1;33m[Heredoc Content]\033[0m\n");
-                int stdin_backup = dup(STDIN_FILENO);
-                
-                // Set up the input redirection from heredoc
-                dup2(cmds->files->fd, STDIN_FILENO);
-                
-                // Read and display the content
-                char buffer[1024];
-                ssize_t bytes_read;
-                while ((bytes_read = read(STDIN_FILENO, buffer, 1023)) > 0)
-                {
-                    buffer[bytes_read] = '\0';
-                    printf("%s", buffer);
-                }
-                
-                // Restore stdin
-                dup2(stdin_backup, STDIN_FILENO);
-                close(stdin_backup);
+                // Print contents of ALL heredocs
+                print_all_heredocs(cmds->files);
             }
         }
         free(rl);

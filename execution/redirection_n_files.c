@@ -43,35 +43,11 @@ int	check_redirection(t_file *files)
     return (EXIT_SUCCESS);	
 }
 
-void process_heredoc_delimiter(char *file, int fd)
+void process_heredoc_delimiter(char *file, int *out_fd)
 {
 	char *line;
 	char *delimiter = file;
 	int quoted = 0;
-
-	if ((delimiter[0] == '"' && delimiter[ft_strlen(delimiter) - 1] == '"') ||
-		(delimiter[0] == '\'' && delimiter[ft_strlen(delimiter) - 1] == '\''))
-	{
-		quoted = 1;
-		delimiter = ft_substr(delimiter, 1, ft_strlen(delimiter) - 2);
-	}
-	
-	line = readline("> ");
-	while (line && ft_strcmp(line, delimiter) != 0)
-	{
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-		line = readline("> ");
-	}
-	
-	if (line)
-		free(line);
-}
-
-void check_herdoc(t_file *files)
-{
-	t_file *current;
 	int fds[2];
 	
 	if (pipe(fds) == -1)
@@ -79,18 +55,43 @@ void check_herdoc(t_file *files)
 		perror("pipe error");
 		return;
 	}
-	
-	current = files;
-	while (current)
+	if ((delimiter[0] == '"' && delimiter[ft_strlen(delimiter) - 1] == '"') ||
+		(delimiter[0] == '\'' && delimiter[ft_strlen(delimiter) - 1] == '\''))
 	{
-		if (current->type == HEREDOC)
+		quoted = 1;
+		delimiter = ft_substr(delimiter, 1, ft_strlen(delimiter) - 2);
+	}
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			break ;
+		if (ft_strcmp(line, delimiter) == 0)
 		{
-			current->fd = fds[0];
-			process_heredoc_delimiter(current->file, fds[1]);
+			free(line);
+			break ;
 		}
-		current = current->next;
+		write(fds[1], line, ft_strlen(line));
+		write(fds[1], "\n", 1);
+		free(line);
 	}
 	close(fds[1]);
+	*out_fd = fds[0];
+}
+
+void check_herdoc(t_file *files)
+{
+    t_file *current;
+
+    current = files;
+    while (current)
+    {
+        if (current->type == HEREDOC)
+        {
+            process_heredoc_delimiter(current->file, &current->fd);
+        }
+        current = current->next;
+    }
 }
 
 void	dup_in(int fd)
