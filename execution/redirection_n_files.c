@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:25:04 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/23 12:37:58 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/23 12:42:09 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void handle_heredoc_line(int fd, char *line)
 {
 	write(fd, line, ft_strlen(line));
 	write(fd, "\n", 1);
+	free(line);
 }
 
 void check_herdoc(t_file *files)
@@ -67,7 +68,6 @@ void check_herdoc(t_file *files)
 			while (line && ft_strcmp(line, files->file) != 0)
 			{
 				handle_heredoc_line(fds[1], line);
-				free(line);
 				line = readline("> ");
 			}
 			free(line);
