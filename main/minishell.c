@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/22 19:10:09 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/23 10:34:47 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,64 @@ t_list *g_gbc;
 
 // void print_cmds(t_cmds *cmds)
 // {
-
+//     int i;
+//     t_file *file;
+//     t_cmds *current;
+    
+//     if (!cmds)
+//     {
+//         printf("No commands to print\n");
+//         return;
+//     }
+    
+//     current = cmds;
+//     printf("\n----- COMMAND STRUCTURE -----\n");
+    
+//     while (current)
+//     {
+//         printf("\n• Command: ");
+//         if (current->cmds)
+//         {
+//             i = 0;
+//             while (current->cmds[i])
+//             {
+//                 printf("[%s] ", current->cmds[i]);
+//                 i++;
+//             }
+//         }
+//         else
+//             printf("[None]");
+            
+//         printf("\n• Redirections: ");
+//         file = current->files;
+//         if (!file)
+//             printf("[None]\n");
+//         else
+//         {
+//             printf("\n");
+//             while (file)
+//             {
+//                 printf("  - File: %s, Type: ", file->file);
+//                 if (file->type == RED_IN)
+//                     printf("Input Redirection (<)\n");
+//                 else if (file->type == RED_OUT)
+//                     printf("Output Redirection (>)\n");
+//                 else if (file->type == RED_APPEND)
+//                     printf("Append Redirection (>>)\n");
+//                 else if (file->type == HEREDOC)
+//                     printf("Heredoc (<<)\n");
+//                 else
+//                     printf("Unknown\n");
+//                 file = file->next;
+//             }
+//         }
+        
+//         if (current->next)
+//             printf("\n|  Pipe  |\n↓\n");
+            
+//         current = current->next;
+//     }
+//     printf("\n---------------------------\n\n");
 // }
 
 t_cmds	*parsing(char *rl, t_mp *pg)
@@ -53,7 +110,7 @@ void shell_loop(t_mp *pg)
 			cmds = parsing(rl, pg);
 			if (!cmds)
 				continue;
-           // print_cmds(cmds);
+            // print_cmds(cmds);
         }
         free(rl);
     }
