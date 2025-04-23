@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:25:04 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/22 19:45:32 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/23 12:37:58 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,37 +43,38 @@ int	check_redirection(t_file *files)
     return (EXIT_SUCCESS);	
 }
 
-void	check_herdoc(t_file *files)
+void handle_heredoc_line(int fd, char *line)
 {
-    char    *line;
-    t_file  *current;
-	int 	fds[2];
+	write(fd, line, ft_strlen(line));
+	write(fd, "\n", 1);
+}
 
+void check_herdoc(t_file *files)
+{
+	char *line;
+	t_file *current;
+	int fds[2];
+	
+	current = files;
 	if (pipe(fds) == -1)
-	{
-		perror("pipe error");
 		return;
+	while (current)
+	{
+		if (current->type == HEREDOC)
+		{
+			current->fd = fds[0];
+			line = readline("> ");
+			while (line && ft_strcmp(line, files->file) != 0)
+			{
+				handle_heredoc_line(fds[1], line);
+				free(line);
+				line = readline("> ");
+			}
+			free(line);
+			close(fds[1]);
+		}
+		current = current->next;
 	}
-    current = files;
-    while (current)
-    {
-        if (current->type == HEREDOC)
-        {
-            current->fd = fds[0];
-            line = readline("> ");
-            while (line && ft_strcmp(line, current->file) != 0)
-            {
-                write(fds[1], line, ft_strlen(line));
-                write(fds[1], "\n", 1);
-                free(line);
-                line = readline("> ");
-            }
-            if (line)
-                free(line);
-            close(fds[1]);
-        }
-        current = current->next;
-    }
 }
 
 void	dup_in(int fd)

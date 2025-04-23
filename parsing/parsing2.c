@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/22 17:58:00 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:54:41 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,9 +200,13 @@ void	expand_variables(t_arg *token, t_mp *pg)
 		i = 0;
 		if (check_export(token))
 		{
-			printf("im in ???????????\n");
 			handel_var(token->next, &i, pg);
 			token = token->next->next;
+		}
+		else if (token->type == HEREDOC)
+		{
+			token = token->next;
+			token = token->next;
 		}
 		else
 		{
