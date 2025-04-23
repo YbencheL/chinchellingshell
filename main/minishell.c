@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/23 15:08:22 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:56:25 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,18 @@ void print_cmds(t_cmds *cmds)
     printf("\n\033[1;36m╚═══════════════════════════════════╝\033[0m\n\n");
 }
 
-void print_all_heredocs(t_file *files)
+void print_all_heredocs(t_cmds *cmds)
 {
-    t_file *current = files;
+    t_cmds *current_cmd = cmds;
+    int cmd_count = 0;
+    int total_heredocs = 0;
+    
+    printf("\n\033[1;36m╔════════ HEREDOC CONTENTS ════════╗\033[0m\n");
+    
+    while (current_cmd)
+    {
+        cmd_count++;
+        t_file *current = current_cmd->files;
     int heredoc_count = 0;
     
     while (current)
@@ -99,10 +108,12 @@ void print_all_heredocs(t_file *files)
         if (current->type == HEREDOC)
         {
             heredoc_count++;
-            printf("\n\033[1;33m┌─ Heredoc #%d (\"%s\") ────────────┐\033[0m\n", 
-                   heredoc_count, current->file);
+                total_heredocs++;
+                printf("\n\033[1;33m┌─ Command #%d - Heredoc #%d (\"%s\") ─┐\033[0m\n", 
+                       cmd_count, heredoc_count, current->file);
             
             int stdin_backup = dup(STDIN_FILENO);
+                lseek(current->fd, 0, SEEK_SET); // Reset file position to beginning
             dup2(current->fd, STDIN_FILENO);
             
             char buffer[1024];
@@ -123,8 +134,13 @@ void print_all_heredocs(t_file *files)
         current = current->next;
     }
     
-    if (heredoc_count == 0)
+        current_cmd = current_cmd->next;
+    }
+    
+    if (total_heredocs == 0)
         printf("\n\033[1;31m[No heredocs found]\033[0m\n");
+    
+    printf("\n\033[1;36m╚═══════════════════════════════════╝\033[0m\n\n");
 }
 
 t_cmds	*parsing(char *rl, t_mp *pg)
@@ -145,6 +161,11 @@ t_cmds	*parsing(char *rl, t_mp *pg)
 	return (cmds);
 }
 
+void	execution(t_cmds *cmds, t_mp *pg)
+{
+	fill_herdoc(cmds, pg);
+}
+
 void shell_loop(t_mp *pg)
 {
     char    *rl;
@@ -161,16 +182,9 @@ void shell_loop(t_mp *pg)
             if (!cmds)
                 continue;
             print_cmds(cmds);
-                
-            // Test heredoc functionality
-            if (cmds->files && cmds->files->type == HEREDOC)
-            {
-                printf("\n\033[1;33m[Testing Heredocs]\033[0m\n");
-                check_herdoc(cmds->files);
-                
-                // Print contents of ALL heredocs
-                print_all_heredocs(cmds->files);
-            }
+            execution(cmds, pg);   
+            // Test heredoc functionality with all commands
+            print_all_heredocs(cmds);
         }
         free(rl);
     }
