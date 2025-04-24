@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/23 16:56:25 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:54:03 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ t_cmds	*parsing(char *rl, t_mp *pg)
 void	execution(t_cmds *cmds, t_mp *pg)
 {
 	fill_herdoc(cmds, pg);
+	check_redirection(cmds->files);
 }
 
 void shell_loop(t_mp *pg)
