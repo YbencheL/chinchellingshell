@@ -12,6 +12,14 @@
 
 #include "../includes/minishell.h"
 
+void	restor_fd(int stdin_b, int stdout_b)
+{
+	dup2(stdin_b, STDIN_FILENO);
+	dup2(stdout_b, STDOUT_FILENO);
+	close(stdin_b);
+	close(stdout_b);
+}
+
 void	in_n_out_backup(int *stdin_b, int *stdout_b)
 {
 	*stdin_b = dup(STDIN_FILENO);
@@ -30,7 +38,7 @@ int	check_redirection(t_file *files)
     else if (files->type == RED_IN)
         fd = open(files->file, O_RDONLY);
     else if (files->type == HEREDOC)
-        fd = files->fd;
+        fd = dup(files->fd);
     if (fd == -1)
     {
         perror(files->file);

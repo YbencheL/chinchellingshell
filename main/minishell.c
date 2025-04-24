@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/23 18:54:03 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:29:36 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,30 @@ t_cmds	*parsing(char *rl, t_mp *pg)
 
 void	execution(t_cmds *cmds, t_mp *pg)
 {
-	fill_herdoc(cmds, pg);
-	check_redirection(cmds->files);
+	t_file *file_ptr;
+	t_cmds *current;
+	int stdin_backup;
+    int stdout_backup;
+	
+    fill_herdoc(cmds, pg);
+	stdin_backup = 0;
+	stdin_backup = 0;
+	in_n_out_backup(&stdin_backup, &stdout_backup);
+    current = cmds;
+    while (current)
+    {
+        if (current->files)
+        {
+            file_ptr = current->files;
+            while (file_ptr)
+            {
+                check_redirection(file_ptr);
+                file_ptr = file_ptr->next;
+            }
+        }
+        current = current->next;
+    }
+	restor_fd(stdin_backup, stdout_backup);
 }
 
 void shell_loop(t_mp *pg)
