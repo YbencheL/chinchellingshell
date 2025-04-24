@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:25:36 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/23 11:54:41 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/24 17:39:26 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,7 @@ void	split_word_var(t_arg **current, t_arg **previous, t_arg **new_head)
 	t_arg	*new_list;
 	t_arg	*head;
 	
-	str = ft_split((*current)->arg);
+	str = ft_split((*current)->arg, " \t");
 	new_list = new_arg(str[0]);
 	new_list->type = WORD;
 	head = new_list;

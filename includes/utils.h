@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:38:13 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/20 14:42:19 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/24 17:39:10 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,5 @@ char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_isalnum(int c);
 int		ft_isdigit(int c);
 int		ft_isalpha(int c);
-char	**ft_split(char *s);
-
+char	**ft_split(char *str, char *charset);
 #endif

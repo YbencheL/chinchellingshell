@@ -6,103 +6,106 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 12:41:44 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/13 14:16:12 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/24 17:54:29 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	word_counter(const char *s)
+int	is_sep(char c, char *sep)
 {
-    int	i;
-    int	w;
+	int	j;
 
-    i = 0;
-    w = 0;
-    if (s[0] != ' ' && s[0] != '\t' && s[0] != '\0')
-        w++;
-    while (s[i])
-    {
-        if ((s[i] == ' ' || s[i] == '\t') && s[i + 1] != ' ' && s[i + 1] != '\t' && s[i + 1] != '\0')
-            w++;
-        i++;
-    }
-    return (w);
+	j = 0;
+	while (sep[j])
+	{
+		if (c == sep[j])
+			return (1);
+		j++;
+	}
+	return (0);
 }
 
-static char	*ft_cpy(int *start, int end, const char *s)
+int	word_counter_1(char *str, char *sep)
 {
-    char	*str;
+	int	i;
+	int	l;
+	int	s;
 
-    while ((s[*start] == ' ' || s[*start] == '\t') && s[*start])
-        *start = *start + 1;
-    str = (char *)ft_malloc(end - *start + 1);
-    if (!str)
-        return (NULL);
-    ft_memcpy(str, s + *start, end - *start);
-    str[end - *start] = '\0';
-    if (s[end])
-        *start = end + 1;
-    else
-        *start = end;
-    while ((s[*start] == ' ' || s[*start] == '\t') && s[*start])
-        *start = *start + 1;
-    return (str);
+	i = 0;
+	l = 0;
+	s = 1;
+	while (str[i])
+	{
+		if (!(is_sep(str[i], sep)))
+		{
+			if (s == 1)
+				l++;
+			s = 0;
+		}
+		else
+			s = 1;
+		i++;
+	}
+	return (l);
 }
 
-static void	ft_free(char **str, int words)
+int	find_end(int i, char *str, char *sep)
 {
-    int	i;
+	int	end;
 
-    i = 0;
-    while (i < words)
-        free(str[i++]);
-    free(str);
+	end = 0;
+	while (str[i])
+	{
+		if (!(is_sep(str[i], sep)))
+			end++;
+		else
+			return (end);
+		i++;
+	}
+	return (end);
 }
 
-static int	check_end(const char *s, int i)
+char	*copy_word(int start, int end, char *str)
 {
-    int	k;
+	int		i;
+	char	*fstr;
 
-    k = 0;
-    while (s[i] == ' ' || s[i] == '\t')
-        i++;
-    while (s[i] != ' ' && s[i] != '\t' && s[i])
-    {
-        i++;
-        k++;
-    }
-    if (k > 0)
-        return (i);
-    else
-        return (-i - 5);
+	fstr = (char *)malloc(sizeof(char) * (end + 1));
+	if (!fstr)
+		return (NULL);
+	i = 0;
+	while (str[start] && start < end)
+	{
+		fstr[i] = str[start];
+		i++;
+		start++;
+	}
+	fstr[i] = '\0';
+	return (fstr);
 }
 
-char	**ft_split(char *s)
+char	**ft_split(char *str, char *charset)
 {
-    char	**str;
-    int		i;
-    int		j;
+	char	**fstr;
+	int		i;
+	int		k;
 
-    if (!s || !word_counter(s))
-        return (NULL);
-    str = (char **)ft_malloc((word_counter(s) + 1) * sizeof(char *));
-    if (!str)
-        return (NULL);
-    i = 0;
-    j = 0;
-    while (s[i++])
-    {
-        if (check_end(s, i - 1) >= 0)
-        {
-            str[j] = ft_cpy(&i, check_end(s, --i), s);
-            if (!str[j++])
-            {
-                ft_free(str, j);
-                return (NULL);
-            }
-        }
-    }
-    str[j] = NULL;
-    return (str);
+	fstr = (char **)malloc(sizeof(char *) * (word_counter_1(str, charset) + 1));
+	if (!fstr)
+		return (NULL);
+	k = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (!(is_sep(str[i], charset)))
+		{
+			fstr[k++] = copy_word(i, (find_end(i, str, charset) + i), str);
+			i = i + find_end(i, str, charset);
+		}
+		else
+			i++;
+	}
+	fstr[k] = (NULL);
+	return (fstr);
 }

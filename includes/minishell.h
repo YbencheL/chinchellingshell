@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/24 16:29:21 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:05:11 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <sys/wait.h>
 
 typedef enum token_type
 {
@@ -136,6 +137,7 @@ void	dup_out(int fd);
 void	in_n_out_backup(int *stdin_b, int *stdout_b);
 int	check_redirection(t_file *files);
 void	restor_fd(int stdin_b, int stdout_b);
+char	*get_cmd_dir(char *cmd, t_mp *pg);
 
 
 #endif
