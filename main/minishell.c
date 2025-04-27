@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/27 11:52:00 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/27 12:48:10 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void execute_single_command(t_cmds *cmds, t_mp *pg)
 	{
 		cmd_dir = get_cmd_dir(cmds->cmds[0], pg);
 		if (!cmd_dir) {
-			fprintf(stderr, "%s: command not found\n", cmds->cmds[0]);
+			perror("wow no cmd");
 			exit(127);
 		}
 		execve(cmd_dir, cmds->cmds, pg->envp);
@@ -210,16 +210,12 @@ void execute_multiple_commands(t_cmds *cmds, int cmd_count, t_mp *pg)
 		}
 		if (pids[i] == 0)
 		{
+			// ila makansh awl command redirecti lout put dyal previous commad as input to this command
 			if (i > 0)
-			{
-				if (dup2(pipe_fds[(i - 1) * 2], STDIN_FILENO) == -1)
-					exit(EXIT_FAILURE);
-			}
+				dup_in(pipe_fds[(i - 1) * 2]);
+			// ila kan hada howa l previous command redirecti loutput dyal this commands as out put dyal next command
 			if (i < cmd_count - 1)
-			{
-				if (dup2(pipe_fds[i * 2 + 1], STDOUT_FILENO) == -1)
-					exit(EXIT_FAILURE);
-			}
+				dup_out(pipe_fds[i * 2 + 1]);
 			int j = 0;
 			while (j < (cmd_count - 1) * 2)
 			{
@@ -234,14 +230,12 @@ void execute_multiple_commands(t_cmds *cmds, int cmd_count, t_mp *pg)
 		current = current->next;
 		i++;
 	}
-	
 	i = 0;
 	while (i < (cmd_count - 1) * 2)
 	{
 		close(pipe_fds[i]);
 		i++;
 	}
-	
 	i = 0;
 	while (i < cmd_count) {
 		waitpid(pids[i], &status, 0);
