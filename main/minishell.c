@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/24 18:08:01 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/27 11:52:00 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,47 +161,136 @@ t_cmds	*parsing(char *rl, t_mp *pg)
 	return (cmds);
 }
 
+void execute_single_command(t_cmds *cmds, t_mp *pg)
+{
+	int p_id;
+	int status;
+	char *cmd_dir;
+
+	p_id = fork();
+	if (p_id == 0)
+	{
+		cmd_dir = get_cmd_dir(cmds->cmds[0], pg);
+		if (!cmd_dir) {
+			fprintf(stderr, "%s: command not found\n", cmds->cmds[0]);
+			exit(127);
+		}
+		execve(cmd_dir, cmds->cmds, pg->envp);
+		perror("execve");
+		exit(EXIT_FAILURE);
+	}
+	waitpid(p_id, &status, 0);
+	if (WIFEXITED(status)) {
+		pg->exit_status = WEXITSTATUS(status);
+	}
+}
+
+void execute_multiple_commands(t_cmds *cmds, int cmd_count, t_mp *pg)
+{
+	t_cmds *current = cmds;
+	int pipe_fds[2 * (cmd_count - 1)];
+	pid_t pids[cmd_count];
+	int status;
+	int i = 0;
+
+	while (i < cmd_count - 1)
+	{
+		if (pipe(pipe_fds + i * 2) == -1)
+			return;
+		i++;
+	}
+	i = 0;
+	current = cmds;
+	while (i < cmd_count)
+	{
+		pids[i] = fork();
+		if (pids[i] == -1) {
+			perror("fork");
+			return;
+		}
+		if (pids[i] == 0)
+		{
+			if (i > 0)
+			{
+				if (dup2(pipe_fds[(i - 1) * 2], STDIN_FILENO) == -1)
+					exit(EXIT_FAILURE);
+			}
+			if (i < cmd_count - 1)
+			{
+				if (dup2(pipe_fds[i * 2 + 1], STDOUT_FILENO) == -1)
+					exit(EXIT_FAILURE);
+			}
+			int j = 0;
+			while (j < (cmd_count - 1) * 2)
+			{
+				close(pipe_fds[j]);
+				j++;
+			}
+			char *cmd_dir = get_cmd_dir(current->cmds[0], pg);
+			execve(cmd_dir, current->cmds, pg->envp);
+			perror("execve error");
+			exit(EXIT_FAILURE);
+		}
+		current = current->next;
+		i++;
+	}
+	
+	i = 0;
+	while (i < (cmd_count - 1) * 2)
+	{
+		close(pipe_fds[i]);
+		i++;
+	}
+	
+	i = 0;
+	while (i < cmd_count) {
+		waitpid(pids[i], &status, 0);
+		if (WIFEXITED(status)) {
+			pg->exit_status = WEXITSTATUS(status);
+		}
+		i++;
+	}
+}
+
 void	execution(t_cmds *cmds, t_mp *pg)
 {
 	//t_file *file_ptr;
 	//t_cmds *current;
 	//int stdin_backup;
-   // int stdout_backup;
+	//int stdout_backup;
 	
-    fill_herdoc(cmds, pg);
+	fill_herdoc(cmds, pg);
 	// stdin_backup = 0;
 	// stdin_backup = 0;
 	// in_n_out_backup(&stdin_backup, &stdout_backup);
-    // current = cmds;
-    // while (current)
-    // {
-    //     if (current->files)
-    //     {
-    //         file_ptr = current->files;
-    //         while (file_ptr)
-    //         {
-    //             check_redirection(file_ptr);
-    //             file_ptr = file_ptr->next;
-    //         }
-    //     }
-    //     current = current->next;
-    // }
-    int p_id;
-    char *cmd_dir;
-
-    p_id = fork();
-    if (p_id == 0)
-    {
-        while (cmds)
-        {
-            cmd_dir = get_cmd_dir(cmds->cmds[0], pg); 
-            execve(cmd_dir, cmds->cmds, pg->envp);
-            cmds = cmds->next;
-        }
-    }
-    wait(NULL);
-    printf("\n");
-    return ;
+	// current = cmds;
+	// while (current)
+	// {
+	//     if (current->files)
+	//     {
+	//         file_ptr = current->files;
+	//         while (file_ptr)
+	//         {
+	//             check_redirection(file_ptr);
+	//             file_ptr = file_ptr->next;
+	//         }
+	//     }
+	//     current = current->next;
+	// }
+	
+	int	cmd_count = 0;
+	t_cmds *cmd_ptr = cmds;
+	
+	while(cmd_ptr)
+	{
+		cmd_count++;
+		cmd_ptr = cmd_ptr->next;
+	}
+	if (cmd_count == 1)
+		execute_single_command(cmds, pg);
+	else
+		execute_multiple_commands(cmds, cmd_count, pg);
+	return;
 	//restor_fd(stdin_backup, stdout_backup);
 }
 
