@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 12:41:44 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/24 17:54:29 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/29 09:45:38 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*copy_word(int start, int end, char *str)
 	int		i;
 	char	*fstr;
 
-	fstr = (char *)malloc(sizeof(char) * (end + 1));
+	fstr = (char *)ft_malloc(sizeof(char) * (end + 1));
 	if (!fstr)
 		return (NULL);
 	i = 0;
@@ -91,7 +91,7 @@ char	**ft_split(char *str, char *charset)
 	int		i;
 	int		k;
 
-	fstr = (char **)malloc(sizeof(char *) * (word_counter_1(str, charset) + 1));
+	fstr = (char **)ft_malloc(sizeof(char *) * (word_counter_1(str, charset) + 1));
 	if (!fstr)
 		return (NULL);
 	k = 0;

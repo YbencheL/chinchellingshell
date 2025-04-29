@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/27 12:48:10 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/29 10:06:38 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ void execute_single_command(t_cmds *cmds, t_mp *pg)
 		}
 		execve(cmd_dir, cmds->cmds, pg->envp);
 		perror("execve");
+		ft_lstclear(&g_gbc, free);
 		exit(EXIT_FAILURE);
 	}
 	waitpid(p_id, &status, 0);
