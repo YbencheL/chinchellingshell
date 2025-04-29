@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/29 17:41:41 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:00:41 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,7 @@ void	pwd(void);
 void	cd(t_cmds *cmds);
 int		export(t_cmds *cmds, t_list *env);
 void	print_env(t_list *env);
-void	env(t_cmds *cmds, t_list *env);
-void	bin_unlink(t_cmds *cmds);
-
+int		env(t_cmds *cmds, t_list *env);
+void	unset(t_cmds *cmds, t_list *env);
 
 #endif

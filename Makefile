@@ -5,7 +5,7 @@ helper_functions/helper_function_1.c helper_functions/helper_function_2.c helper
 helper_functions/helper_function_4.c helper_functions/helper_function_5.c helper_functions/helper_function_6.c helper_functions/ft_split.c \
 parsing/1_first_check_quotes.c parsing/2_char_to_token_check.c parsing/parsing2.c parsing/parsing_tokens_to_cmds1.c parsing/final_pars.c \
 tools/tool0.c tools/tool1.c tools/tool2.c tools/tool3.c tools/tool4.c tools/tool5.c \
-execution/redirection_n_files.c execution/1_handle_heredoc.c execution/get_cmd_dir.c execution/bin_pwd.c execution/bin_cd.c execution/bin_unlink.c \
+execution/redirection_n_files.c execution/1_handle_heredoc.c execution/get_cmd_dir.c execution/bin_pwd.c execution/bin_cd.c execution/bin_unset.c \
 execution/bin_export.c execution/bin_env.c \
 
 LDFLAGS = -lreadline

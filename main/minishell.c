@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/29 17:41:31 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:00:41 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,9 +292,9 @@ void	execution(t_cmds *cmds, t_mp *pg)
         pwd();
         return;
     }
-    if (ft_strncmp(cmds->cmds[0], "unlink", ft_strlen(cmds->cmds[0])) == 0)
+    if (ft_strncmp(cmds->cmds[0], "unset", ft_strlen(cmds->cmds[0])) == 0)
     {
-        bin_unlink(cmds);
+        unset(cmds, pg->env);
         return ;
     }
 	int	cmd_count = 0;
