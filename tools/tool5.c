@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bin_exit.c                                         :+:      :+:    :+:   */
+/*   tool5.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 13:06:15 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/29 17:41:42 by abenzaho         ###   ########.fr       */
+/*   Created: 2025/04/29 16:24:05 by ybenchel          #+#    #+#             */
+/*   Updated: 2025/04/29 16:54:19 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	exit(t_cmds *cmds, int pid)
+char	*my_getenv(t_list *env, char *name)
 {
-	if (cmds->cmds[1])
-		write(2, "minishell: exit: too many arguments\n", 35);
-	if (!pid)
+	int		len;
+	
+	len = ft_strlen(name);
+	while (env)
 	{
-		ft_lstclear(g_gbc, free);
-		printf("exit\n");
+		if (!strncmp(name, ((char *)(env->ptr)), len) && ((char *)(env->ptr))[len] == '=')
+			return (ft_strdup(((char *)(env->ptr)) + len + 1));
+		env = env->next;
 	}
-	else
-		exit (0);
+	return (NULL);
 }

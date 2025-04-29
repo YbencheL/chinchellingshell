@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bin_exit.c                                         :+:      :+:    :+:   */
+/*   bin_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 13:06:15 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/29 17:41:42 by abenzaho         ###   ########.fr       */
+/*   Created: 2025/04/29 17:25:25 by abenzaho          #+#    #+#             */
+/*   Updated: 2025/04/29 17:41:41 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	exit(t_cmds *cmds, int pid)
+void	print_env(t_list *env)
 {
-	if (cmds->cmds[1])
-		write(2, "minishell: exit: too many arguments\n", 35);
-	if (!pid)
+	while(env)
 	{
-		ft_lstclear(g_gbc, free);
-		printf("exit\n");
+		printf("%s\n", (char *)(env->ptr));
+		env = env->next;
 	}
-	else
-		exit (0);
+}
+
+void	env(t_cmds *cmds, t_list *env)
+{
+	if (!cmds->cmds[1])
+		print_env(env);
+	// else
+	// {
+	// // need to excute cmd after this	
+	// }
 }

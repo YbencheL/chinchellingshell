@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/29 16:07:49 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:41:31 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,16 @@ void execute_single_command(t_cmds *cmds, t_mp *pg)
         cd(cmds);
         return ;
     }
+    if (!ft_strcmp(cmds->cmds[0], "export"))
+    {
+        export(cmds, pg->env);
+        return ;
+    }
+    if (!ft_strcmp(cmds->cmds[0], "env"))
+    {
+        env(cmds, pg->env);
+        return ;
+    }
 	p_id = fork();
 	if (p_id == 0)
 	{
@@ -282,6 +292,11 @@ void	execution(t_cmds *cmds, t_mp *pg)
         pwd();
         return;
     }
+    if (ft_strncmp(cmds->cmds[0], "unlink", ft_strlen(cmds->cmds[0])) == 0)
+    {
+        bin_unlink(cmds);
+        return ;
+    }
 	int	cmd_count = 0;
 	t_cmds *cmd_ptr = cmds;
 	
@@ -331,7 +346,8 @@ int	main(int ac, char **av, char **env)
     pg.exit_status = 0;
     g_gbc = ft_lstnew_custom(NULL);
     check_args(ac, av);
-    pg.envp = init_env(env);
+    pg.env = init_env(env);
+    pg.envp = env;
     print_banner();
     signal_setup();
     shell_loop(&pg);

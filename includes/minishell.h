@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/29 16:07:49 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:41:41 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_cmds
 
 typedef struct s_mp
 {
+	t_list	*env;
 	char	**envp;
 	int		exit_status;
 }	t_mp;
@@ -100,7 +101,7 @@ t_cmds	*get_final_cmds(t_token *token);
 ////////////////////-----tools-----////////////////////
 
 void	*ft_malloc(size_t size);
-char	**init_env(char **envp);
+t_list	*init_env(char **envp);
 void	check_args(int ac, char **av);
 void	allocation_fails(void);
 void	signal_setup(void);
@@ -110,6 +111,12 @@ char	**split_token(char *s);
 t_arg	*new_arg(char *arg);
 void	argadd_back(t_arg **arg, t_arg *new);
 char	**split_only_spaces(char *s);
+void	fill_split(char **str, char *s);
+int	word_counter(char *s);
+char	**split_token(char *s);
+int		is_delimiter(char c);
+int		is_special_char(char c);
+char	*my_getenv(t_list *env, char *name);
 // void	check_args(int ac, char **av);
 // void	*ft_malloc(size_t size);
 // void	print_banner(void);
@@ -140,6 +147,10 @@ void	restor_fd(int stdin_b, int stdout_b);
 char	*get_cmd_dir(char *cmd, t_mp *pg);
 void	pwd(void);
 void	cd(t_cmds *cmds);
+int		export(t_cmds *cmds, t_list *env);
+void	print_env(t_list *env);
+void	env(t_cmds *cmds, t_list *env);
+void	bin_unlink(t_cmds *cmds);
 
 
 #endif

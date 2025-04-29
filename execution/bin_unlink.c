@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bin_exit.c                                         :+:      :+:    :+:   */
+/*   bin_unlink.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 13:06:15 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/29 17:41:42 by abenzaho         ###   ########.fr       */
+/*   Created: 2025/04/29 17:25:53 by ybenchel          #+#    #+#             */
+/*   Updated: 2025/04/29 17:34:11 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	exit(t_cmds *cmds, int pid)
+void	bin_unlink(t_cmds *cmds)
 {
-	if (cmds->cmds[1])
-		write(2, "minishell: exit: too many arguments\n", 35);
-	if (!pid)
+	char 	*path_name;
+	int		status;
+
+	if (!cmds->cmds[1])
+    {
+        write(2, "minishell: unlink: missing operand\n", 35);
+        return ;
+    }
+	path_name = cmds->cmds[1];
+	status = unlink(path_name);
+	if (status == -1)
 	{
-		ft_lstclear(g_gbc, free);
-		printf("exit\n");
+    	perror("minishell: unlink");
+    	return ;
 	}
-	else
-		exit (0);
 }

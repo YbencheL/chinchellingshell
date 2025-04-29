@@ -6,29 +6,27 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:32:03 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/29 13:45:34 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:41:42 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**init_env(char **envp)
+t_list	*init_env(char **envp)
 {
-	char	**env;
 	int		i;
-
-	env = (char **)ft_malloc(sizeof(char *) * (ft_pcounter(envp) + 1));
-	if (!env)
-		allocation_fails();
+	t_list	*env;
+	
+	env = NULL;
 	i = 0;
-	while (envp[i] != NULL)
+	while (envp[i])
 	{
-		env[i] = ft_strdup(envp[i]);
-		if (!env[i])
-			allocation_fails();
+		if (!env)
+			env = ft_lstnew(envp[i]);
+		else
+			ft_lstadd_back(&env, ft_lstnew(envp[i]));
 		i++;
 	}
-	env[i] = NULL;
 	return (env);
 }
 
