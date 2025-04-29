@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/29 10:06:38 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:04:16 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,11 @@ void execute_single_command(t_cmds *cmds, t_mp *pg)
 	int status;
 	char *cmd_dir;
 
+    if (ft_strncmp(cmds->cmds[0], "cd", ft_strlen(cmds->cmds[0])) == 0)
+    {
+        cd(cmds);
+        return ;
+    }
 	p_id = fork();
 	if (p_id == 0)
 	{
@@ -272,7 +277,11 @@ void	execution(t_cmds *cmds, t_mp *pg)
 	//     }
 	//     current = current->next;
 	// }
-	
+	if (ft_strncmp(cmds->cmds[0], "pwd", ft_strlen(cmds->cmds[0])) == 0)
+    {
+        pwd();
+        return;
+    }
 	int	cmd_count = 0;
 	t_cmds *cmd_ptr = cmds;
 	
