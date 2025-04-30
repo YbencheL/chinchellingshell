@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/29 19:00:41 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:15:51 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,33 +161,66 @@ t_cmds	*parsing(char *rl, t_mp *pg)
 	return (cmds);
 }
 
+int builtins(t_cmds *cmds, t_mp *pg)
+{
+    if (ft_strncmp(cmds->cmds[0], "cd", ft_strlen(cmds->cmds[0])) == 0)
+    {
+        cd(cmds);
+        return 0;
+    }
+    if (!ft_strcmp(cmds->cmds[0], "export"))
+    {
+        export(cmds, pg->env);
+        return 0;
+    }
+    if (!ft_strcmp(cmds->cmds[0], "env"))
+    {
+        env(cmds, pg->env);
+        return 0;
+    }
+    if (ft_strncmp(cmds->cmds[0], "pwd", ft_strlen(cmds->cmds[0])) == 0)
+    {
+        pwd();
+        return 0;
+    }
+    if (ft_strncmp(cmds->cmds[0], "unset", ft_strlen(cmds->cmds[0])) == 0)
+    {
+        unset(cmds, pg->env);
+        return 0;
+    }
+    return 1;
+}
+
 void execute_single_command(t_cmds *cmds, t_mp *pg)
 {
 	int p_id;
 	int status;
 	char *cmd_dir;
 
-    if (ft_strncmp(cmds->cmds[0], "cd", ft_strlen(cmds->cmds[0])) == 0)
-    {
-        cd(cmds);
-        return ;
-    }
-    if (!ft_strcmp(cmds->cmds[0], "export"))
-    {
-        export(cmds, pg->env);
-        return ;
-    }
-    if (!ft_strcmp(cmds->cmds[0], "env"))
-    {
-        env(cmds, pg->env);
-        return ;
-    }
+    if (builtins(cmds, pg) == 0)
+        {return ;}
 	p_id = fork();
 	if (p_id == 0)
 	{
+        if (cmds->files)
+		{
+			check_redirection(cmds->files);
+			// printf("loool\n");
+		}
+        if (!cmds->cmds || !cmds->cmds[0])
+        {
+            while(cmds->files)
+            {
+                close(cmds->files->fd);
+                cmds->files = cmds->files->next;
+            }
+            exit(EXIT_SUCCESS);
+        }
+        if (builtins(cmds, pg) == 0)
+            exit(0);
 		cmd_dir = get_cmd_dir(cmds->cmds[0], pg);
 		if (!cmd_dir) {
-			perror("wow no cmd");
+			perror("no cmd");
 			exit(127);
 		}
 		execve(cmd_dir, cmds->cmds, pg->envp);
@@ -226,18 +259,32 @@ void execute_multiple_commands(t_cmds *cmds, int cmd_count, t_mp *pg)
 		}
 		if (pids[i] == 0)
 		{
-			// ila makansh awl command redirecti lout put dyal previous commad as input to this command
-			if (i > 0)
-				dup_in(pipe_fds[(i - 1) * 2]);
-			// ila kan hada howa l previous command redirecti loutput dyal this commands as out put dyal next command
-			if (i < cmd_count - 1)
-				dup_out(pipe_fds[i * 2 + 1]);
-			int j = 0;
-			while (j < (cmd_count - 1) * 2)
-			{
-				close(pipe_fds[j]);
-				j++;
-			}
+            if (i > 0)
+                dup_in(pipe_fds[(i - 1) * 2]);
+            if (i < cmd_count - 1)
+                dup_out(pipe_fds[i * 2 + 1]);
+            int j = 0;
+            while (j < (cmd_count - 1) * 2)
+            {
+                close(pipe_fds[j]);
+                j++;
+            }
+            if (cmds->files)
+            {
+                check_redirection(cmds->files);
+                // printf("loool\n");
+            }
+            if (!current->cmds || !current->cmds[0])
+            {
+                while(current->files)
+                {
+                    close(current->files->fd);
+                    current->files = current->files->next;
+                }
+                exit(EXIT_SUCCESS);
+            }
+            if (builtins(cmds, pg) == 0)
+                exit(0);
 			char *cmd_dir = get_cmd_dir(current->cmds[0], pg);
 			execve(cmd_dir, current->cmds, pg->envp);
 			perror("execve error");
@@ -287,16 +334,7 @@ void	execution(t_cmds *cmds, t_mp *pg)
 	//     }
 	//     current = current->next;
 	// }
-	if (ft_strncmp(cmds->cmds[0], "pwd", ft_strlen(cmds->cmds[0])) == 0)
-    {
-        pwd();
-        return;
-    }
-    if (ft_strncmp(cmds->cmds[0], "unset", ft_strlen(cmds->cmds[0])) == 0)
-    {
-        unset(cmds, pg->env);
-        return ;
-    }
+
 	int	cmd_count = 0;
 	t_cmds *cmd_ptr = cmds;
 	
