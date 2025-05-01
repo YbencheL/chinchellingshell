@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:32:03 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/29 18:59:42 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:23:59 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list	*init_env(char **envp)
 {
 	int		i;
 	t_list	*env;
-	
+
 	env = NULL;
 	i = 0;
 	while (envp[i])
@@ -54,5 +54,5 @@ void	signal_setup(void)
 	ft_memset(&sa, 0, sizeof(struct sigaction));
 	sa.sa_handler = sig_handler;
 	sigaction(SIGINT, &sa, NULL);
-    signal(SIGQUIT, SIG_IGN);;
+	signal(SIGQUIT, SIG_IGN);
 }

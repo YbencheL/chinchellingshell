@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:05:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/01 15:04:33 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:36:21 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	ft_isalpha(int c)
 		return (1);
 	return (0);
 }
+
 void	ft_strncpy(char *dest, char *src, unsigned int n)
 {
 	unsigned int	i;

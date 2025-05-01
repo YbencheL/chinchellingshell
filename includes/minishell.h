@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/01 17:33:15 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:23:16 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-#include <sys/wait.h>
+# include <sys/wait.h>
 
 typedef enum token_type
 {
@@ -52,7 +52,7 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-typedef struct	s_file
+typedef struct s_file
 {
 	char			*file;
 	t_token_type	type;
@@ -62,8 +62,8 @@ typedef struct	s_file
 
 typedef struct s_cmds
 {
-	char	**cmds;
-	t_file	*files;
+	char			**cmds;
+	t_file			*files;
 	struct s_cmds	*next;
 }	t_cmds;
 
@@ -78,26 +78,15 @@ extern t_list	*g_gbc;
 
 ////////////////////----parsing----////////////////////
 
-
 int		check_unclosed_quotes(char *s, t_mp *pg);
-t_arg   *tokenize(char *line, t_mp *pg);
-t_token *tokens_to_cmds(t_arg *tokens);
+t_arg	*tokenize(char *line, t_mp *pg);
+t_token	*tokens_to_cmds(t_arg *tokens);
 void	expand_variables(t_arg *token, t_mp *pg);
 void	handle_var_space(t_arg **token);
 t_cmds	*get_final_cmds(t_token *token);
 char	*expand(char *str, int *i, t_mp *pg);
-// void	add_token(char **str, t_arg **token);
-// void	unclosed_q_error(t_mp *pg);
-// char	*extract_word(char *s, int *start, t_lst **phrase);
-// char	*extract_phrase(char *s, int *start, char c);
-// t_lst	*handle_quotes(char *s, int *i, t_lst **phrase, t_mp *pg);
-// t_lst	*split_phrase(char *s,  t_mp *pg);
-// t_arg	*split_tokens(t_lst *s);
-// int		error_slayer(t_arg *arg, t_mp *pg);
-// t_list	*checking_variables(t_arg *token, t_mp *pg);
-// char	*check_for_var(char *s, int *start);
-// char	*get_variable_value(char *var_name, t_mp *ev);
-// char	*replace_var(char *token, char *var, char *value);
+void	inisialise_cmds(t_cmds *cmd);
+void	handle_file_type(t_file *file, char *s);
 
 ////////////////////-----tools-----////////////////////
 
@@ -113,7 +102,7 @@ t_arg	*new_arg(char *arg);
 void	argadd_back(t_arg **arg, t_arg *new);
 char	**split_only_spaces(char *s);
 void	fill_split(char **str, char *s);
-int	word_counter(char *s);
+int		word_counter(char *s);
 char	**split_token(char *s);
 int		is_delimiter(char c);
 int		is_special_char(char c);
@@ -138,12 +127,13 @@ char	*my_getenv(t_list *env, char *name);
 // t_arg	*ft_arglast(t_arg *lst);
 
 ////////////////////-----execution-----////////////////////
-void 	check_herdoc(t_file *files);
+
+void	check_herdoc(t_file *files);
 int		fill_herdoc(t_cmds *cmds, t_mp *pg);
 void	dup_in(int fd);
 void	dup_out(int fd);
 void	in_n_out_backup(int *stdin_b, int *stdout_b);
-int	check_redirection(t_file *files);
+int		check_redirection(t_file *files);
 void	restor_fd(int stdin_b, int stdout_b);
 char	*get_cmd_dir(char *cmd, t_mp *pg);
 void	pwd(void);

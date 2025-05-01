@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_tokens_to_cmds1.c                          :+:      :+:    :+:   */
+/*   6_tokenize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:50:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/20 15:08:41 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:11:00 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	inisialize_cmds(t_token *cmds)
 	cmds->type = 0;
 }
 
-void	handle_type_Word(t_arg **arg, t_token *cmds)
+void	handle_type_word(t_arg **arg, t_token *cmds)
 {
 	t_arg	*head;
 	int		i;
-	char 	**str;
-	
+	char	**str;
+
 	head = *arg;
 	i = 0;
 	while (head && head->type == WORD)
@@ -49,9 +49,9 @@ void	handle_type_Word(t_arg **arg, t_token *cmds)
 
 void	handle_redirections(t_arg **arg, t_token *cmds)
 {
-	char 	**str;
+	char	**str;
 	t_arg	*head;
-	
+
 	head = *arg;
 	str = (char **)ft_malloc(sizeof(char *) * (3));
 	str[0] = (*arg)->arg;
@@ -68,49 +68,42 @@ void	handle_redirections(t_arg **arg, t_token *cmds)
 
 void	handle_pipe(t_arg **arg, t_token *cmds)
 {
-	char 	**str;
+	char	**str;
 
 	str = (char **)ft_malloc(sizeof(char *) * (2));
 	str[0] = (*arg)->arg;
 	(*arg) = (*arg)->next;
 	str[1] = NULL;
 	cmds->cmds = str;
-	cmds->next = NULL;	
+	cmds->next = NULL;
 	cmds->type = PIPELINE;
 }
 
-t_token *tokens_to_cmds(t_arg *tokens)
+t_token	*tokens_to_cmds(t_arg *tokens)
 {
-    t_token *cmd_list;
-    t_token *first;
-    t_arg   *curr_token;
-	t_token *tmp;
-        
-    curr_token = tokens;
-    cmd_list = NULL;
-    first = NULL;
-    while (curr_token)
-    {
+	t_token	*cmd_list;
+	t_token	*first;
+	t_token	*tmp;
+	t_arg	*curr_token;
+
+	curr_token = tokens;
+	cmd_list = NULL;
+	first = NULL;
+	while (curr_token)
+	{
 		tmp = (t_token *)ft_malloc(sizeof(t_token));
 		inisialize_cmds(tmp);
-        if (curr_token->type == WORD)
-            handle_type_Word(&curr_token, tmp);
-        else if (curr_token->type == PIPE)
+		if (curr_token->type == WORD)
+			handle_type_word(&curr_token, tmp);
+		else if (curr_token->type == PIPE)
 			handle_pipe(&curr_token, tmp);
-        else if (curr_token->type == RED_IN || curr_token->type == RED_OUT || 
-                curr_token->type == RED_APPEND || curr_token->type == HEREDOC)
+		else if (curr_token->type >= RED_IN && curr_token->type <= HEREDOC)
 			handle_redirections(&curr_token, tmp);
-		if (!first)
-		{
+		if (first == NULL)
 			first = tmp;
-			cmd_list = tmp;
-		}
 		else
-		{
 			cmd_list->next = tmp;
-			cmd_list = cmd_list->next;
-		}
-    }
-	cmd_list = first;
-    return (cmd_list);
+		cmd_list = tmp;
+	}
+	return (first);
 }

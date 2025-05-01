@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:38:13 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/01 15:04:41 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:36:21 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_list
 	void			*ptr;
 	struct s_list	*next;
 }	t_list;
-
 
 typedef struct s_lst
 {

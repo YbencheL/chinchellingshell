@@ -1,44 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   final_pars.c                                       :+:      :+:    :+:   */
+/*   7_parsing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:45:13 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/22 16:36:56 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:17:45 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	inisialise_cmds(t_cmds *cmd)
+void	append_file(t_file **fhead, t_file **files, t_file *tmp)
 {
-	cmd->cmds = NULL;
-	cmd->files =NULL;
-	cmd->next = NULL;
-}
-void	handle_file_type(t_file *file, char *s)
-{
-	if (!ft_strcmp(s, ">>"))
-		file->type = RED_APPEND;
-	else if(!ft_strcmp(s, "<<"))
-		file->type = HEREDOC;
-	else if(!ft_strcmp(s, "<"))
-		file->type = RED_IN;
-	else if(!ft_strcmp(s, ">"))
-		file->type = RED_OUT;
-	file->fd = 0;
+	if (!*fhead)
+	{
+		*fhead = tmp;
+		*files = tmp;
+	}
+	else
+	{
+		(*files)->next = tmp;
+		*files = (*files)->next;
+	}
 }
 
 t_file	*get_file(t_token **token)
 {
-	t_token	*head;
 	t_file	*files;
 	t_file	*fhead;
 	t_file	*tmp;
 
-	head = *token;
 	files = NULL;
 	fhead = NULL;
 	while (*token && (*token)->type != PIPELINE)
@@ -49,20 +42,25 @@ t_file	*get_file(t_token **token)
 			tmp->file = (*token)->cmds[1];
 			handle_file_type(tmp, (*token)->cmds[0]);
 			tmp->next = NULL;
-			if (!fhead)
-			{
-				fhead = tmp;
-				files = tmp;
-			}
-			else 
-			{
-				files->next = tmp;
-				files = files->next;
-			}
+			append_file(&fhead, &files, tmp);
 		}
 		*token = (*token)->next;
 	}
 	return (fhead);
+}
+
+int	count_cmd_words(t_token *token)
+{
+	int	i;
+
+	i = 0;
+	while (token && token->type != PIPELINE)
+	{
+		if (token->type == WORD)
+			i += ft_pcounter(token->cmds);
+		token = token->next;
+	}
+	return (i);
 }
 
 char	**get_cmd(t_token *token)
@@ -72,28 +70,18 @@ char	**get_cmd(t_token *token)
 	int		j;
 	char	**cmds;
 
-	i = 0;
-	j = 0;
 	head = token;
-	while (token && token->type != PIPELINE)
-	{
-		if (token->type == WORD)
-			i = i + ft_pcounter(token->cmds);
-		token = token->next;
-	}
+	i = count_cmd_words(token);
 	token = head;
 	cmds = (char **)ft_malloc(sizeof(char *) * (i + 1));
+	j = 0;
 	while (token && token->type != PIPELINE)
 	{
 		if (token->type == WORD)
 		{
 			i = 0;
 			while (token->cmds[i])
-			{
-				cmds[j] = token->cmds[i];
-				j++;
-				i++;
-			}
+				cmds[j++] = token->cmds[i++];
 		}
 		token = token->next;
 	}

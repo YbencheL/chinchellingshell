@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/01 17:09:30 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:52:29 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,24 +141,6 @@ void print_all_heredocs(t_cmds *cmds)
         printf("\n\033[1;31m[No heredocs found]\033[0m\n");
     
     printf("\n\033[1;36m╚═══════════════════════════════════╝\033[0m\n\n");
-}
-
-t_cmds	*parsing(char *rl, t_mp *pg)
-{
-	t_arg	*token;
-    t_token *tokens;
-    t_cmds  *cmds;
-	
-	if (!check_unclosed_quotes(rl, pg))
-		return (NULL);
-	token = tokenize(rl, pg);
-	if (!token)	
-		return (NULL);
-	expand_variables(token, pg);
-	handle_var_space(&token);
-	tokens = tokens_to_cmds(token);
-	cmds = get_final_cmds(tokens);
-	return (cmds);
 }
 
 int builtins(t_cmds *cmds, t_mp *pg)
@@ -311,33 +293,12 @@ void execute_multiple_commands(t_cmds *cmds, int cmd_count, t_mp *pg)
 
 void	execution(t_cmds *cmds, t_mp *pg)
 {
-	//t_file *file_ptr;
-	//t_cmds *current;
-	//int stdin_backup;
-	//int stdout_backup;
-	
-	fill_herdoc(cmds, pg);
-	// stdin_backup = 0;
-	// stdin_backup = 0;
-	// in_n_out_backup(&stdin_backup, &stdout_backup);
-	// current = cmds;
-	// while (current)
-	// {
-	//     if (current->files)
-	//     {
-	//         file_ptr = current->files;
-	//         while (file_ptr)
-	//         {
-	//             check_redirection(file_ptr);
-	//             file_ptr = file_ptr->next;
-	//         }
-	//     }
-	//     current = current->next;
-	// }
+	int	cmd_count;
+	t_cmds *cmd_ptr;
 
-	int	cmd_count = 0;
-	t_cmds *cmd_ptr = cmds;
-	
+	fill_herdoc(cmds, pg);
+	cmd_ptr = cmds;
+	cmd_count = 0;
 	while(cmd_ptr)
 	{
 		cmd_count++;
@@ -348,7 +309,24 @@ void	execution(t_cmds *cmds, t_mp *pg)
 	else
 		execute_multiple_commands(cmds, cmd_count, pg);
 	return;
-	//restor_fd(stdin_backup, stdout_backup);
+}
+
+t_cmds	*parsing(char *rl, t_mp *pg)
+{
+	t_arg	*token;
+    t_token *tokens;
+    t_cmds  *cmds;
+	
+	if (!check_unclosed_quotes(rl, pg))
+		return (NULL);
+	token = tokenize(rl, pg);
+	if (!token)	
+		return (NULL);
+	expand_variables(token, pg);
+	handle_var_space(&token);
+	tokens = tokens_to_cmds(token);
+	cmds = get_final_cmds(tokens);
+	return (cmds);
 }
 
 void shell_loop(t_mp *pg)
@@ -369,8 +347,8 @@ void shell_loop(t_mp *pg)
             print_cmds(cmds);
 
             // Test heredoc functionality with all commands
-            print_all_heredocs(cmds);
-            execution(cmds, pg);   
+            // print_all_heredocs(cmds);
+            // execution(cmds, pg);   
         }
         free(rl);
     }

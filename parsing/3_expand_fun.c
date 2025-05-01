@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/01 17:33:14 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:36:20 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*get_var(char *s, int start)
 {
-	int i;
-	char *str;
+	int		i;
+	char	*str;
 
 	i = start;
 	while (s[i])
@@ -23,12 +23,12 @@ char	*get_var(char *s, int start)
 		if (ft_isdigit(s[i]) && start == i)
 		{
 			i++;
-			break;
+			break ;
 		}
 		else if (ft_isalnum(s[i]) || s[i] == '_')
 			i++;
 		else
-			break;
+			break ;
 	}
 	str = ft_substr(s, start, i - start);
 	return (str);
@@ -69,11 +69,11 @@ char	*expand(char *str, int *i, t_mp *pg)
 	{
 		var = get_var(str, j);
 		value = getenv(var);
-		var = ft_strjoin(ft_strdup("$") , var);
+		var = ft_strjoin(ft_strdup("$"), var);
 	}
 	if (!value)
-	 	s = replace_var(str, var, ft_strdup(""), i);
-	else	
+		s = replace_var(str, var, ft_strdup(""), i);
+	else
 		s = replace_var(str, var, value, i);
 	return (s);
 }

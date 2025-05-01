@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/01 17:33:14 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:07:34 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	handle_var_dquote(t_arg *token, int *j, t_mp *pg)
 	while (token->arg[*j])
 	{
 		if (token->arg[*j] == '$' && (ft_isalnum(token->arg[*j + 1])
-			|| token->arg[*j + 1] == '_' || token->arg[*j + 1] == '?'))
+				|| token->arg[*j + 1] == '_' || token->arg[*j + 1] == '?'))
 			token->arg = expand(token->arg, j, pg);
 		else if (token->arg[*j] == '"')
 		{
 			(*j)++;
-			break;
+			break ;
 		}
 		else
 			(*j)++;
@@ -36,9 +36,9 @@ void	handle_var_quote(t_arg *token, int *j)
 		if (token->arg[*j] == '\'')
 		{
 			(*j)++;
-			break;
+			break ;
 		}
-		(*j)++;	
+		(*j)++;
 	}
 }
 
@@ -59,12 +59,12 @@ void	handle_var(t_arg *token, int *i, t_mp *pg)
 	int	j;
 
 	j = *i;
-	while(token->arg[j])
+	while (token->arg[j])
 	{
 		if (token->arg[j] == '"' || token->arg[j] == '\'')
-			break;
+			break ;
 		else if (token->arg[j] == '$' && (ft_isalnum(token->arg[j + 1])
-			|| token->arg[j + 1] == '_' || token->arg[j + 1] == '?'))
+				|| token->arg[j + 1] == '_' || token->arg[j + 1] == '?'))
 			token->arg = expand(token->arg, &j, pg);
 		else
 			j++;
@@ -74,11 +74,12 @@ void	handle_var(t_arg *token, int *i, t_mp *pg)
 
 void	expand_variables(t_arg *token, t_mp *pg)
 {
-	int	i;
-	t_arg *head;
+	int		i;
+	t_arg	*head;
+
 	head = token;
 	while (token)
-	{	
+	{
 		i = 0;
 		if (token->type == HEREDOC)
 			token = token->next->next;

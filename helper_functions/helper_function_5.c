@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_function_5.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:30:54 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/09 14:48:27 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:36:21 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_lst	*ft_lstnew_space(void *ptr, int is)
 		return (NULL);
 	new_node->ptr = ptr;
 	new_node->next = NULL;
-    new_node->is = is;
+	new_node->is = is;
 	return (new_node);
 }
 

@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/01 17:33:15 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:36:03 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,19 @@ void	split_word_var(t_arg **current, t_arg **previous, t_arg **new_head)
 	*previous = new_list;
 }
 
+void	export_skip(t_arg **token, t_arg **new_head)
+{
+	if (!(*new_head))
+		*new_head = *token;
+	if (!ft_strcmp("export", (*token)->arg))
+	{
+		while ((*token)->next && (*token)->type == PIPE)
+			*token = (*token)->next;
+	}
+	else
+		*token = (*token)->next;
+}
+
 void	handle_var_space(t_arg **token)
 {
 	t_arg	*current;
@@ -88,11 +101,7 @@ void	handle_var_space(t_arg **token)
 	{
 		if ((current->type >= 2 && current->type <= 5)
 			|| !ft_strcmp("export", current->arg))
-		{
-			if (!new_head)
-				new_head = current;
-			current = current->next;
-		}
+			export_skip(&current, &new_head);
 		else if (current->type == WORD && check_for_space(current))
 			split_word_var(&current, &previous, &new_head);
 		else if (!new_head)

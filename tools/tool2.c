@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:00:00 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/29 16:40:38 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:28:43 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	add_word(char *s, char **str, int *i, int *c)
 	*i = j;
 	(*c)++;
 }
+
 void	fill_split(char **str, char *s)
 {
 	int	i;

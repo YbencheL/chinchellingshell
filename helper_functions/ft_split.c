@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 12:41:44 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/29 09:45:38 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:20:29 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ char	**ft_split(char *str, char *charset)
 	int		i;
 	int		k;
 
-	fstr = (char **)ft_malloc(sizeof(char *) * (word_counter_1(str, charset) + 1));
+	fstr = (char **)ft_malloc(sizeof(char *)
+			* (word_counter_1(str, charset) + 1));
 	if (!fstr)
 		return (NULL);
 	k = 0;

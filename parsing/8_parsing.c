@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tool5.c                                            :+:      :+:    :+:   */
+/*   8_parsing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 16:24:05 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/01 18:29:00 by abenzaho         ###   ########.fr       */
+/*   Created: 2025/05/01 18:14:36 by abenzaho          #+#    #+#             */
+/*   Updated: 2025/05/01 18:36:21 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*my_getenv(t_list *env, char *name)
+void	inisialise_cmds(t_cmds *cmd)
 {
-	int		len;
+	cmd->cmds = NULL;
+	cmd->files = NULL;
+	cmd->next = NULL;
+}
 
-	len = ft_strlen(name);
-	while (env)
-	{
-		if (!strncmp(name, ((char *)(env->ptr)), len)
-			&& ((char *)(env->ptr))[len] == '=')
-			return (ft_strdup(((char *)(env->ptr)) + len + 1));
-		env = env->next;
-	}
-	return (NULL);
+void	handle_file_type(t_file *file, char *s)
+{
+	if (!ft_strcmp(s, ">>"))
+		file->type = RED_APPEND;
+	else if (!ft_strcmp(s, "<<"))
+		file->type = HEREDOC;
+	else if (!ft_strcmp(s, "<"))
+		file->type = RED_IN;
+	else if (!ft_strcmp(s, ">"))
+		file->type = RED_OUT;
+	file->fd = 0;
 }
