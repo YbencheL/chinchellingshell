@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/29 19:00:41 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:33:15 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_token *tokens_to_cmds(t_arg *tokens);
 void	expand_variables(t_arg *token, t_mp *pg);
 void	handle_var_space(t_arg **token);
 t_cmds	*get_final_cmds(t_token *token);
+char	*expand(char *str, int *i, t_mp *pg);
 // void	add_token(char **str, t_arg **token);
 // void	unclosed_q_error(t_mp *pg);
 // char	*extract_word(char *s, int *start, t_lst **phrase);

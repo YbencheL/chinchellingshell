@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:06:55 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/12 17:42:45 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:40:25 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	skip_quote(char *s, int *i, char c)
 	while (s[j])
 	{
 		if (s[j] == c && j != *i)
-			break;
+			break ;
 		j++;
 	}
 	if (s[j] == '\0')
@@ -55,6 +55,3 @@ int	check_unclosed_quotes(char *s, t_mp *pg)
 	}
 	return (1);
 }
-
-
-

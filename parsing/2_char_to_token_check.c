@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:26:46 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/12 18:06:45 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:42:32 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,14 @@ int	check_pipe_syntaxe(t_arg *tokens)
 		{
 			if (!tokens->next)
 			{
-				ft_putstr_fd("minishell: syntax error, unexpected token`|'\n", 2);
+				ft_putstr_fd("minishell: syntax error, "
+					"unexpected token`|'\n", 2);
 				return (0);
 			}
 			else if (tokens->next->type == PIPE)
 			{
-				ft_putstr_fd("minishell: syntax error, unexpected token`||'\n", 2);
+				ft_putstr_fd("minishell: syntax error, "
+					"unexpected token`||'\n", 2);
 				return (0);
 			}
 		}
@@ -47,12 +49,14 @@ int	check_redrection_syntaxe(t_arg *tokens)
 		{
 			if (!tokens->next)
 			{
-				ft_putstr_fd("minishell: syntax error, unexpected token `redirection`\n", 2);
+				ft_putstr_fd("minishell: syntax error, "
+					"unexpected token `redirection`\n", 2);
 				return (0);
 			}
 			else if (tokens->next->type != WORD)
 			{
-				ft_putstr_fd("minishell: syntax error, unexpected token `redirection`\n", 2);
+				ft_putstr_fd("minishell: syntax error, "
+					"unexpected token `redirection`\n", 2);
 				return (0);
 			}
 		}
@@ -92,16 +96,16 @@ t_arg	*add_token(char **str)
 	return (token);
 }
 
-t_arg   *tokenize(char *line, t_mp *pg)
+t_arg	*tokenize(char *line, t_mp *pg)
 {
-    char    **lines;
-    t_arg   *tokens;
+	char	**lines;
+	t_arg	*tokens;
 	t_arg	*head;
 
-    lines = split_token(line);
+	lines = split_token(line);
 	if (!lines)
 		return (NULL);
-    tokens = add_token(lines);
+	tokens = add_token(lines);
 	head = tokens;
 	while (head)
 	{
@@ -112,7 +116,7 @@ t_arg   *tokenize(char *line, t_mp *pg)
 	{
 		pg->exit_status = 2;
 		free(line);
-		return(NULL);
+		return (NULL);
 	}
 	return (tokens);
 }

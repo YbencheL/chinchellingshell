@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/30 16:15:51 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:09:30 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ void execute_single_command(t_cmds *cmds, t_mp *pg)
         if (cmds->files)
 		{
 			check_redirection(cmds->files);
-			// printf("loool\n");
+			printf("loool\n");
 		}
         if (!cmds->cmds || !cmds->cmds[0])
         {

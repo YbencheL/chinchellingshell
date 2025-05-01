@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:11:22 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/30 18:04:34 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/04/30 18:50:49 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,37 +104,6 @@ void	append_var(t_list *env, char *s)
 	var = ft_strjoin(env->ptr, s + len + 2);
 	env->ptr = var;
 }
-
-// void	change_var(char *s, t_list *env)
-// {
-// 	int		len;
-// 	char	*var;
-// 	int		i;
-// 	int		j;
-
-// 	i = 0;
-// 	j = 0;
-// 	len = 0;
-// 	while (s[len] && s[len] != '+')
-// 		len++;
-// 	while (env)
-// 	{
-// 		if (!strncmp(env->ptr, s, len))
-// 		{
-// 			len = ft_strlen(s);
-// 			var = (char *)ft_malloc(sizeof(char) * len);
-// 			while (((char *)(env->ptr))[i] && ((char *)(env->ptr))[i] != '+')
-// 				var[j++] = ((char *)(env->ptr))[i++];	
-// 			i++;
-// 			while (((char *)(env->ptr))[i])
-// 				var[j++] = ((char *)(env->ptr))[i++];
-// 			var[j] = '\0';
-// 			env->ptr = var;
-// 			break;
-// 		}
-// 		env = env->next;
-// 	}
-// }
 
 void	app_var(t_list *env, char *s)
 {
