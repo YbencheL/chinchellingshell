@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/01 18:23:16 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/03 09:59:53 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,6 @@ int		export(t_cmds *cmds, t_list *env);
 void	print_env(t_list *env);
 int		env(t_cmds *cmds, t_list *env);
 void	unset(t_cmds *cmds, t_list *env);
+void	echo(t_cmds *cmds);
 
 #endif

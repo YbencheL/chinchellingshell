@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/01 17:52:29 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/03 10:08:41 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,11 @@ int builtins(t_cmds *cmds, t_mp *pg)
         pwd();
         return 0;
     }
+	if (ft_strncmp(cmds->cmds[0], "echo", ft_strlen(cmds->cmds[0])) == 0)
+    {
+        echo(cmds);
+        return 0;
+    }
     if (ft_strncmp(cmds->cmds[0], "unset", ft_strlen(cmds->cmds[0])) == 0)
     {
         unset(cmds, pg->env);
@@ -179,15 +184,14 @@ void execute_single_command(t_cmds *cmds, t_mp *pg)
 	int status;
 	char *cmd_dir;
 
-    if (builtins(cmds, pg) == 0)
-        {return ;}
+    // if (builtins(cmds, pg) == 0)
+    //     {return ;}
 	p_id = fork();
 	if (p_id == 0)
 	{
         if (cmds->files)
 		{
 			check_redirection(cmds->files);
-			printf("loool\n");
 		}
         if (!cmds->cmds || !cmds->cmds[0])
         {
@@ -347,8 +351,8 @@ void shell_loop(t_mp *pg)
             print_cmds(cmds);
 
             // Test heredoc functionality with all commands
-            // print_all_heredocs(cmds);
-            // execution(cmds, pg);   
+            print_all_heredocs(cmds);
+            execution(cmds, pg);   
         }
         free(rl);
     }
