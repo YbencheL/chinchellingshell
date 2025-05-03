@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/03 10:08:41 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/03 11:41:09 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,9 @@ void print_all_heredocs(t_cmds *cmds)
 
 int builtins(t_cmds *cmds, t_mp *pg)
 {
-    if (ft_strncmp(cmds->cmds[0], "cd", ft_strlen(cmds->cmds[0])) == 0)
+	if (!cmds->cmds || !cmds->cmds[0])
+		return 1;
+    if (!ft_strcmp(cmds->cmds[0], "cd"))
     {
         cd(cmds);
         return 0;
@@ -160,17 +162,17 @@ int builtins(t_cmds *cmds, t_mp *pg)
         env(cmds, pg->env);
         return 0;
     }
-    if (ft_strncmp(cmds->cmds[0], "pwd", ft_strlen(cmds->cmds[0])) == 0)
+    if (!ft_strcmp(cmds->cmds[0], "pwd"))
     {
         pwd();
         return 0;
     }
-	if (ft_strncmp(cmds->cmds[0], "echo", ft_strlen(cmds->cmds[0])) == 0)
+	if (!ft_strcmp(cmds->cmds[0], "echo"))
     {
         echo(cmds);
         return 0;
     }
-    if (ft_strncmp(cmds->cmds[0], "unset", ft_strlen(cmds->cmds[0])) == 0)
+    if (!ft_strcmp(cmds->cmds[0], "unset"))
     {
         unset(cmds, pg->env);
         return 0;
@@ -184,12 +186,12 @@ void execute_single_command(t_cmds *cmds, t_mp *pg)
 	int status;
 	char *cmd_dir;
 
-    // if (builtins(cmds, pg) == 0)
-    //     {return ;}
+    if (builtins(cmds, pg) == 0)
+        {return ;}
 	p_id = fork();
 	if (p_id == 0)
 	{
-        if (cmds->files)
+        if (cmds->files && builtins(cmds, pg) == 1)
 		{
 			check_redirection(cmds->files);
 		}
@@ -202,8 +204,6 @@ void execute_single_command(t_cmds *cmds, t_mp *pg)
             }
             exit(EXIT_SUCCESS);
         }
-        if (builtins(cmds, pg) == 0)
-            exit(0);
 		cmd_dir = get_cmd_dir(cmds->cmds[0], pg);
 		if (!cmd_dir) {
 			perror("no cmd");

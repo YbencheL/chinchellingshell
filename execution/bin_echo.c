@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:50:50 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/03 10:01:30 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/03 11:33:28 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ void	echo(t_cmds *cmds)
 	}
 	if (nl)
 		printf("\n");
-	exit (0);
+	// exit (0);
 }
