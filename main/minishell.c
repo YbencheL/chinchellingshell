@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/03 14:58:26 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:26:35 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,22 +291,22 @@ void execute_multiple_commands(t_cmds *cmds, int cmd_count, t_mp *pg)
 
 void	execution(t_cmds *cmds, t_mp *pg)
 {
-	//int	cmd_count;
-	//t_cmds *cmd_ptr;
+	int	cmd_count;
+	t_cmds *cmd_ptr;
 
 	fill_herdoc(cmds, pg);
-	// cmd_ptr = cmds;
-	// cmd_count = 0;
-	// while(cmd_ptr)
-	// {
-	// 	cmd_count++;
-	// 	cmd_ptr = cmd_ptr->next;
-	// }
-	// if (cmd_count == 1)
-	// 	execute_single_command(cmds, pg);
-	// else
-	// 	execute_multiple_commands(cmds, cmd_count, pg);
-	// return;
+	cmd_ptr = cmds;
+	cmd_count = 0;
+	while(cmd_ptr)
+	{
+		cmd_count++;
+		cmd_ptr = cmd_ptr->next;
+	}
+	if (cmd_count == 1)
+		execute_single_command(cmds, pg);
+	else
+		execute_multiple_commands(cmds, cmd_count, pg);
+	return;
 }
 
 t_cmds	*parsing(char *rl, t_mp *pg)

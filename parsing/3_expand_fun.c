@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/03 15:14:16 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:25:28 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*expand(char *str, int *i, t_mp *pg)
 	else
 	{
 		var = get_var(str, j);
-		value = getenv(var);
+		value = my_getenv(pg->env, var);
 		var = ft_strjoin(ft_strdup("$"), var);
 	}
 	if (!value)
