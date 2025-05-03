@@ -6,24 +6,45 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:13:41 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/23 16:57:00 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:22:03 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	pipe_err(t_mp *pg)
+{
+	perror("pipe error");
+	pg->exit_status = 22;
+}
+
+void	expand_heredoc(char *s, t_mp *pg, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '$' && (ft_isalnum(s[i + 1])
+				|| s[i + 1] == '_' || s[i + 1] == '?'))
+			s = expand(s, &i, pg);
+		else
+			i++;
+	}
+	write(fd, s, ft_strlen(s));
+	write(fd, "\n", 1);
+}
 
 int	read_heredoc(t_file *file, t_mp *pg)
 {
 	char *line;
 	char *delimiter;
 	int fds[2];
-	
 	delimiter = file->file;
 	if (pipe(fds) == -1)
 	{
-		perror("pipe error");
-		pg->exit_status = 22;
-			return (1);
+		pipe_err(pg);
+		return (1);
 	}
 	while (1)
 	{
@@ -35,8 +56,7 @@ int	read_heredoc(t_file *file, t_mp *pg)
 			free(line);
 			break ;
 		}
-		write(fds[1], line, ft_strlen(line));
-		write(fds[1], "\n", 1);
+		expand_heredoc(line, pg, fds[1]);
 		free(line);
 	}
 	close(fds[1]);
@@ -46,22 +66,21 @@ int	read_heredoc(t_file *file, t_mp *pg)
 
 int	fill_herdoc(t_cmds *cmds, t_mp *pg)
 {
-    t_cmds *current_cmd = cmds;
-    t_file *current_file;
-    
-    while (current_cmd)
+	t_file	*tmp;
+	
+    while (cmds)
     {
-        current_file = current_cmd->files;
-        while (current_file)
-        {
-            if (current_file->type == HEREDOC)
+		tmp = cmds->files;
+        while (tmp)
+        {		
+            if (tmp->type == HEREDOC)
             {
-                if (read_heredoc(current_file, pg))
+                if (read_heredoc(tmp, pg))
                     return (1);
             }
-            current_file = current_file->next;
+            tmp = tmp->next;
         }
-        current_cmd = current_cmd->next;
+		cmds = cmds->next;
     }
     return (0);
 }
