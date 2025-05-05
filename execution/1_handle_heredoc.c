@@ -6,13 +6,10 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:13:41 by ybenchel          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/05 14:48:38 by abenzaho         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/03 15:22:03 by ybenchel         ###   ########.fr       */
->>>>>>> origin/main
+/*   Updated: 2025/05/05 17:22:07 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/minishell.h"
 

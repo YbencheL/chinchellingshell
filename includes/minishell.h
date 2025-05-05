@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/05 16:46:02 by abenzaho         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/03 09:59:53 by ybenchel         ###   ########.fr       */
->>>>>>> origin/main
+/*   Updated: 2025/05/05 17:21:09 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -148,11 +145,8 @@ int		export(t_cmds *cmds, t_list *env);
 void	print_env(t_list *env);
 int		env(t_cmds *cmds, t_list *env);
 void	unset(t_cmds *cmds, t_list *env);
-<<<<<<< HEAD
 int		open_files_red(t_file *files);
 void	close_files(t_file *files);
-=======
 void	echo(t_cmds *cmds);
->>>>>>> origin/main
 
 #endif
