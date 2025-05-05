@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/01 18:23:16 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:46:02 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ typedef struct s_mp
 {
 	t_list	*env;
 	char	**envp;
+	int		std_in;
+	int		std_out;
 	int		exit_status;
 }	t_mp;
 
@@ -132,7 +134,7 @@ void	check_herdoc(t_file *files);
 int		fill_herdoc(t_cmds *cmds, t_mp *pg);
 void	dup_in(int fd);
 void	dup_out(int fd);
-void	in_n_out_backup(int *stdin_b, int *stdout_b);
+void	in_n_out_backup(t_mp *pg);
 int		check_redirection(t_file *files);
 void	restor_fd(int stdin_b, int stdout_b);
 char	*get_cmd_dir(char *cmd, t_mp *pg);
@@ -142,5 +144,7 @@ int		export(t_cmds *cmds, t_list *env);
 void	print_env(t_list *env);
 int		env(t_cmds *cmds, t_list *env);
 void	unset(t_cmds *cmds, t_list *env);
+int		open_files_red(t_file *files);
+void	close_files(t_file *files);
 
 #endif

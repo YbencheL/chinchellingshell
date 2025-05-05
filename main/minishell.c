@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/01 17:52:29 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:12:03 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,33 +173,56 @@ int builtins(t_cmds *cmds, t_mp *pg)
     return 1;
 }
 
+// void    child_procces()
+// {
+    
+// }
+
+// void    execute_one_cmd(t_cmds *cmds, t_mp *pg)
+// {
+//     int fd;
+    
+//     if (open_files_red(cmds->files))
+//     {
+//         close_files(cmds->files);
+//         return ;
+//     }
+//     if (builtins(cmds, pg) == 0)
+//     {
+//         close_files(cmds->files);    
+//         return ;
+//     }
+//     else
+//     {
+// 		e
+// 	}
+// }
+
 void execute_single_command(t_cmds *cmds, t_mp *pg)
 {
 	int p_id;
 	int status;
 	char *cmd_dir;
 
+	//in_n_out_backup(pg);
+    if (open_files_red(cmds->files))
+    {
+        close_files(cmds->files);
+        return ;
+    }
     if (builtins(cmds, pg) == 0)
-        {return ;}
+    {
+        close_files(cmds->files);    
+        return ;
+    }
 	p_id = fork();
 	if (p_id == 0)
 	{
-        if (cmds->files)
-		{
-			check_redirection(cmds->files);
-			printf("loool\n");
-		}
         if (!cmds->cmds || !cmds->cmds[0])
         {
-            while(cmds->files)
-            {
-                close(cmds->files->fd);
-                cmds->files = cmds->files->next;
-            }
+			close_files(cmds->files);
             exit(EXIT_SUCCESS);
         }
-        if (builtins(cmds, pg) == 0)
-            exit(0);
 		cmd_dir = get_cmd_dir(cmds->cmds[0], pg);
 		if (!cmd_dir) {
 			perror("no cmd");
@@ -207,10 +230,14 @@ void execute_single_command(t_cmds *cmds, t_mp *pg)
 		}
 		execve(cmd_dir, cmds->cmds, pg->envp);
 		perror("execve");
+        close_files(cmds->files);
+        restor_fd(pg->std_in, pg->std_out);
 		ft_lstclear(&g_gbc, free);
 		exit(EXIT_FAILURE);
 	}
-	waitpid(p_id, &status, 0);
+    close_files(cmds->files);
+	restor_fd(pg->std_in, pg->std_out);
+    waitpid(p_id, &status, 0);
 	if (WIFEXITED(status)) {
 		pg->exit_status = WEXITSTATUS(status);
 	}
@@ -348,7 +375,7 @@ void shell_loop(t_mp *pg)
 
             // Test heredoc functionality with all commands
             // print_all_heredocs(cmds);
-            // execution(cmds, pg);   
+            execution(cmds, pg);   
         }
         free(rl);
     }
@@ -366,7 +393,10 @@ int	main(int ac, char **av, char **env)
     pg.envp = env;
     print_banner();
     signal_setup();
+	in_n_out_backup(&pg);
     shell_loop(&pg);
     print_exit();
+	close(pg.std_in);
+	close(pg.std_out);
     ft_lstclear(&g_gbc, free);
 }

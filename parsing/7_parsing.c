@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:45:13 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/01 18:17:45 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:30:31 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_file	*get_file(t_token **token)
 		{
 			tmp = (t_file *)ft_malloc(sizeof(t_file));
 			tmp->file = (*token)->cmds[1];
+			tmp->fd = 0;
 			handle_file_type(tmp, (*token)->cmds[0]);
 			tmp->next = NULL;
 			append_file(&fhead, &files, tmp);
