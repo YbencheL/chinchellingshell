@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_dir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:30:47 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/29 10:07:39 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:30:13 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*get_cmd_dir(char *cmd, t_mp *pg)
 	
 	if (!access(cmd, F_OK | X_OK))
 		return (cmd);
-	path = getenv("PATH");
+	path = my_getenv(pg->env, "PATH");
 	//if (!path) handle if the path is inset it shoud display command not found
 	cmd_dir = get_path(cmd, path, pg);
 	return (cmd_dir);

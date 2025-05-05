@@ -16,8 +16,6 @@ void	restor_fd(int stdin_b, int stdout_b)
 {
 	dup2(stdin_b, STDIN_FILENO);
 	dup2(stdout_b, STDOUT_FILENO);
-	//close(stdin_b);
-	//close(stdout_b);
 }
 
 void	in_n_out_backup(t_mp *pg)

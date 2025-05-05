@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/05 17:19:07 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:33:27 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,25 +205,13 @@ void execute_single_command(t_cmds *cmds, t_mp *pg)
 	int status;
 	char *cmd_dir;
 
-	//in_n_out_backup(pg);
     if (open_files_red(cmds->files))
-    {
-        close_files(cmds->files);
-        return ;
-    }
-    if (builtins(cmds, pg) == 0)
-    {
-        close_files(cmds->files);    
-        return ;
-    }
+        {return ;}
+    if (builtins(cmds, pg) == 0)    
+        {return ;}
 	p_id = fork();
 	if (p_id == 0)
 	{
-        if (cmds->files)
-		{
-			check_redirection(cmds->files);
-			printf("loool\n");
-		}
         if (!cmds->cmds || !cmds->cmds[0])
         {
 			close_files(cmds->files);
@@ -236,17 +224,14 @@ void execute_single_command(t_cmds *cmds, t_mp *pg)
 		}
 		execve(cmd_dir, cmds->cmds, pg->envp);
 		perror("execve");
-        close_files(cmds->files);
+       	close_files(cmds->files);
         restor_fd(pg->std_in, pg->std_out);
 		ft_lstclear(&g_gbc, free);
 		exit(EXIT_FAILURE);
 	}
-    close_files(cmds->files);
-	restor_fd(pg->std_in, pg->std_out);
     waitpid(p_id, &status, 0);
-	if (WIFEXITED(status)) {
+	if (WIFEXITED(status))
 		pg->exit_status = WEXITSTATUS(status);
-	}
 }
 
 void execute_multiple_commands(t_cmds *cmds, int cmd_count, t_mp *pg)
@@ -338,7 +323,11 @@ void	execution(t_cmds *cmds, t_mp *pg)
 		cmd_ptr = cmd_ptr->next;
 	}
 	if (cmd_count == 1)
-		execute_single_command(cmds, pg);
+	{
+		execute_one_cmd(cmds, pg);
+		close_files(cmds->files);
+		restor_fd(pg->std_in, pg->std_out);
+	}
 	else
 		execute_multiple_commands(cmds, cmd_count, pg);
 	return;
