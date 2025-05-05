@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   3_expand_fun.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/05 14:28:33 by abenzaho         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/03 15:25:28 by ybenchel         ###   ########.fr       */
+>>>>>>> origin/main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +72,11 @@ char	*expand(char *str, int *i, t_mp *pg)
 	else
 	{
 		var = get_var(str, j);
+<<<<<<< HEAD
 		value =	my_getenv(pg->env, var);
+=======
+		value = my_getenv(pg->env, var);
+>>>>>>> origin/main
 		var = ft_strjoin(ft_strdup("$"), var);
 	}
 	if (!value)

@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/05 17:12:03 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:19:07 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,61 +91,57 @@ void print_cmds(t_cmds *cmds)
 
 void print_all_heredocs(t_cmds *cmds)
 {
-    t_cmds *current_cmd = cmds;
-    int cmd_count = 0;
-    int total_heredocs = 0;
-    
-    printf("\n\033[1;36m╔════════ HEREDOC CONTENTS ════════╗\033[0m\n");
-    
-    while (current_cmd)
-    {
-        cmd_count++;
-        t_file *current = current_cmd->files;
-    int heredoc_count = 0;
-    
-    while (current)
-    {
-        if (current->type == HEREDOC)
-        {
-            heredoc_count++;
-                total_heredocs++;
-                printf("\n\033[1;33m┌─ Command #%d - Heredoc #%d (\"%s\") ─┐\033[0m\n", 
-                       cmd_count, heredoc_count, current->file);
-            
-            int stdin_backup = dup(STDIN_FILENO);
-                lseek(current->fd, 0, SEEK_SET); // Reset file position to beginning
-            dup2(current->fd, STDIN_FILENO);
-            
-            char buffer[1024];
-            ssize_t bytes_read;
-            printf("\033[1;37m");
-            while ((bytes_read = read(STDIN_FILENO, buffer, 1023)) > 0)
-            {
-                buffer[bytes_read] = '\0';
-                printf("%s", buffer);
-            }
-            printf("\033[0m");
-            printf("\n\033[1;33m└─────────────────────────────────┘\033[0m\n");
-            
-            // Restore stdin
-            dup2(stdin_backup, STDIN_FILENO);
-            close(stdin_backup);
-        }
-        current = current->next;
-    }
-    
-        current_cmd = current_cmd->next;
-    }
-    
-    if (total_heredocs == 0)
-        printf("\n\033[1;31m[No heredocs found]\033[0m\n");
-    
-    printf("\n\033[1;36m╚═══════════════════════════════════╝\033[0m\n\n");
+	t_cmds *current_cmd = cmds;
+	int cmd_count = 0;
+	int total_heredocs = 0;
+	
+	printf("\n\033[1;36m╔════════ HEREDOC CONTENTS ════════╗\033[0m\n");
+	
+	while (current_cmd)
+	{
+		cmd_count++;
+		t_file *current = current_cmd->files;
+		int heredoc_count = 0;
+		
+		while (current)
+		{
+			if (current->type == HEREDOC && current->fd > 0)
+			{
+				heredoc_count++;
+				total_heredocs++;
+				printf("\n\033[1;33m┌─ Command #%d - Heredoc #%d (\"%s\") ─┐\033[0m\n", 
+					   cmd_count, heredoc_count, current->file);
+				
+				// Read the heredoc content properly
+				lseek(current->fd, 0, SEEK_SET);
+				char buffer[1024];
+				ssize_t bytes_read;
+				printf("\033[1;37m");
+				while ((bytes_read = read(current->fd, buffer, 1023)) > 0)
+				{
+					buffer[bytes_read] = '\0';
+					printf("%s", buffer);
+				}
+				printf("\033[0m");
+				printf("\n\033[1;33m└─────────────────────────────────┘\033[0m\n");
+			}
+			current = current->next;
+		}
+		
+		current_cmd = current_cmd->next;
+	}
+	
+	if (total_heredocs == 0)
+		printf("\n\033[1;31m[No heredocs found]\033[0m\n");
+	
+	printf("\n\033[1;36m╚═══════════════════════════════════╝\033[0m\n\n");
 }
 
 int builtins(t_cmds *cmds, t_mp *pg)
 {
-    if (ft_strncmp(cmds->cmds[0], "cd", ft_strlen(cmds->cmds[0])) == 0)
+	if (!cmds->cmds || !cmds->cmds[0])
+		return 1;
+    if (!ft_strcmp(cmds->cmds[0], "cd"))
     {
         cd(cmds);
         return 0;
@@ -160,12 +156,17 @@ int builtins(t_cmds *cmds, t_mp *pg)
         env(cmds, pg->env);
         return 0;
     }
-    if (ft_strncmp(cmds->cmds[0], "pwd", ft_strlen(cmds->cmds[0])) == 0)
+    if (!ft_strcmp(cmds->cmds[0], "pwd"))
     {
         pwd();
         return 0;
     }
-    if (ft_strncmp(cmds->cmds[0], "unset", ft_strlen(cmds->cmds[0])) == 0)
+	if (!ft_strcmp(cmds->cmds[0], "echo"))
+    {
+        echo(cmds);
+        return 0;
+    }
+    if (!ft_strcmp(cmds->cmds[0], "unset"))
     {
         unset(cmds, pg->env);
         return 0;
@@ -218,6 +219,11 @@ void execute_single_command(t_cmds *cmds, t_mp *pg)
 	p_id = fork();
 	if (p_id == 0)
 	{
+        if (cmds->files)
+		{
+			check_redirection(cmds->files);
+			printf("loool\n");
+		}
         if (!cmds->cmds || !cmds->cmds[0])
         {
 			close_files(cmds->files);
@@ -372,10 +378,10 @@ void shell_loop(t_mp *pg)
             if (!cmds)
                 continue;
             print_cmds(cmds);
-
+			execution(cmds, pg);   
             // Test heredoc functionality with all commands
             // print_all_heredocs(cmds);
-            execution(cmds, pg);   
+            // execution(cmds, pg);   
         }
         free(rl);
     }
