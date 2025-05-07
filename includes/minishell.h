@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/07 12:53:17 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:13:50 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ t_cmds	*get_final_cmds(t_token *token);
 char	*expand(char *str, int *i, t_mp *pg);
 void	inisialise_cmds(t_cmds *cmd);
 void	handle_file_type(t_file *file, char *s);
+void	remove_quotes(t_cmds *cmds);
 
 ////////////////////-----tools-----////////////////////
 
