@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/05 18:30:47 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:53:17 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char	**split_token(char *s);
 int		is_delimiter(char c);
 int		is_special_char(char c);
 char	*my_getenv(t_list *env, char *name);
+void	skip_quotes(char *s, int *i, char c);
 // void	check_args(int ac, char **av);
 // void	*ft_malloc(size_t size);
 // void	print_banner(void);

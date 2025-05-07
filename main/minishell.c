@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/06 15:25:50 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:51:51 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,9 +346,9 @@ void shell_loop(t_mp *pg)
         {
             add_history(rl);
             cmds = parsing(rl, pg);
-            if (!cmds)
+			if (!cmds)
                 continue;
-            // print_cmds(cmds);
+            print_cmds(cmds);
 			execution(cmds, pg);   
             // Test heredoc functionality with all commands
             // print_all_heredocs(cmds);
