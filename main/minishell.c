@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/07 15:14:58 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:49:17 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,6 +330,8 @@ t_cmds	*parsing(char *rl, t_mp *pg)
 	handle_var_space(&token);
 	tokens = tokens_to_cmds(token);
 	cmds = get_final_cmds(tokens);
+	if (check_files(cmds,pg))
+		return (NULL);
 	remove_quotes(cmds);
 	return (cmds);
 }

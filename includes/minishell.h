@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/07 15:13:50 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:50:33 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef enum token_type
 	RED_OUT,
 	RED_APPEND,
 	HEREDOC,
-	WORD2
 }	t_token_type;
 
 typedef enum t_type
@@ -91,6 +90,8 @@ char	*expand(char *str, int *i, t_mp *pg);
 void	inisialise_cmds(t_cmds *cmd);
 void	handle_file_type(t_file *file, char *s);
 void	remove_quotes(t_cmds *cmds);
+char	*quote_remover(char *s);
+int	check_files(t_cmds *cmds, t_mp *pg);
 
 ////////////////////-----tools-----////////////////////
 
