@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/07 15:50:33 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:13:19 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,8 @@ int		open_files_red(t_file *files);
 void	close_files(t_file *files);
 void	echo(t_cmds *cmds);
 void	execute_one_cmd(t_cmds *cmds, t_mp *pg);
-int builtins(t_cmds *cmds, t_mp *pg);
+int 	builtins(t_cmds *cmds, t_mp *pg);
+void	bin_exit(t_cmds *cmds, t_mp *pg);
+void	execute_multiple_commands(t_cmds *cmds, int cmd_count, t_mp *pg);
 
 #endif

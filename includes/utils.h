@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:38:13 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/01 19:39:20 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:50:53 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ int		ft_isdigit(int c);
 int		ft_isalpha(int c);
 char	**ft_split(char *str, char *charset);
 void	ft_strncpy(char *dest, char *src, unsigned int n);
+int		ft_atoi(const char *str);
 #endif

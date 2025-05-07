@@ -6,21 +6,62 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:06:15 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/29 19:31:07 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:20:08 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	exit(t_cmds *cmds, int pid)
+int	check_exit_error(char *s)
 {
-	if (cmds->cmds[1])
-		write(2, "minishell: exit: too many arguments\n", 35);
-	if (!pid)
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if(s[j] == '+' || s[j] == '-')
 	{
-		ft_lstclear(g_gbc, free);
-		printf("exit\n");
+		j++;
+		if (s[j] == '-' || s[j] == '+')
+		{
+			write (2, "bash: exit : numeric argument required\n", 39);
+			return (2);
+		}
 	}
-	else
-		exit (0);
+	while (s[j])
+	{
+		if (s[j] > '9' || s[j] < '0')
+		{
+			write(2, "bash: exit : numeric argument required\n", 39);
+			return (2);
+		}
+		j++;
+	}
+	return (i);	
+}
+
+void	bin_exit(t_cmds *cmds, t_mp *pg)
+{
+	int	i;
+
+	i = 0;
+	if (cmds->cmds[1] && cmds->cmds[2])
+	{
+		write(2, "minishell: exit: too much argument\n", 35);
+		return ;
+	}
+	else if (cmds->cmds[1])
+	{
+		i = check_exit_error(cmds->cmds[1]);
+		if (i != 2)
+		{
+			i = ft_atoi(cmds->cmds[1]);
+			i = i % 256;
+		}
+	}
+	close_files(cmds->files);
+	restor_fd(pg->std_in, pg->std_out);
+	ft_lstclear(&g_gbc, free);
+	write(1, "exit\n", 5);
+	exit (i);
 }
