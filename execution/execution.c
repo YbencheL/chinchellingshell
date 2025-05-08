@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:42:17 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/07 16:34:50 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:18:16 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void    child_procces(t_cmds *cmds, t_mp *pg)
 {
 	char	*cmd_dir;
 	
-	if (!cmds->cmds || !cmds->cmds[0])
+	if (!cmds->cmds || !cmds->cmds[0] || !ft_strlen(cmds->cmds[0]))
 	{
 		close_files(cmds->files);
 		exit(EXIT_SUCCESS);

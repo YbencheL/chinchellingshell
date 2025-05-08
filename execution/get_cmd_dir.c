@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_dir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:30:47 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/05 18:30:13 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:24:20 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,16 @@ char	*get_cmd_dir(char *cmd, t_mp *pg)
 {
 	char	*cmd_dir;
 	char	*path;
+	struct stat st;
 	
+	if (stat(cmd, &st) == 0 && S_ISDIR(st.st_mode))
+    {
+        write(2, "minishell: ", 11);
+        write(2, cmd, ft_strlen(cmd));
+        write(2, ": is a directory\n", 17);
+        pg->exit_status = 126;
+        exit(126);
+    }
 	if (!access(cmd, F_OK | X_OK))
 		return (cmd);
 	path = my_getenv(pg->env, "PATH");

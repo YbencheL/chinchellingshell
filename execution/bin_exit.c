@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:06:15 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/08 09:45:10 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:13:06 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	bin_exit(t_cmds *cmds, t_mp *pg)
 	i = 0;
 	if (cmds->cmds[1] && cmds->cmds[2])
 	{
-		write(2, "minishell: exit: too much argument\n", 35);
-		return ;
+		write(2, "minishell: exit: too many arguments\n", 35);
+		exit(1);
 	}
 	else if (cmds->cmds[1])
 	{
