@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   excution__multip_cmd.c                             :+:      :+:    :+:   */
+/*   excution_multip_cmd.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:07:10 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/07 17:07:49 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/08 09:47:24 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void execute_multiple_commands(t_cmds *cmds, int cmd_count, t_mp *pg)
 	while (current && i < cmd_count)
 	{
 		if ((pids[i] = fork()) == 0) {
+			pg->is_child = 1;
 			setup_child_pipes(pipe_fds, i, cmd_count);
 			execute_child_cmd(current, pg);
 		}

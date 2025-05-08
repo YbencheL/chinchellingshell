@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bin_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:06:15 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/07 18:20:08 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/08 09:45:10 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	bin_exit(t_cmds *cmds, t_mp *pg)
 	close_files(cmds->files);
 	restor_fd(pg->std_in, pg->std_out);
 	ft_lstclear(&g_gbc, free);
-	write(1, "exit\n", 5);
+	if (!pg->is_child)
+		write(1, "exit\n", 5);
 	exit (i);
 }

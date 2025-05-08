@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/07 18:14:56 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/08 09:48:12 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,7 @@ void shell_loop(t_mp *pg)
             cmds = parsing(rl, pg);
 			if (!cmds)
                 continue;
-            print_cmds(cmds);
+            // print_cmds(cmds);
 			execution(cmds, pg);   
             // Test heredoc functionality with all commands
             // print_all_heredocs(cmds);
@@ -255,6 +255,7 @@ int	main(int ac, char **av, char **env)
     t_mp	pg;
 
     pg.exit_status = 0;
+    pg.is_child = 0;
     g_gbc = ft_lstnew_custom(NULL);
     check_args(ac, av);
     pg.env = init_env(env);
