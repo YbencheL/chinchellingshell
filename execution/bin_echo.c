@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   bin_echo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:50:50 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/03 11:33:28 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:27:14 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	echo(t_cmds *cmds)
+void	echo(t_cmds *cmds, t_mp *pg)
 {
 	int	i;
 	int	nl;
@@ -33,5 +33,5 @@ void	echo(t_cmds *cmds)
 	}
 	if (nl)
 		printf("\n");
-	// exit (0);
+	pg->exit_status = 0;
 }

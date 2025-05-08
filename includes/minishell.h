@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/08 11:24:44 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:27:31 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,14 +145,14 @@ int		check_redirection(t_file *files);
 void	restor_fd(int stdin_b, int stdout_b);
 char	*get_cmd_dir(char *cmd, t_mp *pg);
 void	pwd(void);
-void	cd(t_cmds *cmds);
+void	cd(t_cmds *cmds, t_mp *pg);
 int		export(t_cmds *cmds, t_list *env);
 void	print_env(t_list *env);
 int		env(t_cmds *cmds, t_list *env);
 void	unset(t_cmds *cmds, t_list *env);
 int		open_files_red(t_file *files);
 void	close_files(t_file *files);
-void	echo(t_cmds *cmds);
+void	echo(t_cmds *cmds, t_mp *pg);
 void	execute_one_cmd(t_cmds *cmds, t_mp *pg);
 int 	builtins(t_cmds *cmds, t_mp *pg);
 void	bin_exit(t_cmds *cmds, t_mp *pg);

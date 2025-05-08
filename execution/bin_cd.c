@@ -6,11 +6,25 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:24:08 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/29 15:03:37 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:25:42 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	cd_error(t_mp *pg, char *msg, int status)
+{
+	write(2, "minishell cd: ", 14);
+	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
+	pg->exit_status = status;
+}
+
+void	cd_success(t_cmds *cmds, t_mp *pg)
+{
+	cmds->cmds[1] = NULL;
+	pg->exit_status = 0;
+}
 
 int	check_file_name_len(char *s)
 {
@@ -32,66 +46,57 @@ int	check_file_name_len(char *s)
 			if (c > 255)
 				return (1);
 		}
-		i++;
-	}
+		else
+			i++;
+	}	
 	return (0);
 }
 
-void	cd(t_cmds *cmds)
+void	cd_oldpwd(t_mp *pg)
 {
-	char	*path;
 	char	*last_path;
-	// int		i;
-	// error hundle of the main program
-	if (!cmds->cmds[1])
-	{
-		path = getenv("HOME");
-		if (!path)
-		{
-			write(2, "minishell cd: HOME not set\n", 26);
-			//exit(1);
-		}
-		chdir(path);
-		//exit(0);
-	}
-	else if (cmds->cmds[2])
-	{
-		write(2, "minishell cd: too many arguments", 32);
-		//exit (1);
-	}
-	else if (ft_strncmp(cmds->cmds[1], "-", ft_strlen(cmds->cmds[1])) == 0)
-	{
-		last_path = getenv("OLDPWD");
-		if (!last_path)
-		{
-			write(2, "minishell cd: OLDPWD not set\n", 26);
-			//exit(1);
-		}
-		printf("%s\n", last_path);
-		chdir(last_path);
-		//exit (1);
-	}
-	else if (ft_strlen(cmds->cmds[1]) > 4094)
-	{
-		write(2, "minishell cd: Pathname too long", 31);
-		//exit (1);
-	}
-	else if (check_file_name_len(cmds->cmds[1]))
-	{
-		write(2, "minishell cd: File name too long", 31);
-		//exit (1);
-	}
+
+	last_path = getenv("OLDPWD");
+	if (!last_path)
+		cd_error(pg, "OLDPWD not set", 1);
 	else
 	{
-		if (!chdir(cmds->cmds[1]))
-		{
-			cmds->cmds[1] = NULL;
-			//return exit number
-		}
-		else
-		{
-			perror("minishell cd : ");
-			//exit (1);
-		}
+		printf("%s\n", last_path);
+		chdir(last_path);
+		pg->exit_status = 0;
 	}
 }
+
+void	cd_home(t_mp *pg)
+{
+	char	*path;
+
+	path = getenv("HOME");
+	if (!path)
+		cd_error(pg, "HOME not set", 1);
+	else
+	{
+		chdir(path);
+		pg->exit_status = 0;
+	}
+}
+
+void	cd(t_cmds *cmds, t_mp *pg)
+{
+	if (!cmds->cmds[1])
+		return (cd_home(pg));
+	if (cmds->cmds[2])
+		return (cd_error(pg, "too many arguments", 1));
+	if (ft_strncmp(cmds->cmds[1], "-", ft_strlen(cmds->cmds[1])) == 0)
+		return (cd_oldpwd(pg));
+	if (ft_strlen(cmds->cmds[1]) > 4094)
+		return (cd_error(pg, "Pathname too long", 1));
+	if (check_file_name_len(cmds->cmds[1]))
+		return (cd_error(pg, "File name too long", 1));
+	if (!chdir(cmds->cmds[1]))
+		return (cd_success(cmds, pg));
+	perror("minishell cd : ");
+	pg->exit_status = 1;
+}
+
+

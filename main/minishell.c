@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/08 09:48:12 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:17:16 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,47 +137,10 @@ void print_all_heredocs(t_cmds *cmds)
 	printf("\n\033[1;36m╚═══════════════════════════════════╝\033[0m\n\n");
 }
 
-int builtins(t_cmds *cmds, t_mp *pg)
-{
-	if (!cmds->cmds || !cmds->cmds[0])
-		return 1;
-    if (!ft_strcmp(cmds->cmds[0], "cd"))
-    {
-        cd(cmds);
-        return 0;
-    }
-    if (!ft_strcmp(cmds->cmds[0], "export"))
-    {
-        export(cmds, pg->env);
-        return 0;
-    }
-    if (!ft_strcmp(cmds->cmds[0], "env"))
-    {
-        env(cmds, pg->env);
-        return 0;
-    }
-    if (!ft_strcmp(cmds->cmds[0], "pwd"))
-    {
-        pwd();
-        return 0;
-    }
-	if (!ft_strcmp(cmds->cmds[0], "echo"))
-    {
-        echo(cmds);
-        return 0;
-    }
-    if (!ft_strcmp(cmds->cmds[0], "unset"))
-    {
-        unset(cmds, pg->env);
-        return 0;
-    }
-	if (!ft_strcmp(cmds->cmds[0], "exit"))
-    {
-        bin_exit(cmds, pg);
-        return 0;
-    }
-    return 1;
-}
+// void    make_everything_again(t_mp *pg)
+// {
+    
+// }
 
 void	execution(t_cmds *cmds, t_mp *pg)
 {
@@ -240,11 +203,12 @@ void shell_loop(t_mp *pg)
 			if (!cmds)
                 continue;
             // print_cmds(cmds);
-			execution(cmds, pg);   
+			execution(cmds, pg);
             // Test heredoc functionality with all commands
             // print_all_heredocs(cmds);
             // execution(cmds, pg);   
         }
+        //update_env
         free(rl);
     }
     clear_history();

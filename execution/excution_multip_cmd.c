@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   excution_multip_cmd.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:07:10 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/08 11:28:21 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:13:07 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void execute_child_cmd(t_cmds *current, t_mp *pg)
 	if (!current->cmds || !current->cmds[0])
 		exit(EXIT_SUCCESS);
 	if (builtins(current, pg) == 0)
-		exit(0);
+		exit(pg->exit_status);
 	cmd_dir = get_cmd_dir(current->cmds[0], pg);
 	execve(cmd_dir, current->cmds, pg->envp);
 	perror("execve error");

@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:13:41 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/05 17:22:07 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:43:19 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 void	pipe_err(t_mp *pg)
 {
 	perror("pipe error");
-	pg->exit_status = 22;
+	pg->exit_status = 141;
 }
 
-void	expand_heredoc(char *s, t_mp *pg, int fd)
+char	*expand_heredoc(char *s, t_mp *pg)
 {
 	int	i;
 
@@ -32,34 +32,53 @@ void	expand_heredoc(char *s, t_mp *pg, int fd)
 		else
 			i++;
 	}
-	write(fd, s, ft_strlen(s));
-	write(fd, "\n", 1);
+	return (s);
+}
+
+char	*check_qouted_delimter(char *str)
+{
+	int		i;
+	int		c;
+	char	*s;
+
+	c = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '"' || str[i] == '\'')
+			c = 1;
+		i++;
+	}
+	if(c == 1)
+	{
+		s = quote_remover(str);
+		return (s);
+	}
+	else
+		return (str);
 }
 
 int	read_heredoc(t_file *file, t_mp *pg)
 {
-	char *line;
-	char *delimiter;
-	int fds[2];
-	delimiter = file->file;
+	char	*line;
+	char	*delimiter;
+	int		fds[2];
+
+	delimiter = check_qouted_delimter(file->file);
 	if (pipe(fds) == -1)
-	{
-		pipe_err(pg);
-		return (1);
-	}
+		return (pipe_err(pg), 1);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
+		if (!line || !ft_strcmp(line, delimiter))
 			break ;
-		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		expand_heredoc(line, pg, fds[1]);
+		if (!ft_strcmp(delimiter, file->file))
+			line = expand_heredoc(line, pg);
+		write(fds[1], line, ft_strlen(line));
+		write(fds[1], "\n", 1);
 		free(line);
 	}
+	free(line);
 	close(fds[1]);
 	file->fd = fds[0];
 	return (0);
