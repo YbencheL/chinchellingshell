@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/08 17:17:16 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/09 11:35:23 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,8 @@ void shell_loop(t_mp *pg)
 			execution(cmds, pg);
             // Test heredoc functionality with all commands
             // print_all_heredocs(cmds);
-            // execution(cmds, pg);   
+            // execution(cmds, pg);
+            update_env(pg);
         }
         //update_env
         free(rl);
