@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   9_remove_quotes.c                                  :+:      :+:    :+:   */
+/*   10_remove_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:38:28 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/07 15:20:33 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:19:32 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	skip_qouted_content(char *s, int *i, int *len, char c)
 		(*i)++;
 	}
 	if (s[*i] != '\0')
-			(*i)++;
+		(*i)++;
 }
 
 char	*quote_remover(char *s)
@@ -77,7 +77,7 @@ char	*quote_remover(char *s)
 	int	i;
 	int	len;
 	int	s_len;
-	
+
 	i = 0;
 	len = 0;
 	while (s[i])
@@ -100,10 +100,10 @@ void	remove_quotes(t_cmds *cmds)
 {
 	int	i;
 
-	while(cmds)
+	while (cmds)
 	{
 		i = 0;
-		while(cmds->cmds[i])
+		while (cmds->cmds[i])
 		{
 			cmds->cmds[i] = quote_remover(cmds->cmds[i]);
 			i++;

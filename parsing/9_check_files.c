@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:33:11 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/07 15:51:26 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:18:58 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 int	check_file(char *s)
 {
 	int	i;
-	
+
 	i = 0;
 	while (s[i])
 	{
 		if (s[i] == '\'' || s[i] == '"')
-			{
-				skip_quotes(s, &i, s[i]);
-				i++;
-			}
+		{
+			skip_quotes(s, &i, s[i]);
+			i++;
+		}
 		else if (s[i] == ' ' || s[i] == '\t')
 			return (1);
 		else
@@ -40,7 +40,7 @@ int	check_files(t_cmds *cmds, t_mp *pg)
 	{
 		tmp = cmds->files;
 		while (tmp)
-		{		
+		{
 			if (tmp->type >= 2 && tmp->type <= 4)
 			{
 				if (check_file(tmp->file))

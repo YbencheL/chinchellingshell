@@ -6,77 +6,35 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 17:25:20 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/08 18:18:44 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:36:20 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../includes/minishell.h"
+#include "../includes/minishell.h"
 
-// t_token_type	token_type(char *str)
-// {
-// 	if (ft_strcmp(str, "|") == 0)
-// 		return (PIPE);
-// 	else if (ft_strcmp(str, "<") == 0)
-// 		return (RED_IN);
-// 	else if (ft_strcmp(str, ">") == 0)
-// 		return (RED_OUT);
-// 	else if (ft_strcmp(str, ">>") == 0)
-// 		return (RED_APPEND);
-// 	else if (ft_strcmp(str, "<<") == 0)
-// 		return (HEREDOC);
-// 	else
-// 		return (WORD);
-// }
+void	skip_quotes(char *s, int *i, char c)
+{
+	int	j;
 
-// void	typeof_token(t_arg *arg)
-// {
-// 	t_arg	*head;
+	j = *i + 1;
+	while (s[j])
+	{
+		if (s[j] == c)
+			break ;
+		j++;
+	}
+	if (s[j] != '\0')
+		*i = j;
+	else if (s[j] == '\0')
+		*i = j - 1;
+}
 
-// 	head = arg;
-// 	while (head)
-// 	{
-// 		head->type = token_type(head->arg);
-// 		head = head->next;
-// 	}
-// }
+int	is_delimiter(char c)
+{
+	return (c == ' ' || c == '\t');
+}
 
-// t_arg	*new_arg(char *arg)
-// {
-// 	t_arg	*new;
-
-// 	new = (t_arg *)ft_malloc(sizeof(t_arg));
-// 	if (!new)
-// 		return (NULL);
-// 	new->arg = arg;
-// 	new->next = NULL;
-// 	return (new);
-// }
-
-// void	argadd_back(t_arg **arg, t_arg *new)
-// {
-// 	t_arg	*temp;
-
-// 	if (!arg || !new)
-// 		return ;
-// 	if (!*arg)
-// 	{
-// 		*arg = new;
-// 		return ;
-// 	}
-// 	temp = *arg;
-// 	while (temp->next)
-// 		temp = temp->next;
-// 	temp->next = new;
-// }
-
-// t_arg	*ft_arglast(t_arg *lst)
-// {
-// 	t_arg	*last;
-
-// 	if (!lst)
-// 		return (NULL);
-// 	last = lst;
-// 	while (last->next != NULL)
-// 		last = last->next;
-// 	return (last);
-// }
+int	is_special_char(char c)
+{
+	return (c == '|' || c == '<' || c == '>');
+}

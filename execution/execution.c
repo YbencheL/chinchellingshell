@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:42:17 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/08 13:18:16 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/10 14:37:57 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 int	cmd_not_found(t_cmds *cmds, t_mp *pg)
 {
-	write(2, cmds->cmds[0], ft_strlen(cmds->cmds[0]));
-	write(2, ": command not found\n", 20);
 	close_files(cmds->files);
     restor_fd(pg->std_in, pg->std_out);
 	ft_lstclear(&g_gbc, free);
-	return (127);
+	return (pg->exit_status);
 }
 
 void    child_procces(t_cmds *cmds, t_mp *pg)
@@ -47,12 +45,13 @@ void	execute_one_cmd(t_cmds *cmds, t_mp *pg)
 	int	p_id;
 	int	status;
 
+	status = 0;
 	if (open_files_red(cmds->files))
 	{
 		pg->exit_status = 1;
 		return ;
 	}
-	if (builtins(cmds, pg) == 0)// need to hundel exit status.
+	if (builtins(cmds, pg) == 0)
 		return ;
 	else
 	{

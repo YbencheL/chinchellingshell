@@ -5,7 +5,7 @@ helper_functions/helper_function_1.c helper_functions/helper_function_2.c helper
 helper_functions/helper_function_4.c helper_functions/helper_function_5.c helper_functions/helper_function_6.c helper_functions/ft_split.c \
 parsing/1_first_check_quotes.c parsing/2_char_to_token_check.c parsing/3_expand_fun.c parsing/4_expand_variables.c \
 parsing/5_field_spliting.c parsing/6_tokenize.c parsing/7_parsing.c parsing/8_parsing.c parsing/9_check_files.c parsing/10_remove_quotes.c \
-tools/tool0.c tools/tool1.c tools/tool2.c tools/tool3.c tools/tool4.c tools/tool5.c \
+tools/tool0.c tools/tool1.c tools/tool2.c tools/tool3.c tools/tool4.c tools/tool5.c tools/tool6.c \
 execution/redirection_n_files.c execution/1_handle_heredoc.c execution/get_cmd_dir.c execution/bin_pwd.c execution/bin_cd.c execution/bin_unset.c \
 execution/bin_export.c execution/bin_env.c execution/bin_echo.c execution/execution.c execution/bin_exit.c  execution/excution_multip_cmd.c execution/built_in.c \
 execution/update_env.c

@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:07:10 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/08 17:13:07 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:27:49 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void execute_multiple_commands(t_cmds *cmds, int cmd_count, t_mp *pg)
 	t_cmds *current = cmds;
 	int pipe_fds[2 * (cmd_count - 1)];
 	pid_t pids[cmd_count];
-	int i = 0, status;
+	int i = 0, status = 0;
 
 	while (i < cmd_count - 1 && pipe(pipe_fds + i++ * 2) != -1);
 	i = 0;

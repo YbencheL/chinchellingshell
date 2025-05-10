@@ -6,10 +6,9 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:13:41 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/08 16:43:19 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:44:12 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/minishell.h"
 
@@ -49,7 +48,7 @@ char	*check_qouted_delimter(char *str)
 			c = 1;
 		i++;
 	}
-	if(c == 1)
+	if (c == 1)
 	{
 		s = quote_remover(str);
 		return (s);
@@ -87,20 +86,20 @@ int	read_heredoc(t_file *file, t_mp *pg)
 int	fill_herdoc(t_cmds *cmds, t_mp *pg)
 {
 	t_file	*tmp;
-	
-    while (cmds)
-    {
+
+	while (cmds)
+	{
 		tmp = cmds->files;
-        while (tmp)
-        {		
-            if (tmp->type == HEREDOC)
-            {
-                if (read_heredoc(tmp, pg))
-                    return (1);
-            }
-            tmp = tmp->next;
-        }
+		while (tmp)
+		{
+			if (tmp->type == HEREDOC)
+			{
+				if (read_heredoc(tmp, pg))
+					return (1);
+			}
+			tmp = tmp->next;
+		}
 		cmds = cmds->next;
-    }
-    return (0);
+	}
+	return (0);
 }

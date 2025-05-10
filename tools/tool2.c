@@ -6,38 +6,11 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:00:00 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/01 18:28:43 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:33:35 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	is_delimiter(char c)
-{
-	return (c == ' ' || c == '\t');
-}
-
-int	is_special_char(char c)
-{
-	return (c == '|' || c == '<' || c == '>');
-}
-
-void	skip_quotes(char *s, int *i, char c)
-{
-	int	j;
-
-	j = *i + 1;
-	while (s[j])
-	{
-		if (s[j] == c)
-			break ;
-		j++;
-	}
-	if (s[j] != '\0')
-		*i = j;
-	else if (s[j] == '\0')
-		*i = j - 1;
-}
 
 void	hundel_spe_char(char *s, char **str, int *i, int *c)
 {
@@ -97,54 +70,6 @@ void	fill_split(char **str, char *s)
 			i++;
 	}
 	str[c] = NULL;
-}
-
-int	word_counter(char *s)
-{
-	int		c;
-	int		i;
-	int		f;
-	char	quote;
-
-	c = 0;
-	i = 0;
-	f = 0;
-	while (s[i])
-	{
-		if (is_delimiter(s[i]))
-		{
-			i++;
-			f = 0;
-			continue ;
-		}
-		if (is_special_char(s[i]))
-		{
-			if ((s[i] == '<' && s[i + 1] == '<') || (s[i] == '>' && s[i
-						+ 1] == '>'))
-				i += 2;
-			else
-				i++;
-			c++;
-			f = 0;
-			continue ;
-		}
-		if (!f)
-		{
-			c++;
-			f = 1;
-		}
-		if (s[i] == '"' || s[i] == '\'')
-		{
-			quote = s[i++];
-			while (s[i] && s[i] != quote)
-				i++;
-			if (s[i])
-				i++;
-		}
-		else
-			i++;
-	}
-	return (c);
 }
 
 char	**split_token(char *s)

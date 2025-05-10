@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 13:50:59 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:34:43 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,24 +115,9 @@ int		is_delimiter(char c);
 int		is_special_char(char c);
 char	*my_getenv(t_list *env, char *name);
 void	skip_quotes(char *s, int *i, char c);
-// void	check_args(int ac, char **av);
-// void	*ft_malloc(size_t size);
-// void	print_banner(void);
-// void	print_exit(void);
-// char	**init_env(char **envp);
-// void	allocation_fails(void);
-// void	sig_handler(int sig);
-// void	signal_setup(void);
-// int		is_delimiter(char c);
-// int		is_special_char(char c);
-// size_t	count_splits(char const *s);
-// size_t	get_word_len(const char *s);
-
-// void	typeof_token(t_arg	*arg);
-// char	**process_splits(char const *s, char **split);
-// int		handle_special_chars(char const **s, char **split, size_t *i);
-// int		handle_words(char const **s, char **split, size_t *i);
-// t_arg	*ft_arglast(t_arg *lst);
+int		is_delimiter(char c);
+int		is_special_char(char c);
+int		word_counter(char *s);
 
 ////////////////////-----execution-----////////////////////
 

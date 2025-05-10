@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_dir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:30:47 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 11:29:33 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/10 14:22:33 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ char	*get_path(char *cmd, char *path, t_mp *pg)
 		tmp = ft_strjoin("/", cmd);
 		tmp = ft_strjoin(paths[i], tmp);
 		if (!access(tmp, F_OK | X_OK))
-			return (tmp);// handle /ls should not work
+			return (tmp);
 		i++;
 	}
-	// print the error
-	pg->exit_status = 22 ;// check what exit error we return; 
+	pg->exit_status = 126 ;
+	write(2, "minishell: ", 11);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, ": command not found\n", 20);
 	return (NULL);
 }
 
@@ -47,7 +49,7 @@ char	*get_cmd_dir(char *cmd, t_mp *pg)
 			write(2, cmd, ft_strlen(cmd));
 			write(2, ": Is a directory\n", 17);
 			pg->exit_status = 126;
-			exit(126);
+			return (NULL);
 		}
 		if (access(cmd, F_OK) == 0)
 		{
@@ -57,15 +59,29 @@ char	*get_cmd_dir(char *cmd, t_mp *pg)
 				write(2, cmd, ft_strlen(cmd));
 				write(2, ": Permission denied\n", 19);
 				pg->exit_status = 126;
-				exit(126);
-			}else
+				return (NULL);
+			}
+			else
 				return (cmd);
+		}
+		else
+		{
+			write(2, "minishell: ", 11);
+			write(2, cmd, ft_strlen(cmd));
+			write(2, ": No such file or directory\n", 28);
+			pg->exit_status = 127;
+			return (NULL);
 		}
 	}
 	path = my_getenv(pg->env, "PATH");
 	if (!path)
-	return (NULL);
-	//if (!path) handle if the path is inset it shoud display command not found
+	{
+		write(2, "minishell: ", 11);
+		write(2, cmd, ft_strlen(cmd));
+		write(2, ": command not found\n", 20);
+		pg->exit_status = 127;
+		return (NULL);
+	}
 	cmd_dir = get_path(cmd, path, pg);
 	return (cmd_dir);
 }

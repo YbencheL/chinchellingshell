@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/07 12:56:44 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:16:26 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	check_for_space(t_arg *token)
 	while (token->arg[i])
 	{
 		if (token->arg[i] == '\'' || token->arg[i] == '"')
-			{
-				skip_quotes(token->arg, &i, token->arg[i]);
-				i++;
-			}
+		{
+			skip_quotes(token->arg, &i, token->arg[i]);
+			i++;
+		}
 		else if (token->arg[i] == ' ' || token->arg[i] == '\t')
 			return (1);
 		else
