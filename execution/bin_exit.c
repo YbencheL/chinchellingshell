@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bin_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:06:15 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/08 13:13:06 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:48:27 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_exit_error(char *s)
 
 	i = 0;
 	j = 0;
-	if(s[j] == '+' || s[j] == '-')
+	if (s[j] == '+' || s[j] == '-')
 	{
 		j++;
 		if (s[j] == '-' || s[j] == '+')
@@ -37,7 +37,7 @@ int	check_exit_error(char *s)
 		}
 		j++;
 	}
-	return (i);	
+	return (i);
 }
 
 void	bin_exit(t_cmds *cmds, t_mp *pg)

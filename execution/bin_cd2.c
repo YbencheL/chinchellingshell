@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bin_env.c                                          :+:      :+:    :+:   */
+/*   bin_cd2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 17:25:25 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 15:47:51 by abenzaho         ###   ########.fr       */
+/*   Created: 2025/05/10 15:45:43 by abenzaho          #+#    #+#             */
+/*   Updated: 2025/05/10 15:46:32 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	env(t_cmds *cmds, t_list *env, t_mp *pg)
+void	cd_error(t_mp *pg, char *msg, int status)
 {
-	if (cmds->cmds[1])
-	{
-		write(2, "minishell : env : does not take any arguments", 45);
-		pg->exit_status = 1;
-		return (1);
-	}
-	while (env)
-	{
-		printf("%s\n", (char *)(env->ptr));
-		env = env->next;
-	}
-	pg->exit_status = 0;
-	return (0);
+	write(2, "minishell cd: ", 14);
+	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
+	pg->exit_status = status;
 }

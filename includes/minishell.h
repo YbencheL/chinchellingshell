@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 15:34:43 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:52:45 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,5 +143,11 @@ int 	builtins(t_cmds *cmds, t_mp *pg);
 void	bin_exit(t_cmds *cmds, t_mp *pg);
 void	execute_multiple_commands(t_cmds *cmds, int cmd_count, t_mp *pg);
 void	update_env(t_mp *pg);
+void	cd_error(t_mp *pg, char *msg, int status);
+void	print_env_dec(t_list *env);
+void	print_export_err(char *s);
+void	add_app_var(t_list *env, char *s);
+int		check_exist(t_list *env, char *s);
+int		check_form(char *s, int *es);
 
 #endif

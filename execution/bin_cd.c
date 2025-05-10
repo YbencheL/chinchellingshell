@@ -6,19 +6,11 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:24:08 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/08 17:25:42 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:46:17 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	cd_error(t_mp *pg, char *msg, int status)
-{
-	write(2, "minishell cd: ", 14);
-	write(2, msg, ft_strlen(msg));
-	write(2, "\n", 1);
-	pg->exit_status = status;
-}
 
 void	cd_success(t_cmds *cmds, t_mp *pg)
 {
@@ -48,7 +40,7 @@ int	check_file_name_len(char *s)
 		}
 		else
 			i++;
-	}	
+	}
 	return (0);
 }
 
@@ -98,5 +90,3 @@ void	cd(t_cmds *cmds, t_mp *pg)
 	perror("minishell cd : ");
 	pg->exit_status = 1;
 }
-
-
