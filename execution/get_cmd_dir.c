@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_dir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:30:47 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/09 11:54:40 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 11:02:43 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,32 @@ char	*get_cmd_dir(char *cmd, t_mp *pg)
 	char	*path;
 	struct stat st;
 	
-	if (stat(cmd, &st) == 0 && S_ISDIR(st.st_mode))
-    {
-        write(2, "minishell: ", 11);
-        write(2, cmd, ft_strlen(cmd));
-        write(2, ": is a directory\n", 17);
-        pg->exit_status = 126;
-        exit(126);
-    }
-	if (!access(cmd, F_OK | X_OK))
-		return (cmd);
+	if(ft_strchr(cmd, '/'))
+	{
+		if (stat(cmd, &st) == 0 && S_ISDIR(st.st_mode))
+		{
+			write(2, "minishell: ", 11);
+			write(2, cmd, ft_strlen(cmd));
+			write(2, ": is a directory\n", 17);
+			pg->exit_status = 126;
+			exit(126);
+		}
+		if (access(cmd, F_OK) == 0)
+		{
+			if (access(cmd, X_OK) != 0)
+			{
+				write(2, "minishell: ", 11);
+				write(2, cmd, ft_strlen(cmd));
+				write(2, ": Permission denied\n", 19);
+				pg->exit_status = 126;
+				exit(126);
+			}else
+				return (cmd);
+		}
+	}
 	path = my_getenv(pg->env, "PATH");
 	if (!path)
-		return (NULL);
+	return (NULL);
 	//if (!path) handle if the path is inset it shoud display command not found
 	cmd_dir = get_path(cmd, path, pg);
 	return (cmd_dir);
