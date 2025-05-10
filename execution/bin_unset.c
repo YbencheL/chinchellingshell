@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:25:53 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/10 13:47:14 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:58:52 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 void	remove_var(t_list **env, char *s)
 {
 	t_list	*prv;
-	t_list	*first; 
+	t_list	*first;
 	int		len;
-	
+
 	prv = NULL;
 	first = *env;
 	len = ft_strlen(s);
 	while (*env)
 	{
-		if (strncmp((char *)(*env)->ptr, s, len) == 0 && ((char *)(*env)->ptr)[len] == '=')
+		if (strncmp((char *)(*env)->ptr, s, len) == 0
+			&& ((char *)(*env)->ptr)[len] == '=')
 		{
 			if (!prv)
 				first = (*env)->next;

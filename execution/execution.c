@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:42:17 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 14:37:57 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 16:03:31 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,21 @@
 int	cmd_not_found(t_cmds *cmds, t_mp *pg)
 {
 	close_files(cmds->files);
-    restor_fd(pg->std_in, pg->std_out);
+	restor_fd(pg->std_in, pg->std_out);
 	ft_lstclear(&g_gbc, free);
 	return (pg->exit_status);
 }
 
-void    child_procces(t_cmds *cmds, t_mp *pg)
+static void	fork_error(t_mp *pg)
+{
+	perror("fork failed");
+	pg->exit_status = 1;
+}
+
+void	child_procces(t_cmds *cmds, t_mp *pg)
 {
 	char	*cmd_dir;
-	
+
 	if (!cmds->cmds || !cmds->cmds[0] || !ft_strlen(cmds->cmds[0]))
 	{
 		close_files(cmds->files);
@@ -34,8 +40,8 @@ void    child_procces(t_cmds *cmds, t_mp *pg)
 		exit(cmd_not_found(cmds, pg));
 	execve(cmd_dir, cmds->cmds, pg->envp);
 	perror("execve");
-    close_files(cmds->files);
-    restor_fd(pg->std_in, pg->std_out);
+	close_files(cmds->files);
+	restor_fd(pg->std_in, pg->std_out);
 	ft_lstclear(&g_gbc, free);
 	exit(127);
 }
@@ -58,14 +64,13 @@ void	execute_one_cmd(t_cmds *cmds, t_mp *pg)
 		p_id = fork();
 		if (p_id == 0)
 			child_procces(cmds, pg);
-		else if(p_id == -1)
+		else if (p_id == -1)
 		{
-			perror("fork failed");
-			pg->exit_status = 1;
+			fork_error(pg);
 			return ;
 		}
 	}
-    waitpid(p_id, &status, 0);
+	waitpid(p_id, &status, 0);
 	if (WIFEXITED(status))
 		pg->exit_status = WEXITSTATUS(status);
 }
