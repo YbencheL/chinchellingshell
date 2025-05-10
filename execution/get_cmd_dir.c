@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:30:47 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 11:02:43 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/10 11:29:33 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*get_cmd_dir(char *cmd, t_mp *pg)
 		{
 			write(2, "minishell: ", 11);
 			write(2, cmd, ft_strlen(cmd));
-			write(2, ": is a directory\n", 17);
+			write(2, ": Is a directory\n", 17);
 			pg->exit_status = 126;
 			exit(126);
 		}

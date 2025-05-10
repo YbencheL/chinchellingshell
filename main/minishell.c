@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/09 11:35:23 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 11:28:30 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,9 +175,9 @@ t_cmds	*parsing(char *rl, t_mp *pg)
 	if (!check_unclosed_quotes(rl, pg))
 		return (NULL);
 	token = tokenize(rl, pg);
-	if (!token)	
-		return (NULL);
 	expand_variables(token, pg);
+	while (token && (!token->arg || !*token->arg))
+    	token = token->next;
 	handle_var_space(&token);
 	tokens = tokens_to_cmds(token);
 	cmds = get_final_cmds(tokens);
