@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/10 11:28:30 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/10 11:35:53 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ t_cmds	*parsing(char *rl, t_mp *pg)
 		return (NULL);
 	token = tokenize(rl, pg);
 	expand_variables(token, pg);
-	while (token && (!token->arg || !*token->arg))
+	while (token && (!*token->arg))
     	token = token->next;
 	handle_var_space(&token);
 	tokens = tokens_to_cmds(token);
