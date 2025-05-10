@@ -26,41 +26,31 @@ void	in_n_out_backup(t_mp *pg)
 
 int	check_redirection(t_file *files)
 {
-    int fd;
-    
+	int	fd;
+
 	fd = 0;
-    if (files->type == RED_OUT)
-        fd = open(files->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    else if (files->type == RED_APPEND)
-        fd = open(files->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-    else if (files->type == RED_IN)
-        fd = open(files->file, O_RDONLY);
-    else if (files->type == HEREDOC)
-        fd = dup(files->fd);
-    if (fd == -1)
-    {
-        perror(files->file);
-        return (1);
-    }
-	files->fd = fd;
-    if (files->type == RED_IN || files->type == HEREDOC)
-        dup_in(fd);
-    else 
-        dup_out(fd);
-    return (0);
-}
-
-void	close_files(t_file *files)
-{
-	while (files)
+	if (files->type == RED_OUT)
+		fd = open(files->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (files->type == RED_APPEND)
+		fd = open(files->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (files->type == RED_IN)
+		fd = open(files->file, O_RDONLY);
+	else if (files->type == HEREDOC)
+		fd = dup(files->fd);
+	if (fd == -1)
 	{
-		if (files->fd > 0)
-			close(files->fd);
-		files = files->next;
+		perror(files->file);
+		return (1);
 	}
+	files->fd = fd;
+	if (files->type == RED_IN || files->type == HEREDOC)
+		dup_in(fd);
+	else
+		dup_out(fd);
+	return (0);
 }
 
-int		open_files_red(t_file *files)
+int	open_files_red(t_file *files)
 {
 	while (files)
 	{
@@ -69,75 +59,4 @@ int		open_files_red(t_file *files)
 		files = files->next;
 	}
 	return (0);
-}
-
-// void process_heredoc_delimiter(char *file, int *out_fd)
-// {
-// 	char *line;
-// 	char *delimiter = file;
-// 	int quoted = 0;
-// 	int fds[2];
-	
-// 	if (pipe(fds) == -1)
-// 	{
-// 		perror("pipe error");
-// 		return;
-// 	}
-// 	if ((delimiter[0] == '"' && delimiter[ft_strlen(delimiter) - 1] == '"') ||
-// 		(delimiter[0] == '\'' && delimiter[ft_strlen(delimiter) - 1] == '\''))
-// 	{
-// 		quoted = 1;
-// 		delimiter = ft_substr(delimiter, 1, ft_strlen(delimiter) - 2);
-// 	}
-// 	while (1)
-// 	{
-// 		line = readline("> ");
-// 		if (!line)
-// 			break ;
-// 		if (ft_strcmp(line, delimiter) == 0)
-// 		{
-// 			free(line);
-// 			break ;
-// 		}
-// 		write(fds[1], line, ft_strlen(line));
-// 		write(fds[1], "\n", 1);
-// 		free(line);
-// 	}
-// 	close(fds[1]);
-// 	*out_fd = fds[0];
-// }
-
-// void check_herdoc(t_file *files)
-// {
-//     t_file *current;
-
-//     current = files;
-//     while (current)
-//     {
-//         if (current->type == HEREDOC)
-//         {
-//             process_heredoc_delimiter(current->file, &current->fd);
-//         }
-//         current = current->next;
-//     }
-// }
-
-void	dup_in(int fd)
-{
-	if (dup2(fd, STDIN_FILENO) == -1)
-	{
-		perror("dup2 in");
-		exit(EXIT_FAILURE);
-	}
-	close(fd);
-}
-
-void	dup_out(int fd)
-{
-	if (dup2(fd, STDOUT_FILENO) == -1)
-	{
-		perror("dup2 out");
-		exit(EXIT_FAILURE);
-	}
-	close(fd);
 }

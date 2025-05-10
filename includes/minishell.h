@@ -6,10 +6,9 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 15:52:45 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 16:12:19 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -93,7 +92,7 @@ void	inisialise_cmds(t_cmds *cmd);
 void	handle_file_type(t_file *file, char *s);
 void	remove_quotes(t_cmds *cmds);
 char	*quote_remover(char *s);
-int	check_files(t_cmds *cmds, t_mp *pg);
+int		check_files(t_cmds *cmds, t_mp *pg);
 
 ////////////////////-----tools-----////////////////////
 
@@ -118,6 +117,7 @@ void	skip_quotes(char *s, int *i, char c);
 int		is_delimiter(char c);
 int		is_special_char(char c);
 int		word_counter(char *s);
+void	close_files(t_file *files);
 
 ////////////////////-----execution-----////////////////////
 
@@ -131,15 +131,14 @@ void	restor_fd(int stdin_b, int stdout_b);
 char	*get_cmd_dir(char *cmd, t_mp *pg);
 void	pwd(t_mp *pg);
 void	cd(t_cmds *cmds, t_mp *pg);
-void		export(t_cmds *cmds, t_list *env, t_mp *pg);
+void	export(t_cmds *cmds, t_list *env, t_mp *pg);
 void	print_env(t_list *env);
 int		env(t_cmds *cmds, t_list *env, t_mp *pg);
 void	unset(t_cmds *cmds, t_list *env, t_mp *pg);
 int		open_files_red(t_file *files);
-void	close_files(t_file *files);
 void	echo(t_cmds *cmds, t_mp *pg);
 void	execute_one_cmd(t_cmds *cmds, t_mp *pg);
-int 	builtins(t_cmds *cmds, t_mp *pg);
+int		builtins(t_cmds *cmds, t_mp *pg);
 void	bin_exit(t_cmds *cmds, t_mp *pg);
 void	execute_multiple_commands(t_cmds *cmds, int cmd_count, t_mp *pg);
 void	update_env(t_mp *pg);

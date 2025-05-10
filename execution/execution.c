@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:42:17 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 16:03:31 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:19:19 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	child_procces(t_cmds *cmds, t_mp *pg)
 		close_files(cmds->files);
 		exit(EXIT_SUCCESS);
 	}
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	cmd_dir = get_cmd_dir(cmds->cmds[0], pg);
 	if (!cmd_dir)
 		exit(cmd_not_found(cmds, pg));
@@ -71,6 +73,8 @@ void	execute_one_cmd(t_cmds *cmds, t_mp *pg)
 		}
 	}
 	waitpid(p_id, &status, 0);
+	if (WIFSIGNALED(status))
+		pg->exit_status = WTERMSIG(status) + 128;
 	if (WIFEXITED(status))
 		pg->exit_status = WEXITSTATUS(status);
 }

@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 11:19:30 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/09 11:50:20 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 16:06:10 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,6 @@ int	check_if_env_updated(t_mp *pg)
 	t_list	*tmp;
 
 	i = 0;
-	// int	j=0;
-	// while (pg->envp[j])
-	// {
-	// 	printf("%s---------\n", pg->envp[j]);
-	// 	j++;
-	// }
 	tmp = pg->env;
 	while (tmp && tmp->ptr && pg->envp[i])
 	{
@@ -50,7 +44,7 @@ void	update_env(t_mp *pg)
 	size = ft_lstsize(pg->env) + 1;
 	new_env = (char **)ft_malloc(sizeof(char *) * size);
 	tmp = pg->env;
-	while(tmp)
+	while (tmp)
 	{
 		new_env[i] = ft_strdup(tmp->ptr);
 		tmp = tmp->next;

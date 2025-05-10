@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:32:03 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/01 18:23:59 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:17:07 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ void	sig_handler(int sig)
 
 void	signal_setup(void)
 {
-	struct sigaction	sa;
-
-	ft_memset(&sa, 0, sizeof(struct sigaction));
-	sa.sa_handler = sig_handler;
-	sigaction(SIGINT, &sa, NULL);
+	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTERM, SIG_IGN);
 }
