@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/09 11:31:13 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 13:50:59 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,12 +144,12 @@ void	in_n_out_backup(t_mp *pg);
 int		check_redirection(t_file *files);
 void	restor_fd(int stdin_b, int stdout_b);
 char	*get_cmd_dir(char *cmd, t_mp *pg);
-void	pwd(void);
+void	pwd(t_mp *pg);
 void	cd(t_cmds *cmds, t_mp *pg);
-int		export(t_cmds *cmds, t_list *env);
+void		export(t_cmds *cmds, t_list *env, t_mp *pg);
 void	print_env(t_list *env);
-int		env(t_cmds *cmds, t_list *env);
-void	unset(t_cmds *cmds, t_list *env);
+int		env(t_cmds *cmds, t_list *env, t_mp *pg);
+void	unset(t_cmds *cmds, t_list *env, t_mp *pg);
 int		open_files_red(t_file *files);
 void	close_files(t_file *files);
 void	echo(t_cmds *cmds, t_mp *pg);

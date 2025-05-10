@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:11:22 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/04/30 18:50:49 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 13:44:27 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void	add_var(t_list **env, char *s)
 	*env = head;
 }
 
-int	export(t_cmds *cmds, t_list *env)
+void	export(t_cmds *cmds, t_list *env, t_mp *pg)
 {
 	int	i;
 	int	mode;
@@ -181,5 +181,5 @@ int	export(t_cmds *cmds, t_list *env)
 			i++;
 		}
 	}
-	return (exit_st);
+	pg->exit_status = exit_st;
 }

@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:25:53 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/04/29 18:46:46 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/10 13:47:14 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	remove_var(t_list **env, char *s)
 	*env = first;
 }
 
-void	unset(t_cmds *cmds, t_list *env)
+void	unset(t_cmds *cmds, t_list *env, t_mp *pg)
 {
 	int	i;
 
@@ -47,4 +47,5 @@ void	unset(t_cmds *cmds, t_list *env)
 		remove_var(&env, cmds->cmds[i]);
 		i++;
 	}
+	pg->exit_status = 0;
 }
