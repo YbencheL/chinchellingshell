@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/10 15:41:43 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/11 11:36:38 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ int	main(int ac, char **av, char **env)
 	check_args(ac, av);
 	pg.env = init_env(env);
 	pg.envp = env;
-	print_banner();
+	// print_banner();
 	signal_setup();
 	in_n_out_backup(&pg);
 	shell_loop(&pg);
-	print_exit();
+	// print_exit();
 	close(pg.std_in);
 	close(pg.std_out);
 	ft_lstclear(&g_gbc, free);

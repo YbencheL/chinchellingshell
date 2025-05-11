@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:42:17 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 17:19:19 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/11 11:48:13 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,15 @@ void	execute_one_cmd(t_cmds *cmds, t_mp *pg)
 			return ;
 		}
 	}
-	waitpid(p_id, &status, 0);
-	if (WIFSIGNALED(status))
-		pg->exit_status = WTERMSIG(status) + 128;
-	if (WIFEXITED(status))
-		pg->exit_status = WEXITSTATUS(status);
+    signal(SIGINT, SIG_IGN);
+    waitpid(p_id, &status, 0);
+    signal_setup();
+    if (WIFSIGNALED(status))
+	{
+        pg->exit_status = WTERMSIG(status) + 128;
+		if (WTERMSIG(status) == SIGINT)
+			write(1, "\n", 1);
+	}
+    if (WIFEXITED(status))
+        pg->exit_status = WEXITSTATUS(status);
 }
