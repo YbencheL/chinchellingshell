@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_dir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:30:47 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 14:22:33 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/11 13:04:21 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_path(char *cmd, char *path, t_mp *pg)
 			return (tmp);
 		i++;
 	}
-	pg->exit_status = 126 ;
+	pg->exit_status = 127 ;
 	write(2, "minishell: ", 11);
 	write(2, cmd, ft_strlen(cmd));
 	write(2, ": command not found\n", 20);

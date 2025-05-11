@@ -7,7 +7,7 @@ parsing/1_first_check_quotes.c parsing/2_char_to_token_check.c parsing/3_expand_
 parsing/5_field_spliting.c parsing/6_tokenize.c parsing/7_parsing.c parsing/8_parsing.c parsing/9_check_files.c parsing/10_remove_quotes.c \
 tools/tool0.c tools/tool1.c tools/tool2.c tools/tool3.c tools/tool4.c tools/tool5.c tools/tool6.c \
 execution/redirection_n_files.c execution/1_handle_heredoc.c execution/get_cmd_dir.c execution/bin_pwd.c execution/bin_cd.c execution/bin_unset.c \
-execution/bin_export.c execution/bin_env.c execution/bin_echo.c execution/execution.c execution/bin_exit.c  execution/excution_multip_cmd.c execution/built_in.c \
+execution/bin_export.c execution/bin_env.c execution/bin_echo.c execution/execution.c execution/bin_exit.c  execution/execution_multip_cmd.c execution/built_in.c \
 execution/bin_cd2.c execution/bin_export2.c\
 execution/update_env.c
 
