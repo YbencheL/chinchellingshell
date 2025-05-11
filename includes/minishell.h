@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/11 11:24:45 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/11 14:17:47 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,5 +148,6 @@ void	print_export_err(char *s);
 void	add_app_var(t_list *env, char *s);
 int		check_exist(t_list *env, char *s);
 int		check_form(char *s, int *es);
+void	add_var(t_list **env, char *s);
 
 #endif
