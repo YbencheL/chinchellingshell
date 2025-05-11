@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   excution_multip_cmd.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:07:10 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 15:27:49 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/11 12:56:35 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,17 @@ void execute_multiple_commands(t_cmds *cmds, int cmd_count, t_mp *pg)
 	}
 	close_pipe_fds(pipe_fds, (cmd_count - 1) * 2);
 	i = 0;
+	signal(SIGINT, SIG_IGN);
 	while (i < cmd_count) 
 		if (waitpid(pids[i++], &status, 0) > 0 && WIFEXITED(status))
 			pg->exit_status = WEXITSTATUS(status);
+    signal_setup();
+    if (WIFSIGNALED(status))
+	{
+        pg->exit_status = WTERMSIG(status) + 128;
+		if (WTERMSIG(status) == SIGINT)
+			write(1, "\n", 1);
+	}
+    if (WIFEXITED(status))
+        pg->exit_status = WEXITSTATUS(status);
 }

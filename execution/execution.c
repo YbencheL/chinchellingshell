@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:42:17 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/11 11:48:13 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/11 12:54:24 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	child_procces(t_cmds *cmds, t_mp *pg)
 		close_files(cmds->files);
 		exit(EXIT_SUCCESS);
 	}
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
+	// signal(SIGQUIT, SIG_DFL);
+	// signal(SIGINT, SIG_DFL);
 	cmd_dir = get_cmd_dir(cmds->cmds[0], pg);
 	if (!cmd_dir)
 		exit(cmd_not_found(cmds, pg));
