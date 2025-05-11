@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/11 14:33:57 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/11 14:41:51 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	shell_loop(t_mp *pg)
 int	main(int ac, char **av, char **env)
 {
 	t_mp	pg;
+	char cwd[PATH_MAX];
+	char *tmp;
 
 	pg.exit_status = 0;
 	pg.is_child = 0;
@@ -93,8 +95,6 @@ int	main(int ac, char **av, char **env)
 	check_args(ac, av);
 	pg.env = init_env(env);
 	pg.envp = env;
-	char cwd[PATH_MAX];
-	char *tmp;
 	if (getcwd(cwd, sizeof(cwd)))
 	{
 		tmp = ft_strjoin("PWD=", cwd);
