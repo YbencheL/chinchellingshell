@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_expand_variables.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/03 15:10:37 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:31:01 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	handle_var_dquote(t_arg *token, int *j, t_mp *pg)
 	{
 		if (token->arg[*j] == '$' && (ft_isalnum(token->arg[*j + 1])
 				|| token->arg[*j + 1] == '_' || token->arg[*j + 1] == '?'))
-			token->arg = expand(token->arg, j, pg);
+			token->arg = expand_q(token->arg, j, pg);
 		else if (token->arg[*j] == '"')
 		{
 			(*j)++;
@@ -65,7 +65,7 @@ void	handle_var(t_arg *token, int *i, t_mp *pg)
 			break ;
 		else if (token->arg[j] == '$' && (ft_isalnum(token->arg[j + 1])
 				|| token->arg[j + 1] == '_' || token->arg[j + 1] == '?'))
-			token->arg = expand(token->arg, &j, pg);
+			token->arg = expand_q(token->arg, &j, pg);
 		else
 			j++;
 	}

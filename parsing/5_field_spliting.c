@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 15:16:26 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:24:36 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	export_skip(t_arg **token, t_arg **new_head)
 		*new_head = *token;
 	if (!ft_strcmp("export", (*token)->arg))
 	{
-		while ((*token)->next && (*token)->type == PIPE)
+		while ((*token)->next && (*token)->type != PIPE)
 			*token = (*token)->next;
 	}
 	else

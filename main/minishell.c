@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/12 13:55:33 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:40:00 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_cmds	*parsing(char *rl, t_mp *pg)
 	if (check_files(cmds, pg))
 		return (NULL);
 	remove_quotes(cmds);
+	getback_quotes(cmds);
 	return (cmds);
 }
 

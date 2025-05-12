@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/11 14:17:47 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:08:11 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #	ifndef MINISHELL_H
 # define MINISHELL_H
+# define DQUOTE -1
+# define SQUOTE -2
 
 # include "utils.h"
 # include <signal.h>
@@ -93,6 +95,8 @@ void	handle_file_type(t_file *file, char *s);
 void	remove_quotes(t_cmds *cmds);
 char	*quote_remover(char *s);
 int		check_files(t_cmds *cmds, t_mp *pg);
+char	*expand_q(char *str, int *i, t_mp *pg);
+void	getback_quotes(t_cmds *cmd);
 
 ////////////////////-----tools-----////////////////////
 
@@ -121,7 +125,6 @@ void	close_files(t_file *files);
 
 ////////////////////-----execution-----////////////////////
 
-void	check_herdoc(t_file *files);
 int		fill_herdoc(t_cmds *cmds, t_mp *pg);
 void	dup_in(int fd);
 void	dup_out(int fd);

@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 15:20:00 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:39:00 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,52 @@ char	*expand(char *str, int *i, t_mp *pg)
 	{
 		var = get_var(str, j);
 		value = my_getenv(pg->env, var);
+		var = ft_strjoin(ft_strdup("$"), var);
+	}
+	if (!value)
+		s = replace_var(str, var, ft_strdup(""), i);
+	else
+		s = replace_var(str, var, value, i);
+	return (s);
+}
+
+void	change_quotes(char *s)
+{
+	int	i;
+
+	if (!s)
+		return ;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '"')
+			s[i] = DQUOTE;
+		else if (s[i] == '\'')
+			s[i] = SQUOTE;
+		i++;
+	}
+}
+
+char	*expand_q(char *str, int *i, t_mp *pg)
+{
+	int		j;
+	char	*var;
+	char	*value;
+	char	*s;
+
+	var = NULL;
+	value = NULL;
+	j = *i + 1;
+	if (str[j] == '?')
+	{
+		var = ft_strdup("$?");
+		value = ft_itoa(pg->exit_status);
+	}
+	else
+	{
+		var = get_var(str, j);
+		value = my_getenv(pg->env, var);
+		change_quotes(value);
 		var = ft_strjoin(ft_strdup("$"), var);
 	}
 	if (!value)

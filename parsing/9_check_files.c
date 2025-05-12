@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:33:11 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 15:18:58 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:37:52 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,45 @@ int	check_files(t_cmds *cmds, t_mp *pg)
 		cmds = cmds->next;
 	}
 	return (0);
+}
+
+void	quote_back(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i])
+	{
+		if (s[i] == DQUOTE)
+			s[i] = '"';
+		else if (s[i] == SQUOTE)
+			s[i] = '\'';
+		i++;
+	}
+}
+
+void	getback_quotes(t_cmds *cmd)
+{
+	t_file	*tmp;
+	int		i;
+
+	i = 0;
+	while (cmd)
+	{
+		i = 0;
+		while (cmd->cmds[i])
+		{
+			quote_back(cmd->cmds[i]);
+			i++;
+		}
+		tmp = cmd->files;
+		while (tmp)
+		{
+			quote_back(tmp->file);
+			tmp = tmp->next;
+		}
+		cmd = cmd->next;	
+	}
 }
