@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/12 15:08:11 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:24:28 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ char	*quote_remover(char *s);
 int		check_files(t_cmds *cmds, t_mp *pg);
 char	*expand_q(char *str, int *i, t_mp *pg);
 void	getback_quotes(t_cmds *cmd);
+void	skip_null(t_arg **token);
+void	pwd_shvl(t_mp *pg);
 
 ////////////////////-----tools-----////////////////////
 
@@ -152,5 +154,6 @@ void	add_app_var(t_list *env, char *s);
 int		check_exist(t_list *env, char *s);
 int		check_form(char *s, int *es);
 void	add_var(t_list **env, char *s);
+int		check_files_red_err(t_arg *token);
 
 #endif

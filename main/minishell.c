@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/12 17:04:51 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:22:10 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,57 +36,6 @@ void	execution(t_cmds *cmds, t_mp *pg)
 	else
 		execute_multiple_commands(cmds, cmd_count, pg);
 	return ;
-}
-
-void	skip_first(t_arg **token)
-{
-	t_arg	*tmp;
-
-	tmp = *token;
-	while (tmp && !tmp->arg)
-		tmp = tmp->next;
-	*token = tmp;
-}
-
-void	skip_null(t_arg **token)
-{
-	t_arg	*curr;
-	t_arg	*prv;
-
-	skip_first(token);
-	curr = *token;
-	while (curr)
-	{	
-		if (!curr->arg)
-		{
-			prv->next = curr->next;
-			curr = curr->next;
-		}
-		else
-		{
-			prv = curr;
-			curr = curr->next;
-		}
-	}
-}
-
-int	check_files_red_err(t_arg *token)
-{
-	while (token)
-	{
-		if (token->type >= 2 && token->type <= 5)
-		{
-			if (!token->next->arg)
-			{
-				write(2, "minishell : ambiguous redirect\n", 31);
-				return (1);
-			}
-			else
-				token = token->next;
-		}
-		token = token->next;
-	}
-	return (0);
 }
 
 t_cmds	*parsing(char *rl, t_mp *pg)
@@ -136,26 +85,6 @@ void	shell_loop(t_mp *pg)
 		free(rl);
 	}
 	clear_history();
-}
-
-void	pwd_shvl(t_mp *pg)
-{
-	char cwd[PATH_MAX];
-	char *tmp;
-	int	count = 0;
-	char *shlvl;
-	
-	if (getcwd(cwd, sizeof(cwd)))
-	{
-		tmp = ft_strjoin("PWD=", cwd);
-		add_var(&pg->env, tmp);
-	}
-	//handling shell lvl
-	shlvl = getenv("SHLVL");
-	count = ft_atoi(shlvl);
-	tmp = ft_strjoin("SHLVL=", ft_itoa(count + 1));
-	add_var(&pg->env, tmp);
-	update_env(pg);
 }
 
 int	main(int ac, char **av, char **env)

@@ -60,3 +60,22 @@ int	open_files_red(t_file *files)
 	}
 	return (0);
 }
+
+int	check_files_red_err(t_arg *token)
+{
+	while (token)
+	{
+		if (token->type >= 2 && token->type <= 5)
+		{
+			if (!token->next->arg)
+			{
+				write(2, "minishell : ambiguous redirect\n", 31);
+				return (1);
+			}
+			else
+				token = token->next;
+		}
+		token = token->next;
+	}
+	return (0);
+}
