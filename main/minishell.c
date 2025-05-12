@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/11 14:41:51 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:21:42 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int	main(int ac, char **av, char **env)
 	t_mp	pg;
 	char cwd[PATH_MAX];
 	char *tmp;
+	int	count = 0;
+	char *shlvl;
 
 	pg.exit_status = 0;
 	pg.is_child = 0;
@@ -100,6 +102,11 @@ int	main(int ac, char **av, char **env)
 		tmp = ft_strjoin("PWD=", cwd);
 		add_var(&pg.env, tmp);
 	}
+	//handling shell lvl
+	shlvl = getenv("SHLVL");
+	count = ft_atoi(shlvl);
+	tmp = ft_strjoin("SHLVL=", ft_itoa(count + 1));
+	add_var(&pg.env, tmp);
 	// print_banner();
 	signal_setup();
 	in_n_out_backup(&pg);
