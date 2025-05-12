@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/12 14:40:00 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:04:51 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,57 @@ void	execution(t_cmds *cmds, t_mp *pg)
 	return ;
 }
 
+void	skip_first(t_arg **token)
+{
+	t_arg	*tmp;
+
+	tmp = *token;
+	while (tmp && !tmp->arg)
+		tmp = tmp->next;
+	*token = tmp;
+}
+
+void	skip_null(t_arg **token)
+{
+	t_arg	*curr;
+	t_arg	*prv;
+
+	skip_first(token);
+	curr = *token;
+	while (curr)
+	{	
+		if (!curr->arg)
+		{
+			prv->next = curr->next;
+			curr = curr->next;
+		}
+		else
+		{
+			prv = curr;
+			curr = curr->next;
+		}
+	}
+}
+
+int	check_files_red_err(t_arg *token)
+{
+	while (token)
+	{
+		if (token->type >= 2 && token->type <= 5)
+		{
+			if (!token->next->arg)
+			{
+				write(2, "minishell : ambiguous redirect\n", 31);
+				return (1);
+			}
+			else
+				token = token->next;
+		}
+		token = token->next;
+	}
+	return (0);
+}
+
 t_cmds	*parsing(char *rl, t_mp *pg)
 {
 	t_arg	*token;
@@ -48,9 +99,12 @@ t_cmds	*parsing(char *rl, t_mp *pg)
 		return (NULL);
 	token = tokenize(rl, pg);
 	expand_variables(token, pg);
-	while (token && (!*token->arg))
-		token = token->next;
 	handle_var_space(&token);
+	if (check_files_red_err(token))
+		return (NULL);
+	skip_null(&token);
+	if (!token)
+		return (NULL);
 	tokens = tokens_to_cmds(token);
 	cmds = get_final_cmds(tokens);
 	if (check_files(cmds, pg))

@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/12 14:39:00 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:37:44 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char	*replace_var(char *s, char *var, char *value, int *k)
 	ft_strncpy(str + *k, value, ft_strlen(value));
 	*k = *k + ft_strlen(value);
 	ft_strncpy(str + *k, s + i + ft_strlen(var), len - *k);
+	if (!ft_strlen(str))
+		return (NULL);
 	return (str);
 }
 

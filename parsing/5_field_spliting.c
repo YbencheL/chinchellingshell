@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/12 14:24:36 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:58:44 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	check_for_space(t_arg *token)
 	int	i;
 
 	i = 0;
+	if (!token->arg)
+		return (0);
 	while (token->arg[i])
 	{
 		if (token->arg[i] == '\'' || token->arg[i] == '"')
@@ -91,7 +93,10 @@ void	handle_var_space(t_arg **token)
 	new_head = NULL;
 	while (current)
 	{
-		if ((current->type >= 2 && current->type <= 5)
+		if (!current->arg)
+		{
+		}
+		else if ((current->type >= 2 && current->type <= 5)
 			|| !ft_strcmp("export", current->arg))
 			export_skip(&current, &new_head);
 		else if (current->type == WORD && check_for_space(current))

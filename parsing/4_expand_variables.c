@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/12 14:31:01 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:46:06 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	handle_var_dquote(t_arg *token, int *j, t_mp *pg)
 {
-	while (token->arg[*j])
+	while (token->arg &&token->arg[*j])
 	{
 		if (token->arg[*j] == '$' && (ft_isalnum(token->arg[*j + 1])
 				|| token->arg[*j + 1] == '_' || token->arg[*j + 1] == '?'))
@@ -26,6 +26,8 @@ void	handle_var_dquote(t_arg *token, int *j, t_mp *pg)
 		}
 		else
 			(*j)++;
+		if (!token->arg)
+			return ;
 	}
 }
 
@@ -59,7 +61,7 @@ void	handle_var(t_arg *token, int *i, t_mp *pg)
 	int	j;
 
 	j = *i;
-	while (token->arg[j])
+	while (token->arg && token->arg[j])
 	{
 		if (token->arg[j] == '"' || token->arg[j] == '\'')
 			break ;
@@ -85,7 +87,7 @@ void	expand_variables(t_arg *token, t_mp *pg)
 			token = token->next->next;
 		else
 		{
-			while (token->arg[i])
+			while (token->arg && token->arg[i])
 			{
 				if (token->arg[i] == '"' || token->arg[i] == '\'')
 					handle_quotes_var(token, &i, pg);
