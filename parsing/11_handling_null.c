@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:19:00 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/12 17:23:05 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:06:30 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	skip_null(t_arg **token)
 	skip_first(token);
 	curr = *token;
 	while (curr)
-	{	
+	{
 		if (!curr->arg)
 		{
 			prv->next = curr->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   9_check_files.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:33:11 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/12 14:37:52 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:06:05 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,6 @@ void	getback_quotes(t_cmds *cmd)
 			quote_back(tmp->file);
 			tmp = tmp->next;
 		}
-		cmd = cmd->next;	
+		cmd = cmd->next;
 	}
 }

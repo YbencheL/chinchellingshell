@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:11:22 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/11 14:32:08 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:01:57 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	add_var(t_list **env, char *s)
 	t_list	*head;
 	int		len;
 
-	len = 0;	
+	len = 0;
 	while (s[len] && s[len] != '=')
 		len++;
 	prv = NULL;

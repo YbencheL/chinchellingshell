@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_expand_variables.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/12 15:46:06 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:06:20 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	handle_var_dquote(t_arg *token, int *j, t_mp *pg)
 {
-	while (token->arg &&token->arg[*j])
+	while (token->arg && token->arg[*j])
 	{
 		if (token->arg[*j] == '$' && (ft_isalnum(token->arg[*j + 1])
 				|| token->arg[*j + 1] == '_' || token->arg[*j + 1] == '?'))

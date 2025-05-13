@@ -6,11 +6,23 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:42:17 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/11 13:03:53 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:11:18 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	finalizing_exit_st(t_mp *pg, int *status)
+{
+	if (WIFSIGNALED(*status))
+	{
+		pg->exit_status = WTERMSIG(*status) + 128;
+		if (WTERMSIG(*status) == SIGINT)
+			write(1, "\n", 1);
+	}
+	if (WIFEXITED(*status))
+		pg->exit_status = WEXITSTATUS(*status);
+}
 
 int	cmd_not_found(t_cmds *cmds, t_mp *pg)
 {
@@ -35,8 +47,6 @@ void	child_procces(t_cmds *cmds, t_mp *pg)
 		close_files(cmds->files);
 		exit(EXIT_SUCCESS);
 	}
-	// signal(SIGQUIT, SIG_DFL);
-	// signal(SIGINT, SIG_DFL);
 	cmd_dir = get_cmd_dir(cmds->cmds[0], pg);
 	if (!cmd_dir)
 		exit(cmd_not_found(cmds, pg));
@@ -53,7 +63,6 @@ void	execute_one_cmd(t_cmds *cmds, t_mp *pg)
 	int	p_id;
 	int	status;
 
-	status = 0;
 	if (open_files_red(cmds->files))
 	{
 		pg->exit_status = 1;
@@ -61,26 +70,13 @@ void	execute_one_cmd(t_cmds *cmds, t_mp *pg)
 	}
 	if (builtins(cmds, pg) == 0)
 		return ;
-	else
-	{
-		p_id = fork();
-		if (p_id == 0)
-			child_procces(cmds, pg);
-		else if (p_id == -1)
-		{
-			fork_error(pg);
-			return ;
-		}
-	}
-    signal(SIGINT, SIG_IGN);
-    waitpid(p_id, &status, 0);
-    signal_setup();
-    if (WIFSIGNALED(status))
-	{
-        pg->exit_status = WTERMSIG(status) + 128;
-		if (WTERMSIG(status) == SIGINT)
-			write(1, "\n", 1);
-	}
-    if (WIFEXITED(status))
-        pg->exit_status = WEXITSTATUS(status);
+	p_id = fork();
+	if (p_id == -1)
+		return (fork_error(pg));
+	if (p_id == 0)
+		child_procces(cmds, pg);
+	signal(SIGINT, SIG_IGN);
+	waitpid(p_id, &status, 0);
+	signal_setup();
+	finalizing_exit_st(pg, &status);
 }
