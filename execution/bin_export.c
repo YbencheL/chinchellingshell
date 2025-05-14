@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:11:22 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/13 14:01:57 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:01:58 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	export(t_cmds *cmds, t_list *env, t_mp *pg)
 	i = 1;
 	exit_st = 0;
 	if (!cmds->cmds[1])
-		print_env_dec(env);
+		print_env_dec(pg->envs);
 	else
 	{
 		while (cmds->cmds[i])

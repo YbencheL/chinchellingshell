@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bin_export2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 15:50:34 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 15:54:11 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:25:53 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,28 @@ void	print_export_err(char *s)
 	write(2, ": not a valid identifier\n", 24);
 }
 
-void	print_env_dec(t_list *env)
+void	print_env_dec(char **env)
 {
-	while (env)
+	int	i;
+	int	j;
+
+	i = 0;
+	while (env[i])
 	{
-		printf("declare -x %s\n", (char *)(env->ptr));
-		env = env->next;
+		j = 0;
+		write(1, "declare -x ", 11);
+		while (env[i][j] && env[i][j] != '=')
+			write(1, &env[i][j++], 1);
+		if (env[i][j] == '=')
+		{
+			write(1, "=\"", 2);
+			j++;
+			while (env[i][j])
+				write(1, &env[i][j++], 1);
+			write(1, "\"", 1);
+		}
+		write(1, "\n", 1);
+		i++;
 	}
 }
 

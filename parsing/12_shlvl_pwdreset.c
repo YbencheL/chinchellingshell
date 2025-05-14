@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:22:59 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/13 13:07:04 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/14 13:29:18 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,14 @@ void	pwd_shvl(t_mp *pg)
 		tmp = ft_strjoin("PWD=", cwd);
 		add_var(&pg->env, tmp);
 	}
-	shlvl = getenv("SHLVL");
-	count = ft_atoi(shlvl);
-	tmp = ft_strjoin("SHLVL=", ft_itoa(count + 1));
+	shlvl = my_getenv(pg->env, "SHLVL");
+	if (!shlvl)
+		tmp = ft_strdup("SHLVL=0");
+	else
+	{
+		count = ft_atoi(shlvl);
+		tmp = ft_strjoin("SHLVL=", ft_itoa(count + 1));
+	}
 	add_var(&pg->env, tmp);
 	update_env(pg);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bin_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:25:25 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 15:47:51 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/14 13:30:15 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	env(t_cmds *cmds, t_list *env, t_mp *pg)
 {
 	if (cmds->cmds[1])
 	{
-		write(2, "minishell : env : does not take any arguments", 45);
+		write(2, "minishell : env : does not take any arguments\n", 46);
 		pg->exit_status = 1;
 		return (1);
 	}

@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/13 14:13:52 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:03:37 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	shell_loop(t_mp *pg)
 				continue ;
 			execution(cmds, pg);
 			update_env(pg);
+			pg->envs = sort_env(pg->envp);
 		}
 		free(rl);
 	}
@@ -98,6 +99,7 @@ int	main(int ac, char **av, char **env)
 	pg.env = init_env(env);
 	pg.envp = env;
 	pwd_shvl(&pg);
+	pg.envs = sort_env(pg.envp);
 	print_banner();
 	signal_setup();
 	in_n_out_backup(&pg);
