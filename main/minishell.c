@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:13:52 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/14 14:03:37 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:48:43 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	execution(t_cmds *cmds, t_mp *pg)
 	int		cmd_count;
 	t_cmds	*cmd_ptr;
 
-	fill_herdoc(cmds, pg);
+	if (fill_herdoc(cmds, pg))
+		return ;
 	cmd_ptr = cmds;
 	cmd_count = 0;
 	while (cmd_ptr)
@@ -34,7 +35,10 @@ void	execution(t_cmds *cmds, t_mp *pg)
 		restor_fd(pg->std_in, pg->std_out);
 	}
 	else
+	{
 		execute_multiple_commands(cmds, cmd_count, pg);
+		restor_fd(pg->std_in, pg->std_out);
+	}
 	return ;
 }
 

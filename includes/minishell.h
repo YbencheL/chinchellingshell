@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 14:16:16 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/14 14:04:38 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:38:15 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <signal.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <linux/limits.h>
 
 typedef enum token_type
 {
@@ -100,6 +101,7 @@ char				*expand_q(char *str, int *i, t_mp *pg);
 void				getback_quotes(t_cmds *cmd);
 void				skip_null(t_arg **token);
 void				pwd_shvl(t_mp *pg);
+void				hundle_export_field(t_arg *token);
 
 ////////////////////-----tools-----////////////////////
 
@@ -113,7 +115,6 @@ void				print_exit(void);
 char				**split_token(char *s);
 t_arg				*new_arg(char *arg);
 void				argadd_back(t_arg **arg, t_arg *new);
-char				**split_only_spaces(char *s);
 void				fill_split(char **str, char *s);
 int					word_counter(char *s);
 char				**split_token(char *s);
@@ -126,6 +127,8 @@ int					is_special_char(char c);
 int					word_counter(char *s);
 void				close_files(t_file *files);
 char				**sort_env(char **env);
+char				**split_token_field(char *s);
+int					handle_quotes(char *s, int *i);
 
 ////////////////////-----execution-----////////////////////
 
@@ -139,7 +142,6 @@ char				*get_cmd_dir(char *cmd, t_mp *pg);
 void				pwd(t_mp *pg);
 void				cd(t_cmds *cmds, t_mp *pg);
 void				export(t_cmds *cmds, t_list *env, t_mp *pg);
-void				print_env(t_list *env);
 int					env(t_cmds *cmds, t_list *env, t_mp *pg);
 void				unset(t_cmds *cmds, t_list *env, t_mp *pg);
 int					open_files_red(t_file *files);
@@ -151,7 +153,7 @@ void				execute_multiple_commands(t_cmds *cmds, int cmd_count,
 						t_mp *pg);
 void				update_env(t_mp *pg);
 void				cd_error(t_mp *pg, char *msg, int status);
-void				print_env_dec(char **env);
+int					print_env_dec(char **env, t_mp *pg);
 void				print_export_err(char *s);
 void				add_app_var(t_list *env, char *s);
 int					check_exist(t_list *env, char *s);
@@ -159,5 +161,9 @@ int					check_form(char *s, int *es);
 void				add_var(t_list **env, char *s);
 int					check_files_red_err(t_arg *token);
 void				finalizing_exit_st(t_mp *pg, int *status);
+char				*expand_heredoc(char *s, t_mp *pg);
+void				pipe_err(t_mp *pg);
+void				update_pwd(t_list *env);
+void				write_error(char *s, t_mp *pg, int exit);
 
 #endif

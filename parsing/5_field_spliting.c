@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:44:52 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/12 16:58:44 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:54:35 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	split_word_var(t_arg **current, t_arg **previous, t_arg **new_head)
 	t_arg	*new_list;
 	t_arg	*head;
 
-	str = ft_split((*current)->arg, " \t");
+	str = split_token_field((*current)->arg);
 	new_list = new_arg(str[0]);
 	new_list->type = WORD;
 	head = new_list;
@@ -74,10 +74,7 @@ void	export_skip(t_arg **token, t_arg **new_head)
 	if (!(*new_head))
 		*new_head = *token;
 	if (!ft_strcmp("export", (*token)->arg))
-	{
-		while ((*token)->next && (*token)->type != PIPE)
-			*token = (*token)->next;
-	}
+		hundle_export_field(*token);
 	else
 		*token = (*token)->next;
 }

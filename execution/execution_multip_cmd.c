@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_multip_cmd.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:07:10 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/13 14:10:45 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:11:24 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	close_pipe_fds(int *pipe_fds, int count)
 
 void	setup_child_pipes(int *pipe_fds, int i, int cmd_count)
 {
+	signal(SIGQUIT, SIG_DFL);
 	if (i > 0)
 		dup_in(pipe_fds[(i - 1) * 2]);
 	if (i < cmd_count - 1)

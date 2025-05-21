@@ -6,7 +6,7 @@
 /*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:38:13 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/09 11:27:18 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:55:15 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,5 @@ char	**ft_split(char *str, char *charset);
 void	ft_strncpy(char *dest, char *src, unsigned int n);
 int		ft_atoi(const char *str);
 int		ft_lstsize(t_list *lst);
+char	*bc_strchr_fo_rv(const char *s, char c, char l);
 #endif

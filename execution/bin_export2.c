@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 15:50:34 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/14 14:25:53 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:36:58 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,36 @@ void	print_export_err(char *s)
 {
 	write(2, "minishell : export : ", 21);
 	write(2, s, ft_strlen(s));
-	write(2, ": not a valid identifier\n", 24);
+	write(2, ": not a valid identifier\n", 25);
 }
 
-void	print_env_dec(char **env)
+int	print_env_dec(char **env, t_mp *pg)
 {
 	int	i;
 	int	j;
+	int	e;
 
 	i = 0;
 	while (env[i])
 	{
 		j = 0;
-		write(1, "declare -x ", 11);
+		e = write(1, "declare -x ", 11);
 		while (env[i][j] && env[i][j] != '=')
-			write(1, &env[i][j++], 1);
+			e = write(1, &env[i][j++], 1);
 		if (env[i][j] == '=')
 		{
-			write(1, "=\"", 2);
+			e = write(1, "=\"", 2);
 			j++;
 			while (env[i][j])
-				write(1, &env[i][j++], 1);
-			write(1, "\"", 1);
+				e = write(1, &env[i][j++], 1);
+			e = write(1, "\"", 1);
 		}
-		write(1, "\n", 1);
+		e = write(1, "\n", 1);
 		i++;
 	}
+	if (e == -1)
+		return (write_error("export", pg, 1), 1);
+	return (0);
 }
 
 int	check_form(char *s, int *es)

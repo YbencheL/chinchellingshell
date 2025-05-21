@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_function_5.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:30:54 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/01 19:39:20 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:43:33 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,29 @@ int	ft_isalnum(int c)
 			&& c >= '0'))
 		return (1);
 	return (0);
+}
+
+char	*bc_strchr_fo_rv(const char *s, char c, char l)
+{
+	int		i;
+	char	*str;
+
+	if (!s)
+		return (NULL);
+	i = 0;
+	while (s[i] && s[i] != c && s[i] != l)
+		i++;
+	if (s[i] == c || s[i] == l)
+		i++;
+	str = (char *)ft_malloc(sizeof(char) * (i + 1));
+	i = 0;
+	while (s[i])
+	{
+		str[i] = s[i];
+		i++;
+		if (s[i] == c || s[i] == l)
+			break ;
+	}
+	str[i] = '\0';
+	return (str);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:42:17 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/13 14:11:18 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:10:58 by abenzaho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	finalizing_exit_st(t_mp *pg, int *status)
 	if (WIFSIGNALED(*status))
 	{
 		pg->exit_status = WTERMSIG(*status) + 128;
-		if (WTERMSIG(*status) == SIGINT)
+		if (WTERMSIG(*status) == SIGINT
+			|| WTERMSIG(*status) == SIGQUIT)
 			write(1, "\n", 1);
 	}
 	if (WIFEXITED(*status))
@@ -42,6 +43,7 @@ void	child_procces(t_cmds *cmds, t_mp *pg)
 {
 	char	*cmd_dir;
 
+	signal(SIGQUIT, SIG_DFL);
 	if (!cmds->cmds || !cmds->cmds[0] || !ft_strlen(cmds->cmds[0]))
 	{
 		close_files(cmds->files);

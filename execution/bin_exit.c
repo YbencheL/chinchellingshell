@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bin_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:06:15 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 15:48:27 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:47:27 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ void	bin_exit(t_cmds *cmds, t_mp *pg)
 	i = 0;
 	if (cmds->cmds[1] && cmds->cmds[2])
 	{
-		write(2, "minishell: exit: too many arguments\n", 35);
-		exit(1);
+		write(1, "exit\n", 5);
+		write(2, "minishell: exit: too many arguments\n", 36);
+		pg->exit_status = 1;
+		return ;
 	}
 	else if (cmds->cmds[1])
 	{

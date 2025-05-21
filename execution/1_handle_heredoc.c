@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   1_handle_heredoc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:13:41 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/05/10 15:44:12 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:42:09 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	pipe_err(t_mp *pg)
-{
-	perror("pipe error");
-	pg->exit_status = 141;
-}
-
-char	*expand_heredoc(char *s, t_mp *pg)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '$' && (ft_isalnum(s[i + 1])
-				|| s[i + 1] == '_' || s[i + 1] == '?'))
-			s = expand(s, &i, pg);
-		else
-			i++;
-	}
-	return (s);
-}
 
 char	*check_qouted_delimter(char *str)
 {
@@ -57,28 +35,49 @@ char	*check_qouted_delimter(char *str)
 		return (str);
 }
 
-int	read_heredoc(t_file *file, t_mp *pg)
+int	handle_heredoc_child(int fd, char *delimiter, char *original, t_mp *pg)
 {
 	char	*line;
-	char	*delimiter;
-	int		fds[2];
 
-	delimiter = check_qouted_delimter(file->file);
-	if (pipe(fds) == -1)
-		return (pipe_err(pg), 1);
+	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
 		line = readline("> ");
 		if (!line || !ft_strcmp(line, delimiter))
 			break ;
-		if (!ft_strcmp(delimiter, file->file))
+		if (!ft_strcmp(delimiter, original))
 			line = expand_heredoc(line, pg);
-		write(fds[1], line, ft_strlen(line));
-		write(fds[1], "\n", 1);
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
 		free(line);
 	}
 	free(line);
+	return (0);
+}
+
+int	read_heredoc(t_file *file, t_mp *pg)
+{
+	char	*delimiter;
+	int		fds[2];
+	int		pid;
+	int		status;
+
+	delimiter = check_qouted_delimter(file->file);
+	if (pipe(fds) == -1)
+		return (pipe_err(pg), 1);
+	signal(SIGINT, SIG_IGN);
+	pid = fork();
+	if (pid == 0)
+	{
+		close(fds[0]);
+		handle_heredoc_child(fds[1], delimiter, file->file, pg);
+		exit(0);
+	}
 	close(fds[1]);
+	waitpid(pid, &status, 0);
+	signal_setup();
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		return (close(fds[0]), pg->exit_status = 130, write(1, "\n", 1), 1);
 	file->fd = fds[0];
 	return (0);
 }

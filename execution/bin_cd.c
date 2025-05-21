@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bin_cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenzaho <abenzaho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:24:08 by abenzaho          #+#    #+#             */
-/*   Updated: 2025/05/10 15:46:17 by abenzaho         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:01:56 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	cd_success(t_cmds *cmds, t_mp *pg)
 {
+	update_pwd(pg->env);
 	cmds->cmds[1] = NULL;
 	pg->exit_status = 0;
 }
@@ -47,15 +48,21 @@ int	check_file_name_len(char *s)
 void	cd_oldpwd(t_mp *pg)
 {
 	char	*last_path;
+	int		e;
 
-	last_path = getenv("OLDPWD");
+	last_path = my_getenv(pg->env, "OLDPWD");
 	if (!last_path)
 		cd_error(pg, "OLDPWD not set", 1);
 	else
 	{
-		printf("%s\n", last_path);
+		e = write(1, last_path, ft_strlen(last_path));
+		e = write(1, "\n", 1);
 		chdir(last_path);
-		pg->exit_status = 0;
+		update_pwd(pg->env);
+		if (e == -1)
+			write_error("cd", pg, 1);
+		else
+			pg->exit_status = 0;
 	}
 }
 
@@ -63,12 +70,13 @@ void	cd_home(t_mp *pg)
 {
 	char	*path;
 
-	path = getenv("HOME");
+	path = my_getenv(pg->env, "HOME");
 	if (!path)
 		cd_error(pg, "HOME not set", 1);
 	else
 	{
 		chdir(path);
+		update_pwd(pg->env);
 		pg->exit_status = 0;
 	}
 }
